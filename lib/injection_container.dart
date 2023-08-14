@@ -7,6 +7,12 @@ import 'package:claimizer/feature/login/data/repositories/login_repository_impl.
 import 'package:claimizer/feature/login/domain/repositories/login_repository.dart';
 import 'package:claimizer/feature/login/domain/usecases/login_usecase.dart';
 import 'package:claimizer/feature/login/presentation/cubit/login_cubit.dart';
+import 'package:claimizer/feature/statistics/data/datasources/statistics_remote_data_source.dart';
+import 'package:claimizer/feature/statistics/data/datasources/statistics_remote_data_source_impl.dart';
+import 'package:claimizer/feature/statistics/data/repositories/statistics_repository_impl.dart';
+import 'package:claimizer/feature/statistics/domain/repositories/statistics_repository.dart';
+import 'package:claimizer/feature/statistics/domain/usecases/statistic_use_case.dart';
+import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -19,16 +25,20 @@ final sl = GetIt.instance;
 Future<void> init() async{
 
   //Blocs
-  sl.registerFactory(() => LoginCubit(loginUseCase: sl() , params: sl()));
+  sl.registerFactory(() => LoginCubit(loginUseCase: sl()));
+  sl.registerFactory(() => StatisticCubit(statisticUseCase: sl()));
 
   //UseCase
   sl.registerLazySingleton(() => LoginUseCase(loginRepository: sl()));
+  sl.registerLazySingleton(() => StatisticUseCase(statisticsRepository: sl()));
 
   //Repository
   sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(loginRemoteDataSource: sl() , networkInfo: sl()));
+  sl.registerLazySingleton<StatisticsRepository>(() => StatisticsRepositoryImpl(statisticsRemoteDataSource: sl() , networkInfo: sl()));
 
   //DataSource
   sl.registerLazySingleton<LoginRemoteDataSource>(() => LoginRemoteDataSourceImpl(consumer: sl()));
+  sl.registerLazySingleton<StatisticsRemoteDataSource>(() => StatisticsRemoteDataSourceImpl(consumer: sl()));
 
   //Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));

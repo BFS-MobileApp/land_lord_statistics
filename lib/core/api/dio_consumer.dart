@@ -6,7 +6,6 @@ import 'package:claimizer/core/api/end_points.dart';
 import 'package:claimizer/core/api/status_code.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
-import 'package:flutter/foundation.dart';
 import 'package:claimizer/injection_container.dart' as di;
 
 import '../error/exceptions.dart';
@@ -24,17 +23,17 @@ class DioConsumer implements ApiConsumer{
     };
     client.options
     ..baseUrl = EndPoints.baseUrl
+    //..headers = getHeaders()
     ..responseType = ResponseType.plain
     ..followRedirects = false
+    ..connectTimeout =  const Duration(seconds: 15)
+    ..receiveTimeout =  const Duration(seconds: 15)
     ..validateStatus = (status){
       return status! < StatusCode.internalServerError;
     };
     client.interceptors.add(di.sl<AppInterceptor>());
-    if(kDebugMode){
-      client.interceptors.add(di.sl<LogInterceptor>());
-    }
-  }
 
+  }
 
   @override
   Future get(String path, {Map<String, dynamic>? queryParams}) async{
@@ -47,9 +46,9 @@ class DioConsumer implements ApiConsumer{
   }
 
   @override
-  Future post(String path, {Map<String, dynamic>? queryParams, Map<String, dynamic>? body , bool isFormData = false}) async{
+  Future post(String path, {Map<String, dynamic>? queryParams, body}) async{
     try {
-      final response = await client.post(path, queryParameters: queryParams , data: isFormData ? FormData.fromMap(body!) : body);
+      final response = await client.post(path, queryParameters: queryParams , data: jsonEncode(body), options: Options(contentType: Headers.formUrlEncodedContentType));
       return handleResponseAsJson(response);
     } on DioException catch (error) {
       handleDioError(error);
@@ -59,7 +58,7 @@ class DioConsumer implements ApiConsumer{
   @override
   Future put(String path, {Map<String, dynamic>? queryParams, Map<String, dynamic>? body , bool isFormData = false}) async{
     try {
-      final response = await client.post(path, queryParameters: queryParams , data: isFormData ? FormData.fromMap(body!) : body);
+      final response = await client.put(path, queryParameters: queryParams , data: isFormData ? FormData.fromMap(body!) : body);
       return handleResponseAsJson(response);
     } on DioException catch (error) {
       handleDioError(error);
@@ -104,10 +103,4 @@ class DioConsumer implements ApiConsumer{
         throw const BadResponseException(); // Add a default case for unhandled response codes
     }
   }
-
-
-
-
-
-
 }

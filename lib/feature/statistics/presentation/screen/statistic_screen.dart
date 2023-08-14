@@ -13,7 +13,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
 
-  Widget _data(){
+  /*Widget _data(){
     return BlocBuilder<StatisticCubit , StatisticState>(builder: (context , state){
       if(state is StatisticsIsLoading){
         return const Center(child: CircularProgressIndicator(),);
@@ -21,19 +21,19 @@ class _StatisticScreenState extends State<StatisticScreen> {
       else if(state is StatisticsError){
         return ErrorWidget(getData());
       } else if(state is StatisticsLoaded){
-        
+
       } else {
         return const SizedBox();
       }
     });
-  }
+  }*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
+        title:  Text('Hi'),
       ),
-      body: _data(),
+      body: SizedBox(),
     );
   }
 }

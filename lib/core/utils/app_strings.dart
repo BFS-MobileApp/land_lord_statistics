@@ -5,4 +5,6 @@ class AppStrings{
   static const String serverError = 'Server Error';
   static const String cacheError = 'Cache Error';
   static const String unexpectedError = 'Unexpected Error';
+  static const String token = 'Token';
+  static const String userName = 'userName';
 }

@@ -38,15 +38,16 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widget.height.sp,
-      width: widget.width.sp,
-      child: TextFormField(
+      //height: widget.height.sp,
+      //width: widget.width.sp,
+      child: TextField(
         controller: widget.controller,
         keyboardType: widget.keyboardType,
         obscureText: passwordVisible,
         style: TextStyle(
-          fontSize: 18.sp,
+          fontSize: 17.sp,
           color: AppColors.black,
+          fontWeight: FontWeight.w500
         ),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: widget.height , horizontal: 10.sp),

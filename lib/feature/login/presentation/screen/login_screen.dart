@@ -3,6 +3,7 @@ import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/assets_manager.dart';
 import 'package:claimizer/feature/login/presentation/cubit/login_cubit.dart';
 import 'package:claimizer/widgets/button_widget.dart';
+import 'package:claimizer/widgets/loading_widget.dart';
 import 'package:claimizer/widgets/message_widget.dart';
 import 'package:claimizer/widgets/text_widget.dart';
 import 'package:claimizer/widgets/textfield_widget.dart';
@@ -43,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 10.sp),
-          child: TextFieldWidget(height: 42, width: MediaQuery.of(context).size.width, controller: emailController, isPasswordTextField: false, keyboardType: TextInputType.emailAddress),
+          child: TextFieldWidget(height: 8, width: MediaQuery.of(context).size.width, controller: emailController, isPasswordTextField: false, keyboardType: TextInputType.emailAddress),
         ),
         Container(
             alignment: Alignment.topLeft,
@@ -52,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 10.sp),
-          child: TextFieldWidget(height: 42, width: MediaQuery.of(context).size.width, controller: passwordController, isPasswordTextField: true, keyboardType: TextInputType.emailAddress),
+          child: TextFieldWidget(height: 8, width: MediaQuery.of(context).size.width, controller: passwordController, isPasswordTextField: true, keyboardType: TextInputType.emailAddress),
         ),
         Container(
           alignment: Alignment.topRight,
@@ -77,22 +78,32 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  _signUp(){
+    context.read<LoginCubit>().login(emailController.value.text.toString(), passwordController.value.text.toString());
+  }
+
+  Widget checkState(LoginState state){
+    if(state is LoginIsLoading){
+      return LoadingWidget(onTap: (){_signUp();});
+    } else if(state is LoginError){
+      MessageWidget.showSnackBar(state.msg, AppColors.redAlertColor);
+      return _loginWidget();
+    } else if(state is LoginLoaded) {
+      Navigator.pushReplacementNamed(context, Routes.statisticRoutes);
+      return _loginWidget();
+    } else {
+      return _loginWidget();
+    }
+  }
+
   goNext() =>Navigator.pushReplacementNamed(context, Routes.loginRoutes);
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: SingleChildScrollView(
-        child: BlocBuilder<LoginCubit , LoginState>(builder: (context , state){
-          if(state is LoginIsLoading){
-            return const Center(child: CircularProgressIndicator(),);
-          } else if(state is LoginError){
-            MessageWidget.showSnackBar(state.msg, AppColors.redAlertColor);
-            return _loginWidget();
-          } else {
-            return _loginWidget();
-          }
-        },),
-      ),
-    );
+    return  BlocBuilder<LoginCubit , LoginState>(builder: (context , state){
+      return Scaffold(
+        body: checkState(state)
+      );
+    });
   }
 }

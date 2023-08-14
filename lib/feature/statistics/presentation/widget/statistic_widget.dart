@@ -43,10 +43,10 @@ class StatisticWidgetItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('${'statisticDate'.tr}: $companyName' , style: TextStyle(color: Colors.black , fontWeight: FontWeight.w600 , fontSize: 13.sp),),
-                  Container(
+                  /*Container(
                     margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(8)),
                     child: Image.asset(Core.icons[index()],width: ScreenUtil().setWidth(40),height: ScreenUtil().setHeight(40), ),
-                  ),
+                  ),*/
                 ],
               ),
             )

@@ -9,6 +9,7 @@ class LoginInitial extends LoginState {
   List<Object> get props => [];
 }
 
+class LoginInitialState extends LoginInitial{}
 
 class LoginIsLoading extends LoginInitial{}
 

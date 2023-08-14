@@ -5,7 +5,7 @@ class AppInterceptor extends Interceptor{
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     debugPrint('REQUEST[${options.method}] => PATH: ${options.path}');
-    options.headers[''] = '';
+    options.headers = getHeaders();
     super.onRequest(options, handler);
   }
 
@@ -19,6 +19,14 @@ class AppInterceptor extends Interceptor{
   Future onError(DioException err, ErrorInterceptorHandler handler) async {
     debugPrint('ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
     super.onError(err, handler);
+  }
+
+  Map<String , dynamic> getHeaders(){
+    Map<String , dynamic> header = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      //"Accept": "application/json",
+    };
+    return header;
   }
 
 }
