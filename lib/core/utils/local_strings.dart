@@ -19,7 +19,9 @@ class LocalStrings extends Translations {
       "pleaseTryAgain":"Please Try Again",
       "reloadScreen":"Reload Screen",
       "company":"Company",
-      "statisticDate":"Statistic Date"
+      "statisticDate":"Statistic Date",
+      "companies":"Companies",
+      "buildingName":"Building Name"
     },
   };
 }

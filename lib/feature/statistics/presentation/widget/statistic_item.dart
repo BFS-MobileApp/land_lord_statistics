@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 class StatisticItem extends StatelessWidget {
 
-  final String itemName;
+  final String itemValue;
+  final String itemKey;
 
-  const StatisticItem({super.key, required this.itemName});
+  const StatisticItem({super.key, required this.itemValue, required this.itemKey});
 
 
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: ScreenUtil().setHeight(8) , right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10)),
+      margin: EdgeInsets.only(top: ScreenUtil().setHeight(5) , right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10) , bottom: ScreenUtil().setHeight(5)),
       alignment: Alignment.topLeft,
-      child: Text('${'company'.tr}: $itemName' , style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 17.sp),),
+      child: Text('$itemKey: $itemValue' , style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 17.sp),),
     );
   }
 }

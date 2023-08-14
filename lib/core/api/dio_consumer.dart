@@ -23,7 +23,6 @@ class DioConsumer implements ApiConsumer{
     };
     client.options
     ..baseUrl = EndPoints.baseUrl
-    //..headers = getHeaders()
     ..responseType = ResponseType.plain
     ..followRedirects = false
     ..connectTimeout =  const Duration(seconds: 15)
@@ -32,7 +31,6 @@ class DioConsumer implements ApiConsumer{
       return status! < StatusCode.internalServerError;
     };
     client.interceptors.add(di.sl<AppInterceptor>());
-
   }
 
   @override

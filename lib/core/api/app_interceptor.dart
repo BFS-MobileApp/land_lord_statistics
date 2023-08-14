@@ -1,11 +1,17 @@
+import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppInterceptor extends Interceptor{
+
+
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async{
     debugPrint('REQUEST[${options.method}] => PATH: ${options.path}');
-    options.headers = getHeaders();
+    Map<String , dynamic> headers = {};
+    headers = await getHeaders();
+    options.headers = headers;
     super.onRequest(options, handler);
   }
 
@@ -21,12 +27,23 @@ class AppInterceptor extends Interceptor{
     super.onError(err, handler);
   }
 
-  Map<String , dynamic> getHeaders(){
+  Future<Map<String , dynamic>> getHeaders() async{
+    String token = '';
+    token = await returnUserToken();
     Map<String , dynamic> header = {
       'Content-Type': 'application/json; charset=UTF-8',
-      //"Accept": "application/json",
+      'Authorization': 'Bearer $token'
     };
+    debugPrint('fuck'+header.toString());
     return header;
   }
 
+  Future<String> returnUserToken() async{
+    String token = '';
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    if(preferences.containsKey(AppStrings.token)){
+      token = preferences.getString(AppStrings.token).toString();
+    }
+    return token;
+  }
 }
