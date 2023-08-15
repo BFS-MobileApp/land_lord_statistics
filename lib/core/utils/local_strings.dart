@@ -23,7 +23,8 @@ class LocalStrings extends Translations {
       "companies":"Companies",
       "buildingName":"Building Name",
       "error":"Error",
-      "search":"Search"
+      "search":"Search",
+      "logOutPhase":"Are you sure you want to logout ?"
     },
   };
 }

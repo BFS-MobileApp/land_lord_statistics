@@ -1,11 +1,15 @@
+import 'package:claimizer/config/routes/app_routes.dart';
+import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:claimizer/feature/statistics/presentation/widget/statistic_widget.dart';
+import 'package:claimizer/widgets/alert_dilog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StatisticScreen extends StatefulWidget {
   const StatisticScreen({super.key});
@@ -20,6 +24,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
   List<StatisticSummary> statisticList = [];
   List<StatisticSummary> statisticListData = [];
   bool isInitialized = false;
+  late AlertDialogWidget alertDialogWidget;
 
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
@@ -31,7 +36,6 @@ class _StatisticScreenState extends State<StatisticScreen> {
   }
 
   void filterSearchResults(String name) {
-    debugPrint('textFieldValue in function $name');
     if(name.isEmpty){
       setState(() {
         statisticList = statisticListData;
@@ -42,6 +46,12 @@ class _StatisticScreenState extends State<StatisticScreen> {
           .where((element) => element.companyName.toLowerCase().contains(name.toLowerCase()))
           .toList();
     });
+  }
+
+  deleteUserData() async{
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.remove(AppStrings.token);
+    preferences.remove(AppStrings.userName);
   }
 
   Widget _statisticWidget(){
@@ -59,13 +69,11 @@ class _StatisticScreenState extends State<StatisticScreen> {
               statisticListData = state.statistic.statisticData;
               isInitialized = true;
             }
-            debugPrint('hi ${statisticList.length}');
             return SingleChildScrollView(
               child: Column(
                 children: [
                   Padding(padding: EdgeInsets.all(10.sp) , child: TextField(
                     onChanged: (value){
-                      debugPrint('textFieldValue$value');
                       filterSearchResults(value);
                     },
                     controller: searchController,
@@ -95,6 +103,21 @@ class _StatisticScreenState extends State<StatisticScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: Text('companies'.tr),
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    alertDialogWidget = AlertDialogWidget(title: 'logOutPhase', yesOnTap: (){
+                      deleteUserData();
+                      Navigator.of(context).pushNamedAndRemoveUntil(Routes.loginRoutes, (Route<dynamic> route) => false);
+                    }, noOnTap: ()=>Navigator.of(context).pop(true) , context: context);
+                    alertDialogWidget.logOutDialog();
+                  },
+                )
+              ]
           ),
           body: _statisticWidget(),
         ),

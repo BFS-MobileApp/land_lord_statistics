@@ -21,9 +21,11 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   startTimer(){
     _timer = Timer(const Duration(seconds: 5), (){
       Future.delayed(Duration.zero, () async {
-        setState(() {
-          _isError = true;
-        });
+        if(mounted){
+          setState(() {
+            _isError = true;
+          });
+        }
       });
     });
   }
