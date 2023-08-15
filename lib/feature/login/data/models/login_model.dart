@@ -15,7 +15,7 @@ class LoginModel extends Login{
   }) : super(name: data.name, token: data.token , msg: message);
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-    data: Data.fromJson(json["data"]),
+    data: Data.fromJson(json["data"] ??{}),
     message: json["message"],
   );
 

@@ -1,5 +1,6 @@
 import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/config/theme/app_theme.dart';
+import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/local_strings.dart';
 import 'package:claimizer/feature/login/presentation/cubit/login_cubit.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
                     locale: const Locale('en', 'US'),
                     fallbackLocale: const Locale('en', 'US'),
                     theme: appTheme(),
-                    title: 'appName'.tr,
+                    title: AppStrings.appName,
                     onGenerateRoute: AppRoutes.onGenerateRoute,
                     scaffoldMessengerKey: MessageWidget.scaffoldMessengerKey,
                   )

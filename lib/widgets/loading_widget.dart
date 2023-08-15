@@ -1,12 +1,15 @@
 import 'dart:async';
 
+import 'package:claimizer/core/utils/app_colors.dart';
+import 'package:claimizer/widgets/message_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoadingWidget extends StatefulWidget {
 
-  final VoidCallback onTap;
+  Widget widget;
+  LoadingWidget({super.key , required this.widget});
 
-  const LoadingWidget({super.key, required this.onTap});
   @override
   State<LoadingWidget> createState() => _LoadingWidgetState();
 }
@@ -43,7 +46,8 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     if(!_isError){
       return const Center(child: CircularProgressIndicator(),);
     } else {
-      return ErrorWidget(widget.onTap);
+      Timer.run(() => MessageWidget.showSnackBar('error'.tr, AppColors.redAlertColor));
+      return widget.widget;
     }
   }
   @override

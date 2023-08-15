@@ -17,4 +17,14 @@ class Helper{
     return randomNumber;
   }
 
+  static String returnFirstChars(String item){
+    List<String> words = item.split(' ');
+    List<String> result = [];
+    for (int i = 0; i < words.length && i < 2; i++) {
+      result.add(words[i][0]);
+    }
+    String resultString = result.join();
+    return resultString;
+  }
+
 }

@@ -7,4 +7,5 @@ class AppStrings{
   static const String unexpectedError = 'Unexpected Error';
   static const String token = 'Token';
   static const String userName = 'userName';
+  static const String appName = 'Landlord Statistics';
 }

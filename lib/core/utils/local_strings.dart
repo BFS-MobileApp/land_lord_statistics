@@ -21,7 +21,9 @@ class LocalStrings extends Translations {
       "company":"Company",
       "statisticDate":"Statistic Date",
       "companies":"Companies",
-      "buildingName":"Building Name"
+      "buildingName":"Building Name",
+      "error":"Error",
+      "search":"Search"
     },
   };
 }

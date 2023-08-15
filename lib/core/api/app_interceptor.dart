@@ -34,7 +34,6 @@ class AppInterceptor extends Interceptor{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $token'
     };
-    debugPrint('fuck'+header.toString());
     return header;
   }
 

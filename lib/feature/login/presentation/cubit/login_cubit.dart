@@ -5,6 +5,7 @@ import 'package:claimizer/feature/login/domain/entities/login.dart';
 import 'package:claimizer/feature/login/domain/usecases/login_usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'login_state.dart';
@@ -17,6 +18,7 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> login(String email , String password) async{
     emit(LoginIsLoading());
     Either<Failures , Login> response = await loginUseCase(LoginParams(email: email, password: password));
+    debugPrint('fuck'+response.toString());
     emit(response.fold((failures) => LoginError(msg: mapFailureToMsg(failures)), (login) => LoginLoaded(login: login)));
   }
 

@@ -11,14 +11,9 @@ class StatisticWidgetItem extends StatelessWidget {
   final String companyName;
   final String date;
 
-  const StatisticWidgetItem({super.key, required this.companyName, required this.date , required this.buildingName});
+  StatisticWidgetItem({super.key, required this.companyName, required this.date , required this.buildingName});
 
-  String getFirstLetter(String name){
-    String char = '';
-    char = name[0];
-    return char;
-    
-  }
+  final TextStyle fontStyle = TextStyle(fontWeight: FontWeight.w600 , color: AppColors.black , fontSize: 17.sp);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +46,7 @@ class StatisticWidgetItem extends StatelessWidget {
                         color: AppColors.colors[Helper.index(7)].withOpacity(0.35),
                         shape: BoxShape.circle,
                   ),
-                    child:  buildingName == '' ? Center(child: Text(getFirstLetter(companyName)),) : Center(child: Text(getFirstLetter(buildingName))),)
+                    child:  buildingName == '' ? Center(child: Text(Helper.returnFirstChars(companyName) , style: fontStyle,),) : Center(child: Text(Helper.returnFirstChars(buildingName) , style: fontStyle)),)
                 ],
               ),
             )

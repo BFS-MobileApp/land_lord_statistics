@@ -78,13 +78,9 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _signUp(){
-    context.read<LoginCubit>().login(emailController.value.text.toString(), passwordController.value.text.toString());
-  }
-
   Widget checkState(LoginState state){
     if(state is LoginIsLoading){
-      return LoadingWidget(onTap: (){_signUp();});
+      return LoadingWidget(widget: _loginWidget(),);
     } else if(state is LoginError){
       MessageWidget.showSnackBar(state.msg, AppColors.redAlertColor);
       return _loginWidget();
