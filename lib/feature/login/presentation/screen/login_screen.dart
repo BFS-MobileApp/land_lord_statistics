@@ -94,13 +94,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   goToNextScreen(){
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       Navigator.pushReplacementNamed(context, Routes.statisticRoutes);
     });
   }
 
   showErrorMessage(String message){
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       MessageWidget.showSnackBar(message, AppColors.redAlertColor);
     });
   }

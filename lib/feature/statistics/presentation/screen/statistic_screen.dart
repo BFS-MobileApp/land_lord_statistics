@@ -4,6 +4,7 @@ import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:claimizer/feature/statistics/presentation/widget/statistic_widget.dart';
+import 'package:claimizer/widgets/alert_dilog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,37 +34,14 @@ class _StatisticScreenState extends State<StatisticScreen> {
     getData();
   }
 
-  void logOutDialog(BuildContext con){
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            //title: Text("Alert Dialog"),
-            content: Text("Are you sure you want to logout?".tr , style: TextStyle(fontWeight: FontWeight.w500 , fontSize: 15.sp),),
-            actions: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setHeight(10) , left: ScreenUtil().setWidth(8), right: ScreenUtil().setWidth(15)),
-                child: InkWell(
-                    onTap: (){
-                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>const LoginScreen()), (Route<dynamic> route) => false);
-                    },
-                    child: Text("Yes".tr , style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 14.sp , color: Colors.green),)
-                ),
-              ),
-              SizedBox(width: ScreenUtil().setWidth(8),),
-              Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(15)),
-                child: InkWell(
-                    onTap: (){
-                      Navigator.of(context).pop(true);
-                    },
-                    child: Text("No".tr, style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 14.sp , color: Colors.red),)
-                ),
-              ),
-            ],
-          );
-        });
+  callLogoutDialog(){
+    Future.delayed(const Duration(milliseconds: 500), () {
+      AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'logOutPhase'.tr, yesOnTap: (){
+        deleteUserData();
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>const LoginScreen()), (Route<dynamic> route) => false);
+      }, context: context);
+      dialogWidget.logOutDialog();
+    });
   }
 
   void filterSearchResults(String name) {
@@ -137,7 +115,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
               actions: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    logOutDialog(context);
+                    callLogoutDialog();
                   },
                   child: Padding(
                     padding: EdgeInsets.all(8.0.sp),
