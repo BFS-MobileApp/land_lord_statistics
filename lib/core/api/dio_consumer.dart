@@ -65,8 +65,8 @@ class DioConsumer implements ApiConsumer{
 
 
   dynamic handleResponseAsJson(Response<dynamic> response) {
-    final responseJson = jsonDecode(response.data.toString());
-    return responseJson;
+      final responseJson = jsonDecode(response.data.toString());
+      return responseJson;
   }
 
   dynamic handleDioError(DioException error) {

@@ -5,6 +5,7 @@ import 'package:claimizer/feature/login/data/datasources/login_remote_data_sourc
 import 'package:claimizer/feature/login/domain/entities/login.dart';
 import 'package:claimizer/feature/login/domain/repositories/login_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:get/get.dart';
 
 class LoginRepositoryImpl extends LoginRepository {
 
@@ -17,13 +18,17 @@ class LoginRepositoryImpl extends LoginRepository {
   Future<Either<Failures, Login>> login(String email, String password) async{
     if(await networkInfo.isConnected){
       try{
-        final response =await loginRemoteDataSource.login(email, password);
-        return Right(response);
+        final response = await loginRemoteDataSource.login(email, password);
+        if(response.data.token != ''){
+          return Right(response);
+        } else {
+          return Left(ServerFailure(msg: response.message));
+        }
       } on ServerException{
-        return Left(ServerFailure());
+        return Left(ServerFailure(msg: 'error'.tr));
       }
     } else {
-      return Left(CashFailure());
+      return Left(CashFailure(msg: 'connectionError'.tr));
     }
   }
 }

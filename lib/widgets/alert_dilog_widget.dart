@@ -1,42 +1,42 @@
+import 'dart:ui';
+import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class AlertDialogWidget{
-
-  final BuildContext context;
+class BlurryDialog extends StatelessWidget {
+  final String btYes;
+  final String btNo;
+  final VoidCallback continueCallBack;
   final String title;
-  final VoidCallback yesOnTap;
-  final VoidCallback noOnTap;
 
+  const BlurryDialog({super.key ,required this.btYes,required  this.btNo,required  this.continueCallBack,required  this.title});
 
-  AlertDialogWidget({required this.title, required this.yesOnTap,required this.noOnTap , required this.context});
-
-   void logOutDialog(){
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text(title.tr , style: TextStyle(fontWeight: FontWeight.w500 , fontSize: 15.sp),),
-            actions: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setHeight(10) , left: ScreenUtil().setWidth(8), right: ScreenUtil().setWidth(15)),
-                child: InkWell(
-                    onTap: yesOnTap,
-                    child: Text("Yes".tr , style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 14.sp , color: Colors.green),)
-                ),
+  @override
+  Widget build(BuildContext context) {
+    return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+        child:  AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))
+          ),
+          content: Text(title.tr),
+          actions: <Widget>[
+            Container(
+              margin: EdgeInsets.only(right: ScreenUtil().setWidth(35) , bottom: ScreenUtil().setHeight(10)),
+              child:InkWell(
+                child: Text(btNo.tr , style: const TextStyle(color: AppColors.redAlertColor),),
+                onTap: ()=>Navigator.pop(context),
               ),
-              SizedBox(width: ScreenUtil().setWidth(8),),
-              Container(
-                margin: EdgeInsets.only(top: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(15)),
-                child: InkWell(
-                    onTap: noOnTap,
-                    child: Text("No".tr, style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 14.sp , color: Colors.red),)
-                ),
+            ),
+            Container(
+              margin: EdgeInsets.only(right: ScreenUtil().setWidth(20) , bottom: ScreenUtil().setHeight(10)),
+              child: InkWell(
+                onTap: continueCallBack,
+                child: Text(btYes.tr , style: const TextStyle(color: Colors.green),),
               ),
-            ],
-          );
-        });
+            ),
+          ],
+        ));
   }
 }

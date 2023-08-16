@@ -5,6 +5,7 @@ import 'package:claimizer/feature/statistics/data/datasources/statistics_remote_
 import 'package:claimizer/feature/statistics/domain/entites/statistic.dart';
 import 'package:claimizer/feature/statistics/domain/repositories/statistics_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:get/get.dart';
 
 class StatisticsRepositoryImpl extends StatisticsRepository {
 
@@ -19,10 +20,10 @@ class StatisticsRepositoryImpl extends StatisticsRepository {
 				final response =await statisticsRemoteDataSource.getStatisticData();
 				return Right(response);
 			} on ServerException{
-				return Left(ServerFailure());
+				return Left(ServerFailure(msg: 'error'.tr));
 			}
 		} else {
-			return Left(CashFailure());
+			return Left(CashFailure(msg: 'error'.tr));
 		}
   }
 

@@ -37,9 +37,9 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    name: json["name"],
-    companyId: json["company_id"],
-    token: json["token"],
+    name: json["name"]??'',
+    companyId: json["company_id"]??0,
+    token: json["token"]??'',
   );
 
   Map<String, dynamic> toJson() => {

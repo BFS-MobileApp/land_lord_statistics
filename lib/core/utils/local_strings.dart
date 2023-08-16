@@ -24,7 +24,8 @@ class LocalStrings extends Translations {
       "buildingName":"Building Name",
       "error":"Error",
       "search":"Search",
-      "logOutPhase":"Are you sure you want to logout ?"
+      "logOutPhase":"Are you sure you want to logout ?",
+      "connectionError":"Connection Error"
     },
   };
 }

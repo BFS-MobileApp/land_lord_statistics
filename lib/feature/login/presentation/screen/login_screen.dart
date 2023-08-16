@@ -1,9 +1,9 @@
+import 'dart:async';
 import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/assets_manager.dart';
 import 'package:claimizer/feature/login/presentation/cubit/login_cubit.dart';
 import 'package:claimizer/widgets/button_widget.dart';
-import 'package:claimizer/widgets/loading_widget.dart';
 import 'package:claimizer/widgets/message_widget.dart';
 import 'package:claimizer/widgets/text_widget.dart';
 import 'package:claimizer/widgets/textfield_widget.dart';
@@ -80,20 +80,30 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget checkState(LoginState state){
     if(state is LoginIsLoading){
-      return LoadingWidget(widget: _loginWidget(),);
+      return const Center(child: CircularProgressIndicator(),);
     } else if(state is LoginError){
-      MessageWidget.showSnackBar(state.msg, AppColors.redAlertColor);
+      debugPrint('Message:${state.msg}');
+      showErrorMessage(state.msg);
       return _loginWidget();
     } else if(state is LoginLoaded) {
-      Navigator.pushReplacementNamed(context, Routes.statisticRoutes);
+      goToNextScreen();
       return _loginWidget();
     } else {
       return _loginWidget();
     }
   }
 
-  goNext() =>Navigator.pushReplacementNamed(context, Routes.loginRoutes);
+  goToNextScreen(){
+    Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushReplacementNamed(context, Routes.statisticRoutes);
+    });
+  }
 
+  showErrorMessage(String message){
+    Future.delayed(const Duration(seconds: 1), () {
+      MessageWidget.showSnackBar(message, AppColors.redAlertColor);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return  BlocBuilder<LoginCubit , LoginState>(builder: (context , state){

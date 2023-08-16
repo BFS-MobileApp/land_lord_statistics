@@ -1,10 +1,9 @@
-import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
+import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:claimizer/feature/statistics/presentation/widget/statistic_widget.dart';
-import 'package:claimizer/widgets/alert_dilog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +23,6 @@ class _StatisticScreenState extends State<StatisticScreen> {
   List<StatisticSummary> statisticList = [];
   List<StatisticSummary> statisticListData = [];
   bool isInitialized = false;
-  late AlertDialogWidget alertDialogWidget;
 
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
@@ -33,6 +31,39 @@ class _StatisticScreenState extends State<StatisticScreen> {
   void initState() {
     super.initState();
     getData();
+  }
+
+  void logOutDialog(BuildContext con){
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            //title: Text("Alert Dialog"),
+            content: Text("Are you sure you want to logout?".tr , style: TextStyle(fontWeight: FontWeight.w500 , fontSize: 15.sp),),
+            actions: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: ScreenUtil().setHeight(10) , left: ScreenUtil().setWidth(8), right: ScreenUtil().setWidth(15)),
+                child: InkWell(
+                    onTap: (){
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>const LoginScreen()), (Route<dynamic> route) => false);
+                    },
+                    child: Text("Yes".tr , style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 14.sp , color: Colors.green),)
+                ),
+              ),
+              SizedBox(width: ScreenUtil().setWidth(8),),
+              Container(
+                margin: EdgeInsets.only(top: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(15)),
+                child: InkWell(
+                    onTap: (){
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Text("No".tr, style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 14.sp , color: Colors.red),)
+                ),
+              ),
+            ],
+          );
+        });
   }
 
   void filterSearchResults(String name) {
@@ -104,19 +135,18 @@ class _StatisticScreenState extends State<StatisticScreen> {
           appBar: AppBar(
             title: Text('companies'.tr),
               actions: <Widget>[
-                IconButton(
-                  icon: const Icon(
-                    Icons.logout,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    alertDialogWidget = AlertDialogWidget(title: 'logOutPhase', yesOnTap: (){
-                      deleteUserData();
-                      Navigator.of(context).pushNamedAndRemoveUntil(Routes.loginRoutes, (Route<dynamic> route) => false);
-                    }, noOnTap: ()=>Navigator.of(context).pop(true) , context: context);
-                    alertDialogWidget.logOutDialog();
+                GestureDetector(
+                  onTap: () {
+                    logOutDialog(context);
                   },
-                )
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0.sp),
+                    child: const Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ]
           ),
           body: _statisticWidget(),
