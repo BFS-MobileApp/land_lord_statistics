@@ -31,6 +31,7 @@ class AppInterceptor extends Interceptor{
     String token = '';
     token = await returnUserToken();
     Map<String , dynamic> header = {
+      "Accept":"application/json",
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $token'
     };

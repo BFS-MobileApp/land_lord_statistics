@@ -14,6 +14,8 @@ class LoginCubit extends Cubit<LoginState> {
   final LoginUseCase loginUseCase;
   LoginCubit({required this.loginUseCase }) : super(LoginInitial());
 
+  void initLoginPage() => emit(LoginInitial());
+
   Future<void> login(String email , String password) async{
     emit(LoginIsLoading());
     Either<Failures , Login> response = await loginUseCase(LoginParams(email: email, password: password));
@@ -21,7 +23,6 @@ class LoginCubit extends Cubit<LoginState> {
             (failures) => LoginError(msg: failures.msg),
             (login) => LoginLoaded(login: login)));
   }
-
 
   String mapFailureToMsg(Failures failures){
     switch (failures.runtimeType){

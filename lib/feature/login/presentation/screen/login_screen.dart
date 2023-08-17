@@ -79,13 +79,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget checkState(LoginState state){
-    if(state is LoginIsLoading){
+     if(state is LoginIsLoading){
       return const Center(child: CircularProgressIndicator(),);
     } else if(state is LoginError){
-      debugPrint('Message:${state.msg}');
       showErrorMessage(state.msg);
       return _loginWidget();
     } else if(state is LoginLoaded) {
+      context.read<LoginCubit>().initLoginPage();
       goToNextScreen();
       return _loginWidget();
     } else {
