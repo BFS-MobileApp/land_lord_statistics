@@ -1,5 +1,7 @@
+import 'package:claimizer/config/arguments/routes_arguments.dart';
 import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
 import 'package:claimizer/feature/splash/presentation/screen/splash_screen.dart';
+import 'package:claimizer/feature/statisticdetails/presentation/screens/statistic_details_screen.dart';
 import 'package:claimizer/feature/statistics/presentation/screen/statistic_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +10,8 @@ class Routes{
   static const String initialRoutes = '/';
   static const String loginRoutes = 'Login';
   static const String statisticRoutes = 'Statistic';
+  static const String statisticDetailsRoutes = 'StatisticDetails';
+
 }
 
 class AppRoutes{
@@ -25,6 +29,11 @@ class AppRoutes{
       case Routes.statisticRoutes:
         return MaterialPageRoute(builder: (context) {
           return const StatisticScreen();
+        });
+      case Routes.statisticDetailsRoutes:
+        final args = routeSettings.arguments as RoutesArguments;
+        return MaterialPageRoute(builder: (context) {
+          return StatisticDetailsScreen(uniqueId: args.uniqueId,);
         });
       default:
         return null;

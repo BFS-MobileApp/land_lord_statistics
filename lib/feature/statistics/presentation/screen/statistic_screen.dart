@@ -1,3 +1,5 @@
+import 'package:claimizer/config/arguments/routes_arguments.dart';
+import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
@@ -94,7 +96,10 @@ class _StatisticScreenState extends State<StatisticScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(25.0)))),
                   ),),
                   ListView.builder(physics:const NeverScrollableScrollPhysics() , shrinkWrap: true ,  itemCount:statisticList.length , itemBuilder: (ctx , pos){
-                    return StatisticWidgetItem(companyName: statisticList[pos].companyName ,buildingName: statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),);
+                    return InkWell(
+                      onTap: ()=>Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: RoutesArguments(uniqueId: statisticList[pos].uniqueValue)),
+                      child: StatisticWidgetItem(companyName: statisticList[pos].companyName ,buildingName: statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+                    );
                   })
                 ],
               ),
@@ -106,6 +111,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
           }
         }));
   }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(

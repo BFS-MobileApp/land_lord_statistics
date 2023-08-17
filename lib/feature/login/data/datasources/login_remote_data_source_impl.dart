@@ -16,6 +16,8 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
       "password":password
     };
     final res = await consumer.post(EndPoints.login  , body: body);
+    print('here1');
+    print(res);
     saveUserInfo(LoginModel.fromJson(res));
     return LoginModel.fromJson(res);
   }

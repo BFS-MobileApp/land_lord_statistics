@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class ErrorWidget extends StatelessWidget {
+class ErrorWidgetItem extends StatelessWidget {
 
   final VoidCallback onTap;
-  const ErrorWidget({super.key, required this.onTap});
+  const ErrorWidgetItem({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

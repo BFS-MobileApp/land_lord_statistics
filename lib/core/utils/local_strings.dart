@@ -25,7 +25,8 @@ class LocalStrings extends Translations {
       "error":"Error",
       "search":"Search",
       "logOutPhase":"Are you sure you want to logout ?",
-      "connectionError":"Connection Error"
+      "connectionError":"Connection Error",
+      "companyData":"Company Data"
     },
   };
 }

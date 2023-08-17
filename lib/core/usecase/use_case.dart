@@ -22,3 +22,17 @@ class LoginParams extends Equatable{
   @override
   List<Object?> get props => [email , password];
 }
+
+class StatisticDetailsParams extends Equatable{
+
+  final String uniqueId;
+
+  const StatisticDetailsParams({required this.uniqueId});
+
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [uniqueId];
+
+
+}
