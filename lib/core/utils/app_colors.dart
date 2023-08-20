@@ -22,7 +22,14 @@ class AppColors{
   static const blogContainerColor = Color(0xFFDDE1EC);
   static const lightBlue = Colors.blue;
   static const darkBlueColor = Color(0xFF213242);
-  static const List<Color>  colors = [Color(0xFF44A4F2), Color(0xFFFF9500), Color(0xFF3716EE), Color(0xFF10D2C8) , Color(0xFF0A562E) , Color(0xFFFF0000) , Color(0xFF679C0D)];
+  static const List<Color>  colors = [
+    Color(0xFF44A4F2),
+    Color(0xFFFF9500),
+    Color(0xFF3716EE),
+    Color(0xFF10D2C8) ,
+    Color(0xFF0A562E) ,
+    Color(0xFFFF0000) ,
+    Color(0xFF679C0D)];
 
   static Color returnColorFromServer(String returnedColor){
     String hexColor = '0xFF${returnedColor.substring(1)}';

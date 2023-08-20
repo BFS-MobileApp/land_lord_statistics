@@ -95,7 +95,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                           statisticList = statisticListData;
                         });
                       },
-                      child: StatisticWidgetItem(companyName: statisticList[pos].companyName ,buildingName: statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+                      child: StatisticWidgetItem(id: statisticList[pos].statisticsId , companyName: statisticList[pos].companyName ,buildingName: statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
                     );
                   })
                 ],
