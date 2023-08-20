@@ -1,3 +1,4 @@
+import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -7,11 +8,18 @@ class ChartWidget extends StatelessWidget {
   final List<ChartDatum> chartData;
   const ChartWidget({super.key , required this.chartData});
 
-
+  List<Color> returnChartColors(){
+    List<Color> colors = [];
+    for(int i=0;i<chartData.length;i++){
+      colors.add(AppColors.returnColorFromServer(chartData[i].color));
+    }
+    return colors;
+  }
   @override
   Widget build(BuildContext context) {
     return chartData.isEmpty ? const SizedBox() : Center(
       child: SfCircularChart(
+          palette: returnChartColors(),
           title: ChartTitle(text: 'Charts For Statistics'),
           //legend: const Legend(isVisible: true),
           series: <PieSeries<Data, String>>[
