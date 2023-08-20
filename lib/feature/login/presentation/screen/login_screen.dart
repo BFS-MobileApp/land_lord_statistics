@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       children: [
         SizedBox(height: ScreenUtil().setHeight(80),),
-        Image.asset(AssetsManager.imageIcon, width: ScreenUtil().setWidth(93),height: ScreenUtil().setHeight(95),),
+        Image.asset(AssetsManager.logoIcon, width: ScreenUtil().setWidth(93),height: ScreenUtil().setHeight(95),),
         Container(
             margin: EdgeInsets.symmetric(horizontal: 15.sp),
             child: TextWidget(text: 'login'.tr,fontSize: 32,)

@@ -54,7 +54,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
     }
     setState(() {
       statisticList = statisticListData
-          .where((element) => element.companyName.toLowerCase().contains(name.toLowerCase()))
+          .where((element) => element.companyName.toLowerCase().contains(name.toLowerCase()) || element.buildingName.toLowerCase().contains(name.toLowerCase()))
           .toList();
     });
   }
@@ -97,7 +97,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                   ),),
                   ListView.builder(physics:const NeverScrollableScrollPhysics() , shrinkWrap: true ,  itemCount:statisticList.length , itemBuilder: (ctx , pos){
                     return InkWell(
-                      onTap: ()=>Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: RoutesArguments(uniqueId: statisticList[pos].uniqueValue)),
+                      onTap: ()=>Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue)),
                       child: StatisticWidgetItem(companyName: statisticList[pos].companyName ,buildingName: statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
                     );
                   })

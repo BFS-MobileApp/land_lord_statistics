@@ -28,7 +28,7 @@ class StatisticWidgetItem extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            StatisticItem(itemKey: 'comapny'.tr , itemValue: companyName),
+            StatisticItem(itemKey: 'company'.tr , itemValue: companyName),
             buildingName == '' ? const SizedBox() : StatisticItem(itemKey: 'buildingName'.tr , itemValue: buildingName),
             Container(
               margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10)),

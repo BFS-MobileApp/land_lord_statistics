@@ -1,7 +1,7 @@
-class RoutesArguments{
+class StatisticDetailsRoutesArguments{
 
   final String uniqueId;
 
-  RoutesArguments({required this.uniqueId});
+  StatisticDetailsRoutesArguments({required this.uniqueId});
 
 }

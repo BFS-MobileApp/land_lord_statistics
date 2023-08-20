@@ -31,7 +31,7 @@ class AppRoutes{
           return const StatisticScreen();
         });
       case Routes.statisticDetailsRoutes:
-        final args = routeSettings.arguments as RoutesArguments;
+        final args = routeSettings.arguments as StatisticDetailsRoutesArguments;
         return MaterialPageRoute(builder: (context) {
           return StatisticDetailsScreen(uniqueId: args.uniqueId,);
         });
