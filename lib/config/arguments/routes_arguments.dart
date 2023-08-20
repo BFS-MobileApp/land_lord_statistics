@@ -1,4 +1,7 @@
-class StatisticDetailsRoutesArguments{
+class RoutesArgument{}
+
+
+class StatisticDetailsRoutesArguments extends RoutesArgument{
 
   final String uniqueId;
 

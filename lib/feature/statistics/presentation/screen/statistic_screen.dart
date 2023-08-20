@@ -1,5 +1,6 @@
 import 'package:claimizer/config/arguments/routes_arguments.dart';
 import 'package:claimizer/config/routes/app_routes.dart';
+import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
@@ -25,7 +26,8 @@ class _StatisticScreenState extends State<StatisticScreen> {
   TextEditingController searchController = TextEditingController();
   List<StatisticSummary> statisticList = [];
   List<StatisticSummary> statisticListData = [];
-  bool isInitialized = false;
+  bool isInitialized = false , isSearching = false;
+  TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
 
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
@@ -45,6 +47,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
       dialogWidget.logOutDialog();
     });
   }
+
 
   void filterSearchResults(String name) {
     if(name.isEmpty){
@@ -83,21 +86,14 @@ class _StatisticScreenState extends State<StatisticScreen> {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(padding: EdgeInsets.all(10.sp) , child: TextField(
-                    onChanged: (value){
-                      filterSearchResults(value);
-                    },
-                    controller: searchController,
-                    decoration: InputDecoration(
-                        labelText: "search".tr,
-                        hintText: "Search".tr,
-                        prefixIcon: const Icon(Icons.search),
-                        border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-                  ),),
                   ListView.builder(physics:const NeverScrollableScrollPhysics() , shrinkWrap: true ,  itemCount:statisticList.length , itemBuilder: (ctx , pos){
                     return InkWell(
-                      onTap: ()=>Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue)),
+                      onTap: (){
+                        Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue));
+                        setState(() {
+                          statisticList = statisticListData;
+                        });
+                      },
                       child: StatisticWidgetItem(companyName: statisticList[pos].companyName ,buildingName: statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
                     );
                   })
@@ -112,13 +108,62 @@ class _StatisticScreenState extends State<StatisticScreen> {
         }));
   }
 
+  changeSearchingState(){
+    setState(() {
+      isSearching = false;
+      searchController.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
         child: Scaffold(
-          appBar: AppBar(
-            title: Text('companies'.tr),
+          appBar: isSearching ?
+          PreferredSize(preferredSize: const Size.fromHeight(100),
+            child: Container(
+              //margin: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+              color: AppColors.primaryColor,
+              child: Padding(padding: EdgeInsets.all(10.sp) , child: TextField(
+                style: searchTextStyle,
+                cursorColor: AppColors.whiteColor,
+                onChanged: (value){
+                  setState(() {
+                    filterSearchResults(value);
+                  });
+                },
+                onTapOutside: (_)=>changeSearchingState(),
+                onSubmitted: (_)=>changeSearchingState(),
+                onEditingComplete: ()=>changeSearchingState(),
+                controller: searchController,
+                decoration: InputDecoration(
+                    //labelText: "search".tr,
+                    hintText: "Search".tr,
+                    hintStyle: searchTextStyle,
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.only(top: ScreenUtil().setHeight(30))
+
+                ),
+              ))),
+
+            ) :
+          AppBar(
+              title: Text('companies'.tr),
               actions: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isSearching = true;
+                    });
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0.sp),
+                    child: const Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
                 GestureDetector(
                   onTap: () {
                     callLogoutDialog();
