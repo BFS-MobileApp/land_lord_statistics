@@ -33,7 +33,7 @@ class AppRoutes{
       case Routes.statisticDetailsRoutes:
         final args = routeSettings.arguments as StatisticDetailsRoutesArguments;
         return MaterialPageRoute(builder: (context) {
-          return StatisticDetailsScreen(uniqueId: args.uniqueId,);
+          return StatisticDetailsScreen(uniqueId: args.uniqueId, companyName: args.companyName, buildingName: args.buildingName, date: args.date,);
         });
       default:
         return null;

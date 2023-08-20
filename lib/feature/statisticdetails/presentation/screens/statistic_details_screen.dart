@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/cubit/statistic_details_cubit.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/widget/chart_widget.dart';
+import 'package:claimizer/feature/statisticdetails/presentation/widget/text_item.dart';
 import 'package:claimizer/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,9 +14,12 @@ import '../widget/statistic_detailes_item.dart';
 
 class StatisticDetailsScreen extends StatefulWidget {
 
-  String uniqueId;
+  final String uniqueId;
+  final String companyName;
+  final String buildingName;
+  String date;
 
-  StatisticDetailsScreen({super.key , required this.uniqueId});
+  StatisticDetailsScreen({super.key , required this.uniqueId , required this.companyName , required this.buildingName , required this.date});
 
   @override
   State<StatisticDetailsScreen> createState() => _StatisticDetailsScreenState();
@@ -34,7 +37,6 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
     getData();
   }
 
-
   Widget _statisticWidget(){
     return BlocBuilder<StatisticDetailsCubit, StatisticDetailsState>(
         builder: ((context, state) {
@@ -49,22 +51,30 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
             state.statisticDetails.statisticColoumn.removeWhere((element) => element.value =='');
             return Container(
               margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(20) , bottom: ScreenUtil().setHeight(50)),
-              child: ListView(
+              child: Column(
                 children: [
-                  GridView.count(
-                    crossAxisCount: 1,
-                    padding: EdgeInsets.zero,
-                    childAspectRatio: 4.5,
-                    crossAxisSpacing: 1,
-                    mainAxisSpacing: 1,
-                    physics: const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
-                    shrinkWrap: true,
-                    children: List.generate(state.statisticDetails.statisticColoumn.length, (pos)
-                    {
-                      return StatisticDetailsItem(color: state.statisticDetails.statisticColoumn[pos].color.toString(),itemName: state.statisticDetails.statisticColoumn[pos].enName,itemValue: state.statisticDetails.statisticColoumn[pos].value,);
-                    }),
-                  ),
-                  ChartWidget(chartData: state.statisticDetails.chartData)
+                  TextItem(itemName: '${'company'.tr}: ', itemValue: widget.companyName),
+                  widget.buildingName == '' ? const SizedBox() : TextItem(itemName: '${'buildingName'.tr}: ', itemValue: widget.companyName),
+                  TextItem(itemName: '${'statisticDate'.tr}: ', itemValue: widget.date),
+                  SizedBox(height: ScreenUtil().setHeight(8),),
+                  Expanded(child: ListView(
+                    children: [
+                      GridView.count(
+                        crossAxisCount: 1,
+                        padding: EdgeInsets.zero,
+                        childAspectRatio: 4.5,
+                        crossAxisSpacing: 1,
+                        mainAxisSpacing: 1,
+                        physics: const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                        shrinkWrap: true,
+                        children: List.generate(state.statisticDetails.statisticColoumn.length, (pos)
+                        {
+                          return StatisticDetailsItem(color: state.statisticDetails.statisticColoumn[pos].color.toString(),itemName: state.statisticDetails.statisticColoumn[pos].enName,itemValue: state.statisticDetails.statisticColoumn[pos].value,);
+                        }),
+                      ),
+                      ChartWidget(chartData: state.statisticDetails.chartData)
+                    ],
+                  ))
                 ],
               ),
             );
