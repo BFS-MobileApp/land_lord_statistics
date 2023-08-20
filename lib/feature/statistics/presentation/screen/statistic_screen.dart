@@ -26,6 +26,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
   TextEditingController searchController = TextEditingController();
   List<StatisticSummary> statisticList = [];
   List<StatisticSummary> statisticListData = [];
+  FocusNode focusNode = FocusNode();
   bool isInitialized = false , isSearching = false;
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
 
@@ -127,6 +128,8 @@ class _StatisticScreenState extends State<StatisticScreen> {
               child: Padding(padding: EdgeInsets.all(10.sp) , child: TextField(
                 style: searchTextStyle,
                 cursorColor: AppColors.whiteColor,
+                showCursor: true,
+                focusNode: focusNode,
                 onChanged: (value){
                   setState(() {
                     filterSearchResults(value);
@@ -153,6 +156,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
+                      focusNode.requestFocus();
                       isSearching = true;
                     });
                   },

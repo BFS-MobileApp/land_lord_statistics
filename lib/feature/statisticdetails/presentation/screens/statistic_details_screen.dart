@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/cubit/statistic_details_cubit.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/widget/chart_widget.dart';
@@ -28,8 +29,33 @@ class StatisticDetailsScreen extends StatefulWidget {
 class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
 
   List<StatisticColoumn> statisticListData = [];
+  List<StatisticColoumn> statisticListDataDetails = [];
+  bool isInitialized = false , isSearching = false;
+  FocusNode focusNode = FocusNode();
+  TextEditingController searchController = TextEditingController();
+  TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
 
   getData() =>BlocProvider.of<StatisticDetailsCubit>(context).getData(widget.uniqueId);
+
+  void filterSearchResults(String name) {
+    if(name.isEmpty){
+      setState(() {
+        statisticListData = statisticListDataDetails;
+      });
+    }
+    setState(() {
+      statisticListData = statisticListData
+          .where((element) => element.enName.toLowerCase().contains(name.toLowerCase()))
+          .toList();
+    });
+  }
+
+  changeSearchingState(){
+    setState(() {
+      isSearching = false;
+      searchController.clear();
+    });
+  }
 
   @override
   void initState() {
@@ -47,8 +73,13 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
           } else if (state is StatisticsDetailsError) {
             return ErrorWidgetItem(onTap: getData,);
           } else if (state is StatisticsDetailsLoaded) {
-            state.statisticDetails.statisticColoumn.sort((a, b) => a.sort.compareTo(b.sort));
-            state.statisticDetails.statisticColoumn.removeWhere((element) => element.value =='');
+            if (!isInitialized) {
+              statisticListData = state.statisticDetails.statisticColoumn;
+              statisticListData.sort((a, b) => a.sort.compareTo(b.sort));
+              statisticListData.removeWhere((element) => element.value =='');
+              statisticListDataDetails = statisticListData;
+              isInitialized = true;
+            }
             return Container(
               margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(20) , bottom: ScreenUtil().setHeight(50)),
               child: Column(
@@ -67,9 +98,9 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                         mainAxisSpacing: 1,
                         physics: const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                         shrinkWrap: true,
-                        children: List.generate(state.statisticDetails.statisticColoumn.length, (pos)
+                        children: List.generate(statisticListData.length, (pos)
                         {
-                          return StatisticDetailsItem(color: state.statisticDetails.statisticColoumn[pos].color.toString(),itemName: state.statisticDetails.statisticColoumn[pos].enName,itemValue: state.statisticDetails.statisticColoumn[pos].value,);
+                          return StatisticDetailsItem(color: statisticListData[pos].color.toString(),itemName: statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
                         }),
                       ),
                       ChartWidget(chartData: state.statisticDetails.chartData)
@@ -89,8 +120,55 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
         child: Scaffold(
-          appBar: AppBar(
+          appBar: isSearching ?
+          PreferredSize(preferredSize: const Size.fromHeight(100),
+            child: Container(
+                color: AppColors.primaryColor,
+                child: Padding(padding: EdgeInsets.all(10.sp) ,
+                  child: TextField(
+                  style: searchTextStyle,
+                  showCursor: true,
+                  focusNode: focusNode,
+                  cursorColor: AppColors.whiteColor,
+                  onChanged: (value){
+                    setState(() {
+                      filterSearchResults(value);
+                    });
+                  },
+                  onTapOutside: (_)=>changeSearchingState(),
+                  onSubmitted: (_)=>changeSearchingState(),
+                  onEditingComplete: ()=>changeSearchingState(),
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    //labelText: "search".tr,
+                      hintText: "Search".tr,
+                      hintStyle: searchTextStyle,
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.only(top: ScreenUtil().setHeight(30))
+
+                  ),
+                ))),
+
+          )  :
+          AppBar(
               title: Text('companyData'.tr),
+            actions: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    focusNode.requestFocus();
+                    isSearching = true;
+                  });
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(8.0.sp),
+                  child: const Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
           ),
           body: _statisticWidget(),
         ),
