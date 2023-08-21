@@ -34,6 +34,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
   FocusNode focusNode = FocusNode();
   TextEditingController searchController = TextEditingController();
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
+  int selectedOption = 0;
 
   getData() =>BlocProvider.of<StatisticDetailsCubit>(context).getData(widget.uniqueId);
 
@@ -64,7 +65,72 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
     getData();
   }
 
+  void sortDialog(){
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              builder: (context , StateSetter setState){
+                return AlertDialog(
+                  content: SizedBox(
+                    height: ScreenUtil().setHeight(111),
+                    child: Column(
+                      children: <Widget>[
+                        Text('sortBy'.tr, style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 15.sp),),
+                        ListTile(
+                          title: Text('name'.tr),
+                          leading: Radio<int>(
+                            value: 1,
+                            groupValue: selectedOption,
+                            onChanged: (int? value) {
+                              setState(() {
+                                selectedOption = value!;
+                                Navigator.of(context).pop(true);
+                                sortList();
+                              });
+                            },
+                          ),
+                        ),
+                        ListTile(
+                          title: Text('value'.tr),
+                          leading: Radio<int>(
+                            value: 2,
+                            groupValue: selectedOption,
+                            onChanged: (int? value) {
+                              setState(() {
+                                selectedOption = value!;
+                                Navigator.of(context).pop(true);
+                                sortList();
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+          );
+        });
+  }
 
+  sortList(){
+    switch (selectedOption){
+      case 1:
+        setState(() {
+          statisticListData.sort((a, b) => a.enName.compareTo(b.enName));
+          selectedOption = 0;
+        });
+        break;
+      case 2:
+        setState(() {
+          statisticListData.sort((a, b) => a.value.compareTo(b.value));
+          selectedOption = 0;
+        });
+        break;
+    }
+  }
   Widget _statisticWidget(){
     return BlocBuilder<StatisticDetailsCubit, StatisticDetailsState>(
         builder: ((context, state) {
@@ -118,6 +184,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
           }
         }));
   }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -166,6 +233,18 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                   padding: EdgeInsets.all(8.0.sp),
                   child: const Icon(
                     Icons.search,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  sortDialog();
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(8.0.sp),
+                  child: const Icon(
+                    Icons.sort,
                     color: Colors.white,
                   ),
                 ),

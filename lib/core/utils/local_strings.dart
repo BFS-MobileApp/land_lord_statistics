@@ -26,7 +26,10 @@ class LocalStrings extends Translations {
       "search":"Search",
       "logOutPhase":"Are you sure you want to logout ?",
       "connectionError":"Connection Error",
-      "companyData":"Company Data"
+      "companyData":"Company Data",
+      "sortBy":"Sort By :-",
+      "name":"Name",
+      "value":"Value"
     },
   };
 }
