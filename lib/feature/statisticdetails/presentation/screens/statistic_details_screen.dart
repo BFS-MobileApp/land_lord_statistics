@@ -93,14 +93,14 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                       GridView.count(
                         crossAxisCount: 1,
                         padding: EdgeInsets.zero,
-                        childAspectRatio: 4.5,
-                        crossAxisSpacing: 1,
-                        mainAxisSpacing: 1,
+                        childAspectRatio: 4,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 2,
                         physics: const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
                         shrinkWrap: true,
                         children: List.generate(statisticListData.length, (pos)
                         {
-                          return StatisticDetailsItem(color: statisticListData[pos].color.toString(),itemName: statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
+                          return StatisticDetailsItem(uniqueId: widget.uniqueId , id: statisticListData[pos].id, color: statisticListData[pos].color.toString(),itemName: statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
                         }),
                       ),
                       ChartWidget(chartData: state.statisticDetails.chartData)

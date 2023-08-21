@@ -1,3 +1,4 @@
+import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ class StatisticWidgetItem extends StatefulWidget {
   final String companyName;
   final String date;
   final int id;
-
   const StatisticWidgetItem({super.key, required this.companyName, required this.date , required this.buildingName , required this.id});
 
   @override
@@ -38,17 +38,17 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
 
   setItemColor() async{
     preferences = await SharedPreferences.getInstance();
-    preferences.setString(widget.id.toString(), currentColor.value.toString());
+    preferences.setString(AppStrings.companyScreen+widget.id.toString(), currentColor.value.toString());
   }
 
    getItemColor() async{
     String color = '';
     preferences = await SharedPreferences.getInstance();
-    if(preferences.containsKey(widget.id.toString())){
-      color = preferences.getString(widget.id.toString()).toString();
+    if(preferences.containsKey(AppStrings.companyScreen+widget.id.toString())){
+      color = preferences.getString(AppStrings.companyScreen+widget.id.toString()).toString();
       int value = int.parse(color);
       setState(() {
-        currentColor = Color(value).withOpacity(1);
+        currentColor = Color(value).withOpacity(0.35);
       });
     }
   }
