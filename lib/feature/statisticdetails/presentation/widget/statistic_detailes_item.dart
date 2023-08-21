@@ -46,7 +46,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
       color = preferences.getString(widget.uniqueId+widget.id.toString()).toString();
       int value = int.parse(color);
       setState(() {
-        currentColor = Color(value).withOpacity(0.35);
+        currentColor = Color(value);
       });
     }
   }

@@ -22,8 +22,8 @@ class StatisticWidgetItem extends StatefulWidget {
 
 class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   final TextStyle fontStyle = TextStyle(fontWeight: FontWeight.w600 , color: AppColors.black , fontSize: 17.sp);
-  Color pickerColor = const Color(0xFF44A4F2).withOpacity(0.35);
-  Color currentColor = const Color(0xFF44A4F2).withOpacity(0.35);
+  Color pickerColor = const Color(0xFF44A4F2);
+  Color currentColor = const Color(0xFF44A4F2);
   late SharedPreferences preferences;
 
   void changeColor(Color color) {
@@ -48,7 +48,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
       color = preferences.getString(AppStrings.companyScreen+widget.id.toString()).toString();
       int value = int.parse(color);
       setState(() {
-        currentColor = Color(value).withOpacity(0.35);
+        currentColor = Color(value);
       });
     }
   }
