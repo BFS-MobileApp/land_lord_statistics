@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppColors{
 
-  static const Color primaryColor =  Color(0xFFE94033);
+  //static const Color primaryColor =  Color(0xFFE94033);
+  static const Color primaryColor = Color(0xFF3645C1);
   static const Color whiteColor = Color(0xFFffffff);
   static const Color offWhiteColor = Color(0xFFF7F7F7);
   static const Color black = Color(0xFF000000);
@@ -22,14 +23,14 @@ class AppColors{
   static const blogContainerColor = Color(0xFFDDE1EC);
   static const lightBlue = Colors.blue;
   static const darkBlueColor = Color(0xFF213242);
-  static const List<Color>  colors = [
-    Color(0xFF44A4F2),
-    Color(0xFFFF9500),
-    Color(0xFF3716EE),
-    Color(0xFF10D2C8) ,
-    Color(0xFF0A562E) ,
-    Color(0xFFFF0000) ,
-    Color(0xFF679C0D)];
+  static List<Color>  colors = [
+    const Color(0xFF44A4F2).withOpacity(0.35),
+    const Color(0xFFFF9500).withOpacity(0.35),
+    const Color(0xFF3716EE).withOpacity(0.35),
+    const Color(0xFF10D2C8).withOpacity(0.35),
+    const Color(0xFF0A562E).withOpacity(0.35),
+    const Color(0xFFFF0000).withOpacity(0.35),
+    const Color(0xFF679C0D).withOpacity(0.35)];
 
   static Color returnColorFromServer(String returnedColor){
     String hexColor = '0xFF${returnedColor.substring(1)}';

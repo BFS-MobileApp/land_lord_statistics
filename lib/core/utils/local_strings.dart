@@ -11,7 +11,7 @@ class LocalStrings extends Translations {
     'en_US': {
       "appName":"Claimizer",
       "login":"Login",
-      "welcomePhase":"Welcome To Claimizer",
+      "welcomePhase":"Welcome To Landlord Statistics",
       "email":"Email",
       "password":"Password",
       'forgotPassword':"Forgot password?",

@@ -13,7 +13,8 @@ class StatisticWidgetItem extends StatefulWidget {
   final String companyName;
   final String date;
   final int id;
-  const StatisticWidgetItem({super.key, required this.companyName, required this.date , required this.buildingName , required this.id});
+  final Color color;
+  const StatisticWidgetItem({super.key, required this.companyName, required this.date , required this.buildingName , required this.id , required this.color});
 
   @override
   State<StatisticWidgetItem> createState() => _StatisticWidgetItemState();
@@ -21,8 +22,8 @@ class StatisticWidgetItem extends StatefulWidget {
 
 class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   final TextStyle fontStyle = TextStyle(fontWeight: FontWeight.w600 , color: AppColors.black , fontSize: 17.sp);
-  Color pickerColor = const Color(0xFF44A4F2);
-  Color currentColor = const Color(0xFF44A4F2);
+  late Color pickerColor;
+  late Color currentColor;
 
   void changeColor(Color color) {
     setState(() => pickerColor = color);
@@ -31,13 +32,21 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   @override
   void initState() {
     super.initState();
+    setInitialColor();
     getItemColor();
+  }
+
+  setInitialColor(){
+    currentColor = widget.color;
+    pickerColor = widget.color;
   }
 
    getItemColor() async{
     SharedPrefsHelper.getItemColor(AppStrings.companyScreen+widget.id.toString()).then((value){
       setState(() {
-        currentColor = value;
+        if(value != const Color(0xFF44A4F2)){
+          currentColor = value;
+        }
       });
     });
   }

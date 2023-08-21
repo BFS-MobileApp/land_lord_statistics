@@ -25,6 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
   checkLoggingState() async{
     prefs = await SharedPreferences.getInstance();
     if(prefs.containsKey(AppStrings.token)){
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, Routes.statisticRoutes);
     } else {
       Navigator.pushReplacementNamed(context, Routes.loginRoutes);
@@ -49,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset(AssetsManager.imageIcon , height: ScreenUtil().setHeight(45),width: ScreenUtil().setWidth(45),),
+        child: Image.asset(AssetsManager.logoIcon , height: ScreenUtil().setHeight(45),width: ScreenUtil().setWidth(45),),
       ),
     );
   }

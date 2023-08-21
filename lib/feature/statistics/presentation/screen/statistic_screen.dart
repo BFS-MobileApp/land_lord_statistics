@@ -57,7 +57,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
       });
     }
     setState(() {
-      statisticList = statisticListData
+      statisticList = statisticList
           .where((element) => element.companyName.toLowerCase().contains(name.toLowerCase()) || element.buildingName.toLowerCase().contains(name.toLowerCase()))
           .toList();
     });
@@ -95,7 +95,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                           statisticList = statisticListData;
                         });
                       },
-                      child: StatisticWidgetItem(id: statisticList[pos].statisticsId , companyName: statisticList[pos].companyName ,buildingName: statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+                      child: StatisticWidgetItem(color:  AppColors.colors[Helper.index(7)] , id: statisticList[pos].statisticsId , companyName: statisticList[pos].companyName ,buildingName: statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
                     );
                   })
                 ],
@@ -112,6 +112,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
   changeSearchingState(){
     setState(() {
       isSearching = false;
+      statisticList = statisticListData;
       searchController.clear();
     });
   }

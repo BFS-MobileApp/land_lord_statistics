@@ -53,6 +53,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
   changeSearchingState(){
     setState(() {
       isSearching = false;
+      statisticListData = statisticListDataDetails;
       searchController.clear();
     });
   }
@@ -62,6 +63,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
     super.initState();
     getData();
   }
+
 
   Widget _statisticWidget(){
     return BlocBuilder<StatisticDetailsCubit, StatisticDetailsState>(
@@ -85,7 +87,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
               child: Column(
                 children: [
                   TextItem(itemName: '${'company'.tr}: ', itemValue: widget.companyName),
-                  widget.buildingName == '' ? const SizedBox() : TextItem(itemName: '${'buildingName'.tr}: ', itemValue: widget.companyName),
+                  widget.buildingName == '' ? const SizedBox() : TextItem(itemName: '${'buildingName'.tr}: ', itemValue: widget.buildingName),
                   TextItem(itemName: '${'statisticDate'.tr}: ', itemValue: widget.date),
                   SizedBox(height: ScreenUtil().setHeight(8),),
                   Expanded(child: ListView(
@@ -151,7 +153,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
 
           )  :
           AppBar(
-              title: Text('companyData'.tr),
+              title: widget.buildingName == '' ? Text(widget.companyName) : Text(widget.buildingName),
             actions: [
               GestureDetector(
                 onTap: () {
