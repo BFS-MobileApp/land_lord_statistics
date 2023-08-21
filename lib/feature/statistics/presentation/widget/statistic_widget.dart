@@ -1,3 +1,4 @@
+import 'package:claimizer/config/PrefHelper/shared_pref_helper.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
@@ -36,21 +37,12 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
     getItemColor();
   }
 
-  setItemColor() async{
-    preferences = await SharedPreferences.getInstance();
-    preferences.setString(AppStrings.companyScreen+widget.id.toString(), currentColor.value.toString());
-  }
-
    getItemColor() async{
-    String color = '';
-    preferences = await SharedPreferences.getInstance();
-    if(preferences.containsKey(AppStrings.companyScreen+widget.id.toString())){
-      color = preferences.getString(AppStrings.companyScreen+widget.id.toString()).toString();
-      int value = int.parse(color);
+    SharedPrefsHelper.getItemColor(AppStrings.companyScreen+widget.id.toString()).then((value){
       setState(() {
-        currentColor = Color(value);
+        currentColor = value;
       });
-    }
+    });
   }
 
   void showColorPickerDialog(){
@@ -70,7 +62,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
               child: const Text('Got it'),
               onPressed: () {
                 setState(() => currentColor = pickerColor);
-                setItemColor();
+                SharedPrefsHelper.setItemColor(AppStrings.companyScreen+widget.id.toString(), currentColor.value);
                 Navigator.of(context).pop();
               },
             ),
