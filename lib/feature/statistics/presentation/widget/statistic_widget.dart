@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'statistic_item.dart';
 
 class StatisticWidgetItem extends StatefulWidget {
@@ -25,7 +23,6 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   final TextStyle fontStyle = TextStyle(fontWeight: FontWeight.w600 , color: AppColors.black , fontSize: 17.sp);
   Color pickerColor = const Color(0xFF44A4F2);
   Color currentColor = const Color(0xFF44A4F2);
-  late SharedPreferences preferences;
 
   void changeColor(Color color) {
     setState(() => pickerColor = color);

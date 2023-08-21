@@ -1,8 +1,8 @@
+import 'package:claimizer/config/PrefHelper/shared_pref_helper.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class StatisticDetailsItem extends StatefulWidget {
 
@@ -21,7 +21,6 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
 
   late Color pickerColor;
   late Color currentColor;
-  late SharedPreferences preferences;
 
   @override
   void initState() {
@@ -30,25 +29,16 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
     getItemColor();
   }
 
+  getItemColor() async{
+    SharedPrefsHelper.getItemColor(widget.uniqueId+widget.id.toString()).then((value){
+      setState(() {
+        currentColor = value;
+      });
+    });
+  }
+
   void changeColor(Color color) {
     setState(() => pickerColor = color);
-  }
-
-  setItemColor() async{
-    preferences = await SharedPreferences.getInstance();
-    preferences.setString(widget.uniqueId+widget.id.toString(), currentColor.value.toString());
-  }
-
-  getItemColor() async{
-    String color = '';
-    preferences = await SharedPreferences.getInstance();
-    if(preferences.containsKey(widget.uniqueId+widget.id.toString())){
-      color = preferences.getString(widget.uniqueId+widget.id.toString()).toString();
-      int value = int.parse(color);
-      setState(() {
-        currentColor = Color(value);
-      });
-    }
   }
 
   void setInitialColor(){
@@ -73,7 +63,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
               child: const Text('Got it'),
               onPressed: () {
                 setState(() => currentColor = pickerColor);
-                setItemColor();
+                SharedPrefsHelper.setItemColor(widget.uniqueId+widget.id.toString(), currentColor.value);
                 Navigator.of(context).pop();
               },
             ),
