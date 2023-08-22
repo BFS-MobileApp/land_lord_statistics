@@ -6,7 +6,7 @@ class LocalStrings extends Translations {
     'ar_AR': {
       "appName":"Claimizer",
       "login":"تسجيل الدخول",
-      "welcomePhase":"مرحبا بكم في إحصائيات المالك",
+      "welcomePhase":"أهلا بك في إحصائيات الملاك",
       "email":"البريد الالكتروني",
       "password":"كلمة المرور",
       'forgotPassword':"نسيت كلمة المرور؟",

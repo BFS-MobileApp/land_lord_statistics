@@ -1,5 +1,6 @@
 import 'package:claimizer/config/PrefHelper/shared_pref_helper.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
+import 'package:claimizer/core/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -94,7 +95,11 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(widget.itemName , style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 18.sp),),
+                    Expanded(child: Text(widget.itemName ,
+                      softWrap: false,
+                      maxLines: 1,
+                      overflow: TextOverflow.fade,
+                      style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 18.sp),)),
                     IconButton(
                         onPressed: ()=>showColorPickerDialog(),
                         icon: Icon(Icons.settings , color: AppColors.black , size: 20.sp,))
@@ -103,7 +108,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setHeight(10)),
-                alignment: Alignment.topLeft,
+                alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight : Alignment.topLeft,
                 child: Text(widget.itemValue, style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 13.sp),),
               )
             ],

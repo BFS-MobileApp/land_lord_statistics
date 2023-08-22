@@ -1,3 +1,4 @@
+import 'package:claimizer/core/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,7 +10,7 @@ class TextItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.topLeft,
+      alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight : Alignment.topLeft,
       margin: EdgeInsets.symmetric(vertical: 1.sp, horizontal: 5.sp),
       child: RichText(
         text: TextSpan(

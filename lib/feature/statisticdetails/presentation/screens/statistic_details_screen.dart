@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:claimizer/core/utils/app_colors.dart';
+import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/cubit/statistic_details_cubit.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/widget/chart_widget.dart';
@@ -35,6 +36,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
   TextEditingController searchController = TextEditingController();
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
   int selectedOption = 0;
+  String currentLocal = '';
 
   getData() =>BlocProvider.of<StatisticDetailsCubit>(context).getData(widget.uniqueId);
 
@@ -63,6 +65,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
   void initState() {
     super.initState();
     getData();
+    getCurrentLocal();
   }
 
   void sortDialog(){
@@ -113,6 +116,14 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
               }
           );
         });
+  }
+
+  void getCurrentLocal(){
+    Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        currentLocal = Helper.getCurrentLocal();
+      });
+    });
   }
 
   sortList(){
@@ -169,7 +180,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                         shrinkWrap: true,
                         children: List.generate(statisticListData.length, (pos)
                         {
-                          return StatisticDetailsItem(uniqueId: widget.uniqueId , id: statisticListData[pos].id, color: statisticListData[pos].color.toString(),itemName: statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
+                          return StatisticDetailsItem(uniqueId: widget.uniqueId , id: statisticListData[pos].id, color: statisticListData[pos].color.toString(),itemName: currentLocal == 'AR' ? statisticListData[pos].arName : statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
                         }),
                       ),
                       ChartWidget(chartData: state.statisticDetails.chartData)
