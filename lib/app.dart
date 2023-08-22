@@ -3,6 +3,7 @@ import 'package:claimizer/config/theme/app_theme.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/local_strings.dart';
 import 'package:claimizer/feature/login/presentation/cubit/login_cubit.dart';
+import 'package:claimizer/feature/splash/presentation/cubit/local_cubit.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/cubit/statistic_details_cubit.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:flutter/material.dart';
@@ -21,25 +22,34 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => di.sl<LoginCubit>()),
           BlocProvider(create: (context) => di.sl<StatisticCubit>()),
           BlocProvider(create: (context) => di.sl<StatisticDetailsCubit>()),
+          BlocProvider(create: (context) => di.sl<LocalCubit>()..getSavedLang()),
         ],
-        child: ScreenUtilInit(
-            designSize: const Size(360, 690),
-            minTextAdapt: true,
-            splitScreenMode: true,
-            builder: (context , child){
-              return MediaQuery(
-                  data:  MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                  child: GetMaterialApp(
-                    translations: LocalStrings(),
-                    locale: const Locale('en', 'US'),
-                    fallbackLocale: const Locale('en', 'US'),
-                    theme: appTheme(),
-                    title: AppStrings.appName,
-                    onGenerateRoute: AppRoutes.onGenerateRoute,
-                    scaffoldMessengerKey: MessageWidget.scaffoldMessengerKey,
-                  )
-              );
-            })
+        child: BlocBuilder<LocalCubit, LocalState>(
+          buildWhen: (previousState, currentState) {
+            return previousState != currentState;
+          },
+          builder: (context, state) {
+            debugPrint('dodo2'+state.locale.languageCode.toString());
+            return ScreenUtilInit(
+                designSize: const Size(360, 690),
+                minTextAdapt: true,
+                splitScreenMode: true,
+                builder: (context , child){
+                  return MediaQuery(
+                      data:  MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      child: GetMaterialApp(
+                        translations: LocalStrings(),
+                        locale: state.locale.languageCode == AppStrings.enCountryCode ? Locale('en' , '') : Locale('ar' , ''),
+                        fallbackLocale: const Locale('en', 'US'),
+                        theme: appTheme(),
+                        title: AppStrings.appName,
+                        onGenerateRoute: AppRoutes.onGenerateRoute,
+                        scaffoldMessengerKey: MessageWidget.scaffoldMessengerKey,
+                      )
+                  );
+                });
+          },
+        )
     );
   }
 }

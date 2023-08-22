@@ -4,6 +4,7 @@ import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
+import 'package:claimizer/feature/splash/presentation/cubit/local_cubit.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:claimizer/feature/statistics/presentation/widget/statistic_widget.dart';
@@ -88,12 +89,12 @@ class _StatisticScreenState extends State<StatisticScreen> {
                   ListView.builder(physics:const NeverScrollableScrollPhysics() , shrinkWrap: true ,  itemCount:statisticList.length , itemBuilder: (ctx , pos){
                     return InkWell(
                       onTap: (){
-                        Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: statisticList[pos].companyName , buildingName: statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
+                        Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
                         setState(() {
                           statisticList = statisticListData;
                         });
                       },
-                      child: StatisticWidgetItem(color:  AppColors.colors[Helper.index(7)] , id: statisticList[pos].statisticsId , companyName: statisticList[pos].companyName ,buildingName: statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+                      child: StatisticWidgetItem(color:  AppColors.colors[Helper.index(7)] , id: statisticList[pos].statisticsId , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
                     );
                   })
                 ],
@@ -117,12 +118,11 @@ class _StatisticScreenState extends State<StatisticScreen> {
 
   changeLocalization(){
     final currentLocal = Get.locale;
-    if(currentLocal!.countryCode == 'AR'){
-      var locale = const Locale('en','US');
-      Get.updateLocale(locale);
+    print('main'+currentLocal!.countryCode.toString());
+    if (currentLocal!.countryCode == 'AR') {
+      BlocProvider.of<LocalCubit>(context).toEnglish();
     } else {
-      var locale = const Locale('ar','AR');
-      Get.updateLocale(locale);
+      BlocProvider.of<LocalCubit>(context).toArabic();
     }
   }
 
@@ -151,7 +151,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                 controller: searchController,
                 decoration: InputDecoration(
                     //labelText: "search".tr,
-                    hintText: "Search".tr,
+                    hintText: "search".tr,
                     hintStyle: searchTextStyle,
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.only(top: ScreenUtil().setHeight(30))

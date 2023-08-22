@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/assets_manager.dart';

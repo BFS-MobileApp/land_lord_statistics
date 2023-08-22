@@ -10,4 +10,9 @@ class AppStrings{
   static const String appName = 'Landlord Statistics';
   static const String companyScreen = 'Company Screen';
   static const String companyDataScreen = 'Company Data Screen';
+  static const String enCountryCode = 'US';
+  static const String arCountryCode = 'AR';
+  static const String local = 'local';
+
+
 }

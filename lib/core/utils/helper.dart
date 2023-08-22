@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -29,7 +30,7 @@ class Helper{
   }
 
   static String getCurrentLocal(){
-    String local = '';
+    String local = AppStrings.enCountryCode;
     final currentLocal = Get.locale;
     local = currentLocal!.countryCode!;
     return local;

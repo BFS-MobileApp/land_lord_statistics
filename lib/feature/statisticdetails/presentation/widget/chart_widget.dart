@@ -1,6 +1,7 @@
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ChartWidget extends StatelessWidget {
@@ -20,7 +21,7 @@ class ChartWidget extends StatelessWidget {
     return chartData.isEmpty ? const SizedBox() : Center(
       child: SfCircularChart(
           palette: returnChartColors(),
-          title: ChartTitle(text: 'Charts For Statistics'),
+          title: ChartTitle(text: 'chartWidgetPhase'.tr),
           //legend: const Legend(isVisible: true),
           series: <PieSeries<Data, String>>[
             PieSeries<Data, String>(

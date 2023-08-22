@@ -26,8 +26,8 @@ class LocalStrings extends Translations {
       "name":"الاسم",
       "value":"القيمة",
       "yes":"نعم",
-      "no":"لا"
-
+      "no":"لا",
+      "chartWidgetPhase":"الرسوم البيانية للإحصاء"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -52,7 +52,8 @@ class LocalStrings extends Translations {
       "name":"Name",
       "value":"Value",
       "yes":"Yes",
-      "no":"No"
+      "no":"No",
+      "chartWidgetPhase":"Charts For Statistics"
     },
   };
 }

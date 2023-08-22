@@ -87,7 +87,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
           color: currentColor,
           borderRadius:const  BorderRadius.all(Radius.circular(15.0)),
         ),
-        height: widget.buildingName == '' ? ScreenUtil().setHeight(70) : ScreenUtil().setHeight(102),
+        height: widget.buildingName == '' ? ScreenUtil().setHeight(70) : ScreenUtil().setHeight(100),
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
@@ -98,24 +98,22 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                 InkWell(
                   onTap: ()=>showColorPickerDialog(),
                   child: Container(
-                    margin: EdgeInsets.only(right: ScreenUtil().setWidth(15)),
+                    margin: EdgeInsets.only(left: ScreenUtil().setWidth(15) , right: ScreenUtil().setWidth(15)),
                     child: Icon(Icons.settings , color: AppColors.black , size: 20.sp,),
                   ),
                 )
               ],
             ),
-            widget.buildingName == '' ? const SizedBox() :
-            StatisticItem(itemKey: 'buildingName'.tr , itemValue: widget.buildingName),
+            widget.buildingName == '' ? const SizedBox() : StatisticItem(itemKey: 'buildingName'.tr , itemValue: widget.buildingName),
             Container(
               margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10)),
-              alignment: Alignment.topLeft,
+              alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight : Alignment.topLeft,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('${'statisticDate'.tr}: ${widget.date}' , style: TextStyle(color: Colors.black , fontWeight: FontWeight.w600 , fontSize: 13.sp),),
                   Container(
-                    padding: EdgeInsets.only(top: ScreenUtil().setHeight(5)),
-                    margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(8)),
+                    padding: EdgeInsets.all(3.sp),
                     width: ScreenUtil().setWidth(30),
                     height: ScreenUtil().setHeight(30),
                     decoration:  BoxDecoration(

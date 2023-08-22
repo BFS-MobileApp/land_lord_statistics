@@ -7,6 +7,8 @@ import 'package:claimizer/feature/login/data/repositories/login_repository_impl.
 import 'package:claimizer/feature/login/domain/repositories/login_repository.dart';
 import 'package:claimizer/feature/login/domain/usecases/login_usecase.dart';
 import 'package:claimizer/feature/login/presentation/cubit/login_cubit.dart';
+import 'package:claimizer/feature/splash/domain/repositories/language_repository.dart';
+import 'package:claimizer/feature/splash/domain/usecases/get_saved_lang.dart';
 import 'package:claimizer/feature/statisticdetails/data/datasources/statistic_details_remote_data_source.dart';
 import 'package:claimizer/feature/statisticdetails/data/datasources/statistic_details_remote_data_source_impl.dart';
 import 'package:claimizer/feature/statisticdetails/domain/usecases/statistic_details_usecase.dart';
@@ -22,6 +24,10 @@ import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/api/api_consumer.dart';
+import 'feature/splash/data/datasources/language_local_datasource.dart';
+import 'feature/splash/domain/repositories/language_repository_impl.dart';
+import 'feature/splash/domain/usecases/change_language.dart';
+import 'feature/splash/presentation/cubit/local_cubit.dart';
 import 'feature/statisticdetails/data/repositories/statistic_details_repository_impl.dart';
 import 'feature/statisticdetails/domain/repositories/statistic_details_repository.dart';
 
@@ -33,21 +39,26 @@ Future<void> init() async{
   sl.registerFactory(() => LoginCubit(loginUseCase: sl()));
   sl.registerFactory(() => StatisticCubit(statisticUseCase: sl()));
   sl.registerFactory(() => StatisticDetailsCubit(statisticDetailsUseCase: sl()));
+  sl.registerFactory<LocalCubit>(() => LocalCubit(savedLanguageUseCase: sl() , changeLanguageUseCase: sl()));
 
   //UseCase
   sl.registerLazySingleton(() => LoginUseCase(loginRepository: sl()));
   sl.registerLazySingleton(() => StatisticUseCase(statisticsRepository: sl()));
   sl.registerLazySingleton(() => StatisticDetailsUseCase(statisticDetailsRepository: sl()));
+  sl.registerLazySingleton<ChangeLanguageUseCase>(() => ChangeLanguageUseCase(repository: sl()));
+  sl.registerLazySingleton<GetSavedLanguageUseCase>(() => GetSavedLanguageUseCase(repository: sl()));
 
   //Repository
   sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(loginRemoteDataSource: sl() , networkInfo: sl()));
   sl.registerLazySingleton<StatisticsRepository>(() => StatisticsRepositoryImpl(statisticsRemoteDataSource: sl() , networkInfo: sl()));
   sl.registerLazySingleton<StatisticDetailsRepository>(() => StatisticDetailsRepositoryImpl(statisticDetailsRemoteDataSource: sl() , networkInfo: sl()));
+  sl.registerLazySingleton<LanguageRepository>(() => LanguageRepositoryImpl(localDataSource: sl()));
 
   //DataSource
   sl.registerLazySingleton<LoginRemoteDataSource>(() => LoginRemoteDataSourceImpl(consumer: sl()));
   sl.registerLazySingleton<StatisticsRemoteDataSource>(() => StatisticsRemoteDataSourceImpl(consumer: sl()));
   sl.registerLazySingleton<StatisticDetailsRemoteDataSource>(() => StatisticDetailsRemoteDataSourceImpl(consumer: sl()));
+  sl.registerLazySingleton<LanguageLocalDataSource>(() => LanguageLocalDataSourceImpl(sharedPreferences: sl()));
 
   //Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
