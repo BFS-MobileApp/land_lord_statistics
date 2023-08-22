@@ -131,6 +131,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
         break;
     }
   }
+
   Widget _statisticWidget(){
     return BlocBuilder<StatisticDetailsCubit, StatisticDetailsState>(
         builder: ((context, state) {

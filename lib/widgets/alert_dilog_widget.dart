@@ -23,7 +23,7 @@ class AlertDialogWidget{
                 margin: EdgeInsets.only(top: ScreenUtil().setHeight(10) , left: ScreenUtil().setWidth(8), right: ScreenUtil().setWidth(15)),
                 child: InkWell(
                     onTap: yesOnTap,
-                    child: Text("Yes".tr , style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 14.sp , color: Colors.green),)
+                    child: Text("yes".tr , style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 14.sp , color: Colors.green),)
                 ),
               ),
               SizedBox(width: ScreenUtil().setWidth(8),),
@@ -33,7 +33,7 @@ class AlertDialogWidget{
                     onTap: (){
                       Navigator.of(context).pop(true);
                     },
-                    child: Text("No".tr, style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 14.sp , color: Colors.red),)
+                    child: Text("no".tr, style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 14.sp , color: Colors.red),)
                 ),
               ),
             ],

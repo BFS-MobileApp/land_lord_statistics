@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 
@@ -25,6 +26,13 @@ class Helper{
     }
     String resultString = result.join();
     return resultString;
+  }
+
+  static String getCurrentLocal(){
+    String local = '';
+    final currentLocal = Get.locale;
+    local = currentLocal!.countryCode!;
+    return local;
   }
 
 }

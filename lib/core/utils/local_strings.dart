@@ -6,6 +6,27 @@ class LocalStrings extends Translations {
     'ar_AR': {
       "appName":"Claimizer",
       "login":"تسجيل الدخول",
+      "welcomePhase":"مرحبا بكم في إحصائيات المالك",
+      "email":"البريد الالكتروني",
+      "password":"كلمة المرور",
+      'forgotPassword':"نسيت كلمة المرور؟",
+      "somethingWentWrong":"حدث خطأ ما",
+      "pleaseTryAgain":"من فضلك اعد المحاولة",
+      "reloadScreen":"اعادة التحميل",
+      "company":"اسم الشركة",
+      "statisticDate":"تاريخ الاحصائيه",
+      "companies":"الشركات",
+      "buildingName":"اسم المبني",
+      "error":"خطأ",
+      "search":"بحث",
+      "logOutPhase":"هل انت متاكد من تسجيل خروجك؟",
+      "connectionError":"خطأ في الاتصال",
+      "companyData":"بيانات الشركة",
+      "sortBy":"ترتيب حسب:-",
+      "name":"الاسم",
+      "value":"القيمة",
+      "yes":"نعم",
+      "no":"لا"
 
     },
     'en_US': {
@@ -29,7 +50,9 @@ class LocalStrings extends Translations {
       "companyData":"Company Data",
       "sortBy":"Sort By :-",
       "name":"Name",
-      "value":"Value"
+      "value":"Value",
+      "yes":"Yes",
+      "no":"No"
     },
   };
 }

@@ -30,7 +30,6 @@ class _StatisticScreenState extends State<StatisticScreen> {
   bool isInitialized = false , isSearching = false;
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
 
-
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
 
   @override
@@ -48,7 +47,6 @@ class _StatisticScreenState extends State<StatisticScreen> {
       dialogWidget.logOutDialog();
     });
   }
-
 
   void filterSearchResults(String name) {
     if(name.isEmpty){
@@ -117,6 +115,17 @@ class _StatisticScreenState extends State<StatisticScreen> {
     });
   }
 
+  changeLocalization(){
+    final currentLocal = Get.locale;
+    if(currentLocal!.countryCode == 'AR'){
+      var locale = const Locale('en','US');
+      Get.updateLocale(locale);
+    } else {
+      var locale = const Locale('ar','AR');
+      Get.updateLocale(locale);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -181,7 +190,13 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     ),
                   ),
                 ),
-              ]
+              ],
+              leading: IconButton(
+                onPressed: changeLocalization,
+                icon: const Icon(Icons.translate_outlined ),
+                color: AppColors.whiteColor,
+                iconSize: 20.sp,
+              ),
           ),
           body: _statisticWidget(),
         ),
