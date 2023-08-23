@@ -144,7 +144,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
             return ErrorWidgetItem(onTap: getData,);
           } else if (state is StatisticsDetailsLoaded) {
             if (!isInitialized) {
-              statisticListData = state.statisticDetails.statisticColoumn;
+              statisticListData = state.data.statisticColoumns;
               statisticListData.sort((a, b) => a.sort.compareTo(b.sort));
               statisticListData.removeWhere((element) => element.value =='');
               statisticListDataDetails = statisticListData;
@@ -173,7 +173,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                           return StatisticDetailsItem(icon: statisticListData[pos].iconSvg , statisticListData: statisticListData , pos: pos , uniqueId: widget.uniqueId , id: statisticListData[pos].id, color: statisticListData[pos].color.toString(),itemName: Helper.getCurrentLocal() == 'AR' ? statisticListData[pos].arName : statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
                         }),
                       ),
-                      ChartWidget(chartData: state.statisticDetails.chartData)
+                      ChartWidget(precent: state.data.charts.isEmpty ?[] : state.data.charts[0].finalApiData.percent , chartData: state.data.charts.isEmpty ? [] : state.data.charts[0].chartData)
                     ],
                   ))
                 ],

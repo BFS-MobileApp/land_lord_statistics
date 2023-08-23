@@ -1,6 +1,7 @@
 import 'package:claimizer/core/error/failures.dart';
 import 'package:claimizer/core/usecase/use_case.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
+import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:claimizer/feature/statisticdetails/domain/usecases/statistic_details_usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,7 @@ class StatisticDetailsCubit extends Cubit<StatisticDetailsState> {
   Future<void> getData(String uniquId) async{
     emit(StatisticsDetailsIsLoading());
     Either<Failures , StatisticDetails> response = await statisticDetailsUseCase(StatisticDetailsParams(uniqueId: uniquId));
-    emit(response.fold((failures) => StatisticsDetailsError(msg: mapFailureToMsg(failures)), (statisticData) => StatisticsDetailsLoaded(statisticDetails: statisticData)));
+    emit(response.fold((failures) => StatisticsDetailsError(msg: mapFailureToMsg(failures)), (res) => StatisticsDetailsLoaded(data: res.data)));
   }
 
 

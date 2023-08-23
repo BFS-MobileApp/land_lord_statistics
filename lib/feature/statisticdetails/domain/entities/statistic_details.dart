@@ -1,11 +1,12 @@
-import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
+
+
+import '../../data/models/statistic_details_model.dart';
 
 class StatisticDetails{
 
-  final List<StatisticColoumn> statisticColoumn;
-  final List<ChartDatum> chartData;
+  final Data data;
 
-  StatisticDetails({required this.statisticColoumn , required this.chartData});
+  StatisticDetails({required this.data});
 
 
 }

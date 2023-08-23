@@ -19,7 +19,7 @@ class StatisticDetailsModel extends StatisticDetails {
   StatisticDetailsModel({
     required this.status,
     required this.data,
-  }) : super(statisticColoumn: data.statisticColoumns, chartData: data.charts.isEmpty ? [] : data.charts[0].chartData);
+  }) : super(data: data);
 
   factory StatisticDetailsModel.fromJson(Map<String, dynamic> json) => StatisticDetailsModel(
     status: json["status"],
@@ -156,17 +156,20 @@ class FinalApiData {
   List<String> labels;
   List<dynamic> values;
   List<String> color;
+  List<double> percent;
 
   FinalApiData({
     required this.labels,
     required this.values,
     required this.color,
+    required this.percent
   });
 
   factory FinalApiData.fromJson(Map<String, dynamic> json) => FinalApiData(
     labels: List<String>.from(json["labels"].map((x) => x)),
     values: List<dynamic>.from(json["values"].map((x) => x)),
     color: List<String>.from(json["color"].map((x) => x)),
+    percent: List<double>.from(json["percent"].map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {

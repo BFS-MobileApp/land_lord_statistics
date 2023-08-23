@@ -22,12 +22,12 @@ class StatisticsDetailsIsLoading extends StatisticDetailsState{}
 
 class StatisticsDetailsLoaded extends StatisticDetailsState{
 
-  final StatisticDetails statisticDetails;
+  final Data data;
 
-  const StatisticsDetailsLoaded({required this.statisticDetails});
+  const StatisticsDetailsLoaded({required this.data});
 
   @override
-  List<Object> get props =>[statisticDetails];
+  List<Object> get props =>[data];
 }
 
 class StatisticsDetailsError extends StatisticDetailsState{
