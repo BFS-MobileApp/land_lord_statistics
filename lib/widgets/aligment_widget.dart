@@ -10,7 +10,7 @@ abstract class AlignmentType{
 
 class AlignmentWidget extends AlignmentType{
   @override
-  Alignment returnAlignment() {
+   Alignment returnAlignment() {
     if(Helper.getCurrentLocal()==AppStrings.arCountryCode){
       return Alignment.topRight;
     } else {

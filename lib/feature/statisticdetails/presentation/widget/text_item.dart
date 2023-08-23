@@ -1,16 +1,17 @@
-import 'package:claimizer/core/utils/helper.dart';
+import 'package:claimizer/widgets/aligment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextItem extends StatelessWidget {
   final String itemName;
   final String itemValue;
-  const TextItem({super.key , required this.itemName , required this.itemValue});
+  AlignmentWidget alignmentWidget = AlignmentWidget();
+  TextItem({super.key , required this.itemName , required this.itemValue});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight : Alignment.topLeft,
+      alignment: alignmentWidget.returnAlignment(),
       margin: EdgeInsets.symmetric(vertical: 1.sp, horizontal: 5.sp),
       child: RichText(
         text: TextSpan(

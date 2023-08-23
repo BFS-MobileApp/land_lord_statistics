@@ -5,6 +5,7 @@ import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
+import 'package:claimizer/widgets/aligment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,6 +30,7 @@ class StatisticWidgetItem extends StatefulWidget {
 class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   final TextStyle fontStyle = TextStyle(fontWeight: FontWeight.w600 , color: AppColors.black , fontSize: 17.sp);
   late Color pickerColor;
+  AlignmentWidget alignmentWidget = AlignmentWidget();
 
   void changeColor(Color color) {
     setState(() => pickerColor = color);
@@ -115,7 +117,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
             widget.buildingName == '' ? const SizedBox() : StatisticItem(itemKey: 'buildingName'.tr , itemValue: widget.buildingName),
             Container(
               margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10)),
-              alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight : Alignment.topLeft,
+              alignment: alignmentWidget.returnAlignment(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

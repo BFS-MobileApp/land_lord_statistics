@@ -2,6 +2,7 @@ import 'package:claimizer/config/PrefHelper/shared_pref_helper.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
+import 'package:claimizer/widgets/aligment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,6 +27,7 @@ class StatisticDetailsItem extends StatefulWidget {
 class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
 
   late Color pickerColor;
+  AlignmentWidget alignmentWidget = AlignmentWidget();
 
   @override
   void initState() {
@@ -116,14 +118,14 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
                 children: [
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(12)),
-                    alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight : Alignment.topLeft,
+                    alignment: alignmentWidget.returnAlignment(),
                     child: Text(widget.itemValue, style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 13.sp),),
                   ),
                   Container(
                     height: ScreenUtil().setHeight(20),
                     width: ScreenUtil().setWidth(20),
                     margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setHeight(20)),
-                    alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight : Alignment.topLeft,
+                    alignment: alignmentWidget.returnAlignment(),
                     child: SvgPicture.string(widget.icon),
                   )
                 ],
