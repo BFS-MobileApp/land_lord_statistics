@@ -4,7 +4,6 @@ import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
-import 'package:claimizer/feature/splash/presentation/cubit/local_cubit.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:claimizer/feature/statistics/presentation/widget/statistic_widget.dart';
@@ -118,11 +117,15 @@ class _StatisticScreenState extends State<StatisticScreen> {
 
   changeLocalization(){
     final currentLocal = Get.locale;
-    print('main'+currentLocal!.countryCode.toString());
+    //print('main'+currentLocal!.countryCode.toString());
     if (currentLocal!.countryCode == 'AR') {
-      BlocProvider.of<LocalCubit>(context).toEnglish();
+      var locale = const Locale('en', 'US');
+      Get.updateLocale(locale);
+      Helper.setDefaultLang(AppStrings.enCountryCode);
     } else {
-      BlocProvider.of<LocalCubit>(context).toArabic();
+      var locale = const Locale('ar', 'AR');
+      Get.updateLocale(locale);
+      Helper.setDefaultLang(AppStrings.arCountryCode);
     }
   }
 

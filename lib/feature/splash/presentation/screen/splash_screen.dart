@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/assets_manager.dart';
+import 'package:claimizer/core/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     startTimer();
+    Helper.getDefaultLanguage();
   }
 
   @override
