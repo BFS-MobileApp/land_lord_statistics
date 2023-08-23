@@ -180,7 +180,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                         shrinkWrap: true,
                         children: List.generate(statisticListData.length, (pos)
                         {
-                          return StatisticDetailsItem(uniqueId: widget.uniqueId , id: statisticListData[pos].id, color: statisticListData[pos].color.toString(),itemName: currentLocal == 'AR' ? statisticListData[pos].arName : statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
+                          return StatisticDetailsItem(statisticListData: statisticListData , pos: pos , uniqueId: widget.uniqueId , id: statisticListData[pos].id, color: statisticListData[pos].color.toString(),itemName: currentLocal == 'AR' ? statisticListData[pos].arName : statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
                         }),
                       ),
                       ChartWidget(chartData: state.statisticDetails.chartData)

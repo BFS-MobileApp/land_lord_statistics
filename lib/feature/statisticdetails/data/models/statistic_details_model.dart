@@ -4,7 +4,9 @@
 
 import 'dart:convert';
 
+import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/feature/statisticdetails/domain/entities/statistic_details.dart';
+import 'package:flutter/material.dart';
 
 StatisticDetailsModel chartModelFromJson(String str) => StatisticDetailsModel.fromJson(json.decode(str));
 
@@ -185,6 +187,7 @@ class StatisticColoumn {
   double sort;
   String iconSvg;
   String value;
+  Color savedColor;
 
   StatisticColoumn({
     required this.id,
@@ -197,6 +200,7 @@ class StatisticColoumn {
     required this.sort,
     required this.iconSvg,
     required this.value,
+    required this.savedColor
   });
 
   factory StatisticColoumn.fromJson(Map<String, dynamic> json) => StatisticColoumn(
@@ -210,6 +214,7 @@ class StatisticColoumn {
     sort: json["sort"]?.toDouble(),
     iconSvg: json["icon_svg"]??'',
     value: json["value"]??'',
+    savedColor: AppColors.returnColorFromServer(json["color"]??'')
   );
 
   Map<String, dynamic> toJson() => {

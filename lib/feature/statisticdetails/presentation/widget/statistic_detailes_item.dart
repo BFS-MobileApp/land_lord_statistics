@@ -1,6 +1,7 @@
 import 'package:claimizer/config/PrefHelper/shared_pref_helper.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/helper.dart';
+import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +13,9 @@ class StatisticDetailsItem extends StatefulWidget {
   final String itemValue;
   final int id;
   final String uniqueId;
-  const StatisticDetailsItem({super.key , required this.itemName , required this.itemValue , required this.color , required this.id , required this.uniqueId});
+  List<StatisticColoumn> statisticListData;
+  int pos;
+  StatisticDetailsItem({super.key , required this.pos , required this.statisticListData , required this.itemName , required this.itemValue , required this.color , required this.id , required this.uniqueId});
 
   @override
   State<StatisticDetailsItem> createState() => _StatisticDetailsItemState();
@@ -21,7 +24,6 @@ class StatisticDetailsItem extends StatefulWidget {
 class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
 
   late Color pickerColor;
-  late Color currentColor;
 
   @override
   void initState() {
@@ -33,7 +35,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
   getItemColor() async{
     SharedPrefsHelper.getItemColor(widget.uniqueId+widget.id.toString()).then((value){
       setState(() {
-        currentColor = value;
+        widget.statisticListData[widget.pos].savedColor = value;
       });
     });
   }
@@ -44,7 +46,6 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
 
   void setInitialColor(){
     pickerColor = AppColors.returnColorFromServer(widget.color);
-    currentColor = AppColors.returnColorFromServer(widget.color);
   }
 
   void showColorPickerDialog(){
@@ -63,8 +64,10 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
             ElevatedButton(
               child: const Text('Got it'),
               onPressed: () {
-                setState(() => currentColor = pickerColor);
-                SharedPrefsHelper.setItemColor(widget.uniqueId+widget.id.toString(), currentColor.value);
+                setState((){
+                  widget.statisticListData[widget.pos].savedColor = pickerColor;
+                });
+                SharedPrefsHelper.setItemColor(widget.uniqueId+widget.id.toString(), widget.statisticListData[widget.pos].savedColor.value);
                 Navigator.of(context).pop();
               },
             ),
@@ -81,7 +84,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
       return Center(
         child: Container(
           decoration: BoxDecoration(
-            color: currentColor,
+            color: widget.statisticListData[widget.pos].savedColor,
             borderRadius:const  BorderRadius.all(
                 Radius.circular(15.0) //                 <--- border radius here
             ),
