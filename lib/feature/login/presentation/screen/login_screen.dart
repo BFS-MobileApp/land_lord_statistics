@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/assets_manager.dart';
+import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/login/presentation/cubit/login_cubit.dart';
 import 'package:claimizer/widgets/button_widget.dart';
 import 'package:claimizer/widgets/message_widget.dart';
@@ -38,8 +39,8 @@ class _LoginScreenState extends State<LoginScreen> {
             child: TextWidget(text: 'welcomePhase'.tr,fontSize: 17,fontWeight: FontWeight.w500,fontColor: AppColors.grey,)
         ),
         Container(
-            alignment: Alignment.topLeft,
-            margin: EdgeInsets.only(top: ScreenUtil().setHeight(10) , left: ScreenUtil().setWidth(10)),
+            alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight: Alignment.topLeft,
+            margin: EdgeInsets.only(top: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10)),
             child: TextWidget(text: 'email'.tr,fontSize: 17,)
         ),
         Container(
@@ -47,8 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
           child: TextFieldWidget(height: 8, width: MediaQuery.of(context).size.width, controller: emailController, isPasswordTextField: false, keyboardType: TextInputType.emailAddress),
         ),
         Container(
-            alignment: Alignment.topLeft,
-            margin: EdgeInsets.only(top: ScreenUtil().setHeight(20) , left: ScreenUtil().setWidth(10)),
+            alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight: Alignment.topLeft,
+            margin: EdgeInsets.only(top: ScreenUtil().setHeight(20) , left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10)),
             child: TextWidget(text: 'password'.tr,fontSize: 17,)
         ),
         Container(
@@ -56,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: TextFieldWidget(height: 8, width: MediaQuery.of(context).size.width, controller: passwordController, isPasswordTextField: true, keyboardType: TextInputType.emailAddress),
         ),
         Container(
-          alignment: Alignment.topRight,
+          alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topLeft: Alignment.topRight,
           margin: EdgeInsets.symmetric(horizontal: 10.sp , vertical: 10.sp),
           child:  InkWell(
             onTap: (){},

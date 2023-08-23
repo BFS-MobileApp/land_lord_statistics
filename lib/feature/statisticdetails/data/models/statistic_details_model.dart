@@ -186,8 +186,10 @@ class StatisticColoumn {
   String color;
   double sort;
   String iconSvg;
-  String value;
   Color savedColor;
+  String value;
+  dynamic userColor;
+  dynamic userSort;
 
   StatisticColoumn({
     required this.id,
@@ -200,7 +202,9 @@ class StatisticColoumn {
     required this.sort,
     required this.iconSvg,
     required this.value,
-    required this.savedColor
+    required this.savedColor,
+    required this.userColor,
+    required this.userSort,
   });
 
   factory StatisticColoumn.fromJson(Map<String, dynamic> json) => StatisticColoumn(
@@ -214,7 +218,9 @@ class StatisticColoumn {
     sort: json["sort"]?.toDouble(),
     iconSvg: json["icon_svg"]??'',
     value: json["value"]??'',
-    savedColor: AppColors.returnColorFromServer(json["color"]??'')
+    savedColor: AppColors.returnColorFromServer(json["color"]??''),
+    userColor: json['user_color'],
+    userSort: json['user_sort']
   );
 
   Map<String, dynamic> toJson() => {

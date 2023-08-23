@@ -5,6 +5,7 @@ import 'package:claimizer/feature/statisticdetails/data/models/statistic_details
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class StatisticDetailsItem extends StatefulWidget {
 
@@ -13,9 +14,10 @@ class StatisticDetailsItem extends StatefulWidget {
   final String itemValue;
   final int id;
   final String uniqueId;
+  final String icon;
   List<StatisticColoumn> statisticListData;
   int pos;
-  StatisticDetailsItem({super.key , required this.pos , required this.statisticListData , required this.itemName , required this.itemValue , required this.color , required this.id , required this.uniqueId});
+  StatisticDetailsItem({super.key , required this.icon , required this.pos , required this.statisticListData , required this.itemName , required this.itemValue , required this.color , required this.id , required this.uniqueId});
 
   @override
   State<StatisticDetailsItem> createState() => _StatisticDetailsItemState();
@@ -109,10 +111,22 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
                   ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setHeight(10)),
-                alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight : Alignment.topLeft,
-                child: Text(widget.itemValue, style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 13.sp),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(12)),
+                    alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight : Alignment.topLeft,
+                    child: Text(widget.itemValue, style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 13.sp),),
+                  ),
+                  Container(
+                    height: ScreenUtil().setHeight(20),
+                    width: ScreenUtil().setWidth(20),
+                    margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setHeight(20)),
+                    alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight : Alignment.topLeft,
+                    child: SvgPicture.string(widget.icon),
+                  )
+                ],
               )
             ],
           ),
