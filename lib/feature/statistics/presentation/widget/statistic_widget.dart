@@ -1,20 +1,26 @@
+import 'dart:io';
+
 import 'package:claimizer/config/PrefHelper/shared_pref_helper.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
+import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'statistic_item.dart';
 
+// ignore: must_be_immutable
 class StatisticWidgetItem extends StatefulWidget {
   final String buildingName;
   final String companyName;
   final String date;
   final int id;
-  final Color color;
-  const StatisticWidgetItem({super.key, required this.companyName, required this.date , required this.buildingName , required this.id , required this.color});
+  List<StatisticSummary> statisticList = [];
+  Color color;
+  int pos;
+  StatisticWidgetItem({super.key, required this.pos  , required this.statisticList , required this.companyName, required this.date , required this.buildingName , required this.id , required this.color});
 
   @override
   State<StatisticWidgetItem> createState() => _StatisticWidgetItemState();
@@ -23,7 +29,6 @@ class StatisticWidgetItem extends StatefulWidget {
 class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   final TextStyle fontStyle = TextStyle(fontWeight: FontWeight.w600 , color: AppColors.black , fontSize: 17.sp);
   late Color pickerColor;
-  late Color currentColor;
 
   void changeColor(Color color) {
     setState(() => pickerColor = color);
@@ -37,7 +42,6 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   }
 
   setInitialColor(){
-    currentColor = widget.color;
     pickerColor = widget.color;
   }
 
@@ -45,7 +49,8 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
     SharedPrefsHelper.getItemColor(AppStrings.companyScreen+widget.id.toString()).then((value){
       setState(() {
         if(value != const Color(0xFF44A4F2)){
-          currentColor = value;
+          widget.statisticList[widget.pos].color = value;
+          widget.color = value;
         }
       });
     });
@@ -67,8 +72,11 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
             ElevatedButton(
               child: const Text('Got it'),
               onPressed: () {
-                setState(() => currentColor = pickerColor);
-                SharedPrefsHelper.setItemColor(AppStrings.companyScreen+widget.id.toString(), currentColor.value);
+                setState((){
+                  widget.statisticList[widget.pos].color = pickerColor;
+                  widget.color = pickerColor;
+                });
+                SharedPrefsHelper.setItemColor(AppStrings.companyScreen+widget.id.toString(), widget.color.value);
                 Navigator.of(context).pop();
               },
             ),
@@ -84,7 +92,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
       child: Container(
         margin:const EdgeInsets.symmetric(vertical: 10 , horizontal: 5),
         decoration: BoxDecoration(
-          color: currentColor,
+          color: widget.color,
           borderRadius:const  BorderRadius.all(Radius.circular(15.0)),
         ),
         height: widget.buildingName == '' ? ScreenUtil().setHeight(70) : ScreenUtil().setHeight(100),
@@ -117,7 +125,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                     width: ScreenUtil().setWidth(30),
                     height: ScreenUtil().setHeight(30),
                     decoration:  BoxDecoration(
-                        color: currentColor,
+                        color: widget.color,
                         shape: BoxShape.circle,
                   ),
                     child:  widget.buildingName == '' ? Center(child: Text(Helper.returnFirstChars(widget.companyName) , style: fontStyle,),) : Center(child: Text(Helper.returnFirstChars(widget.buildingName) , style: fontStyle)),)

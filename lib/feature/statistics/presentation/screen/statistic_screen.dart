@@ -93,7 +93,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                           statisticList = statisticListData;
                         });
                       },
-                      child: StatisticWidgetItem(color:  AppColors.colors[Helper.index(7)] , id: statisticList[pos].statisticsId , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+                      child: StatisticWidgetItem(pos: pos , statisticList: statisticList , color:  statisticList[pos].color , id: statisticList[pos].statisticsId , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
                     );
                   })
                 ],
@@ -158,10 +158,8 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     hintStyle: searchTextStyle,
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.only(top: ScreenUtil().setHeight(30))
-
                 ),
               ))),
-
             ) :
           AppBar(
               title: Text('companies'.tr),

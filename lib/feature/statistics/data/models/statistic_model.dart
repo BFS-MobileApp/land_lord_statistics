@@ -4,7 +4,10 @@
 
 import 'dart:convert';
 
+import 'package:claimizer/core/utils/app_colors.dart';
+import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/statistics/domain/entites/statistic.dart';
+import 'package:flutter/material.dart';
 
 StatisticModel statisticModelFromJson(String str) => StatisticModel.fromJson(json.decode(str));
 
@@ -91,6 +94,7 @@ class StatisticSummary {
   String? next30DaysServiceContracts;
   dynamic bfsDate;
   String uniqueValue;
+  Color color;
 
   StatisticSummary({
     required this.statisticsId,
@@ -133,6 +137,7 @@ class StatisticSummary {
     this.next30DaysServiceContracts,
     this.bfsDate,
     required this.uniqueValue,
+    required this.color
   });
 
   factory StatisticSummary.fromJson(Map<String, dynamic> json) => StatisticSummary(
@@ -176,6 +181,7 @@ class StatisticSummary {
     next30DaysServiceContracts: json["Next_30Days_ServiceContracts"],
     bfsDate: json["bfs_date"],
     uniqueValue: json["unique_value"],
+    color: AppColors.colors[Helper.index(7)]
   );
 
   Map<String, dynamic> toJson() => {
