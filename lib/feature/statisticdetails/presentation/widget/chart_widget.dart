@@ -7,21 +7,29 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 class ChartWidget extends StatelessWidget {
 
   final List<ChartDatum> chartData;
-  final List<double> precent;
+  final List<dynamic> precent;
+  final List<String> chartsColors;
   List<int> roundedPercentages = [];
-  ChartWidget({super.key , required this.precent , required this.chartData});
+  ChartWidget({super.key , required this.precent , required this.chartData , required this.chartsColors});
 
   List<Color> returnChartColors(){
     List<Color> colors = [];
-    for(int i=0;i<chartData.length;i++){
-      colors.add(AppColors.returnColorFromServer(chartData[i].color));
+    for(int i=0;i<chartsColors.length;i++){
+      colors.add(AppColors.returnColorFromServer(chartsColors[i]));
     }
     return colors;
   }
 
   @override
   Widget build(BuildContext context) {
-    roundedPercentages = precent.map((value) => value.round()).toList();
+    roundedPercentages = precent.map((value) {
+      if (value is int) {
+        return value;
+      } else if (value is double) {
+        return value.round();
+      }
+      return null;
+    }).whereType<int>().toList();
     return chartData.isEmpty ? const SizedBox() : Center(
       child: SfCircularChart(
           palette: returnChartColors(),

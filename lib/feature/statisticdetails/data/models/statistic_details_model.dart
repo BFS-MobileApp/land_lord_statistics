@@ -156,7 +156,7 @@ class FinalApiData {
   List<String> labels;
   List<dynamic> values;
   List<String> color;
-  List<double> percent;
+  List<dynamic> percent;
 
   FinalApiData({
     required this.labels,
@@ -169,7 +169,7 @@ class FinalApiData {
     labels: List<String>.from(json["labels"].map((x) => x)),
     values: List<dynamic>.from(json["values"].map((x) => x)),
     color: List<String>.from(json["color"].map((x) => x)),
-    percent: List<double>.from(json["percent"].map((x) => x)),
+    percent: List<dynamic>.from(json["percent"].map((x) => x)),
   );
 
   Map<String, dynamic> toJson() => {

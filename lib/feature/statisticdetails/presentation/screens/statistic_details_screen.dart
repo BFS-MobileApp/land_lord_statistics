@@ -173,7 +173,9 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                           return StatisticDetailsItem(icon: statisticListData[pos].iconSvg , statisticListData: statisticListData , pos: pos , uniqueId: widget.uniqueId , id: statisticListData[pos].id, color: statisticListData[pos].color.toString(),itemName: Helper.getCurrentLocal() == 'AR' ? statisticListData[pos].arName : statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
                         }),
                       ),
-                      ChartWidget(precent: state.data.charts.isEmpty ?[] : state.data.charts[0].finalApiData.percent , chartData: state.data.charts.isEmpty ? [] : state.data.charts[0].chartData)
+                      state.data.charts.isEmpty? const SizedBox() :  ListView.builder(shrinkWrap: true, physics: const ClampingScrollPhysics(),itemCount:state.data.charts.length  , itemBuilder: (ctx , pos){
+                        return ChartWidget(chartsColors: state.data.charts[pos].finalApiData.color , precent: state.data.charts[pos].finalApiData.percent , chartData: state.data.charts[pos].chartData);
+                      })
                     ],
                   ))
                 ],
