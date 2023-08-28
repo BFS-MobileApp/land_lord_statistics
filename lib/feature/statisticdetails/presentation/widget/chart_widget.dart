@@ -1,4 +1,6 @@
-import 'package:claimizer/core/utils/app_colors.dart';
+// ignore_for_file: must_be_immutable
+
+import 'package:claimizer/core/utils/hex_color.dart';
 import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +17,7 @@ class ChartWidget extends StatelessWidget {
   List<Color> returnChartColors(){
     List<Color> colors = [];
     for(int i=0;i<chartsColors.length;i++){
-      colors.add(AppColors.returnColorFromServer(chartsColors[i]));
+      colors.add(HexColor(chartsColors[i]));
     }
     return colors;
   }

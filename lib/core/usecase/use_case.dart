@@ -7,6 +7,7 @@ abstract class UseCase<Type, Params> {
   Future<Either<Failures , Type>> call(Params params);
 }
 
+
 class NoParams extends Equatable{
 
   @override
@@ -26,13 +27,21 @@ class LoginParams extends Equatable{
 class StatisticDetailsParams extends Equatable{
 
   final String uniqueId;
-
   const StatisticDetailsParams({required this.uniqueId});
-
 
   @override
   // TODO: implement props
   List<Object?> get props => [uniqueId];
+}
 
+class StatisticCompanySettings extends Equatable{
+  final String uniqueId;
+  final int sort;
+  final String color;
 
+  const StatisticCompanySettings({required this.uniqueId,required this.sort,required this.color});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [uniqueId , sort , color];
 }

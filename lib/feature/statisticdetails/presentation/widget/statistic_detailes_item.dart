@@ -1,6 +1,8 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:claimizer/config/PrefHelper/shared_pref_helper.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
-import 'package:claimizer/core/utils/helper.dart';
+import 'package:claimizer/core/utils/hex_color.dart';
 import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:claimizer/widgets/aligment_widget.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +51,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
   }
 
   void setInitialColor(){
-    pickerColor = AppColors.returnColorFromServer(widget.color);
+    pickerColor = HexColor(widget.color);
   }
 
   void showColorPickerDialog(){

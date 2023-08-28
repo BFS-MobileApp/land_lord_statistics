@@ -16,6 +16,7 @@ import 'package:claimizer/feature/statistics/data/datasources/statistics_remote_
 import 'package:claimizer/feature/statistics/data/repositories/statistics_repository_impl.dart';
 import 'package:claimizer/feature/statistics/domain/repositories/statistics_repository.dart';
 import 'package:claimizer/feature/statistics/domain/usecases/statistic_use_case.dart';
+import 'package:claimizer/feature/statistics/domain/usecases/user_settings_use_case.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -31,13 +32,14 @@ Future<void> init() async{
 
   //Blocs
   sl.registerFactory(() => LoginCubit(loginUseCase: sl()));
-  sl.registerFactory(() => StatisticCubit(statisticUseCase: sl()));
+  sl.registerFactory(() => StatisticCubit( statisticCompanySettings: sl() , statisticUseCase: sl()));
   sl.registerFactory(() => StatisticDetailsCubit(statisticDetailsUseCase: sl()));
 
   //UseCase
   sl.registerLazySingleton(() => LoginUseCase(loginRepository: sl()));
   sl.registerLazySingleton(() => StatisticUseCase(statisticsRepository: sl()));
   sl.registerLazySingleton(() => StatisticDetailsUseCase(statisticDetailsRepository: sl()));
+  sl.registerLazySingleton(() => UserSettingsUseCase(statisticsRepository: sl()));
 
   //Repository
   sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(loginRemoteDataSource: sl() , networkInfo: sl()));

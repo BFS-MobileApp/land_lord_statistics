@@ -32,8 +32,8 @@ class AppColors{
     const Color(0xFFFF0000).withOpacity(0.35),
     const Color(0xFF679C0D).withOpacity(0.35)];
 
-  static Color returnColorFromServer(String returnedColor){
+  /*static Color returnColorFromServer(String returnedColor){
     String hexColor = '0xFF${returnedColor.substring(1)}';
     return Color(int.parse(hexColor));
-  }
+  }*/
 }

@@ -3,8 +3,7 @@
 //     final chartModel = chartModelFromJson(jsonString);
 
 import 'dart:convert';
-
-import 'package:claimizer/core/utils/app_colors.dart';
+import 'package:claimizer/core/utils/hex_color.dart';
 import 'package:claimizer/feature/statisticdetails/domain/entities/statistic_details.dart';
 import 'package:flutter/material.dart';
 
@@ -221,7 +220,7 @@ class StatisticColoumn {
     sort: json["sort"]?.toDouble(),
     iconSvg: json["icon_svg"]??'',
     value: json["value"]??'',
-    savedColor: AppColors.returnColorFromServer(json["color"]??''),
+    savedColor: HexColor(json["color"]??''),
     userColor: json['user_color'],
     userSort: json['user_sort']
   );
