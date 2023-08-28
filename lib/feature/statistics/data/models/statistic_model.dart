@@ -94,7 +94,8 @@ class StatisticSummary {
   String? next30DaysServiceContracts;
   dynamic bfsDate;
   String uniqueValue;
-  Color color;
+  dynamic colorValue;
+  dynamic sortValue;
 
   StatisticSummary({
     required this.statisticsId,
@@ -137,7 +138,8 @@ class StatisticSummary {
     this.next30DaysServiceContracts,
     this.bfsDate,
     required this.uniqueValue,
-    required this.color
+    required this.colorValue,
+    required this.sortValue,
   });
 
   factory StatisticSummary.fromJson(Map<String, dynamic> json) => StatisticSummary(
@@ -181,7 +183,8 @@ class StatisticSummary {
     next30DaysServiceContracts: json["Next_30Days_ServiceContracts"],
     bfsDate: json["bfs_date"],
     uniqueValue: json["unique_value"],
-    color: AppColors.colors[Helper.index(7)]
+    colorValue: json['color_value'],
+    sortValue: json['sort_value']
   );
 
   Map<String, dynamic> toJson() => {
@@ -225,6 +228,8 @@ class StatisticSummary {
     "Next_30Days_ServiceContracts": next30DaysServiceContracts,
     "bfs_date": bfsDate,
     "unique_value": uniqueValue,
+    "sort_value":sortValue,
+    "color_value":colorValue
   };
 }
 

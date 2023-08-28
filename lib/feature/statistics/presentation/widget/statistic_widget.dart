@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:claimizer/config/PrefHelper/shared_pref_helper.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
@@ -51,7 +49,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
     SharedPrefsHelper.getItemColor(AppStrings.companyScreen+widget.id.toString()).then((value){
       setState(() {
         if(value != const Color(0xFF44A4F2)){
-          widget.statisticList[widget.pos].color = value;
+          widget.statisticList[widget.pos].colorValue = value;
           widget.color = value;
         }
       });
@@ -75,7 +73,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
               child: const Text('Got it'),
               onPressed: () {
                 setState((){
-                  widget.statisticList[widget.pos].color = pickerColor;
+                  widget.statisticList[widget.pos].colorValue = pickerColor;
                   widget.color = pickerColor;
                 });
                 SharedPrefsHelper.setItemColor(AppStrings.companyScreen+widget.id.toString(), widget.color.value);

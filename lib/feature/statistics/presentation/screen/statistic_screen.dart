@@ -82,35 +82,17 @@ class _StatisticScreenState extends State<StatisticScreen> {
               statisticListData = state.statistic.statisticData;
               isInitialized = true;
             }
-            return ListView(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: ReorderableListView.builder(
-                    onReorder: (oldIndex, newIndex) {
-                      setState(() {
-                        if (newIndex > oldIndex) {
-                          newIndex -= 1;
-                        }
-                        final element = statisticList.removeAt(oldIndex);
-                        statisticList.insert(newIndex, element);
-                        BlocProvider.of<StatisticCubit>(context).setSettings('#FF0000', 3, 'BFS-1-C');
-                      });
-                    }, itemBuilder: (BuildContext context, int pos) {
-                    return InkWell(
-                      key: ValueKey(statisticList[pos]),
-                      onTap: (){
-                        Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
-                        setState(() {
-                          statisticList = statisticListData;
-                        });
-                      },
-                      child: StatisticWidgetItem(pos: pos , statisticList: statisticList , color:  statisticList[pos].color , id: statisticList[pos].statisticsId , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
-                    );
-                  }, itemCount: statisticList.length,),
-                )
-              ],
-            );
+            return ListView.builder(physics:const NeverScrollableScrollPhysics() , shrinkWrap: true ,  itemCount:statisticList.length , itemBuilder: (ctx , pos){
+              return InkWell(
+                onTap: (){
+                  Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
+                  setState(() {
+                    statisticList = statisticListData;
+                  });
+                },
+                child: StatisticWidgetItem(pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , id: statisticList[pos].statisticsId , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+              );
+            });
           } else {
             return const Center(
               child: CircularProgressIndicator(),
