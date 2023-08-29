@@ -1,6 +1,7 @@
 import 'package:claimizer/core/error/failures.dart';
 import 'package:claimizer/core/usecase/use_case.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
+import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/domain/entites/statistic.dart';
 import 'package:claimizer/feature/statistics/domain/usecases/statistic_use_case.dart';
 import 'package:claimizer/feature/statistics/domain/usecases/user_settings_use_case.dart';
@@ -24,7 +25,12 @@ class StatisticCubit extends Cubit<StatisticState> {
 
   Future<void> setSettings(String color , int sort , String uniqueId) async{
     await statisticCompanySettings(StatisticCompanySettings(color: color ,  sort: sort , uniqueId: uniqueId));
+  }
 
+  Future<void> refreshList(List<StatisticSummary> statisticList) async{
+    print('here2');
+    emit(StatisticInitial());
+    emit(StatisticsRefresh(statisticList: statisticList));
   }
 
 

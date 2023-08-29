@@ -2,10 +2,9 @@
 //
 //     final statisticModel = statisticModelFromJson(jsonString);
 
-import 'dart:convert';
+// ignore_for_file: must_be_immutable
 
-import 'package:claimizer/core/utils/app_colors.dart';
-import 'package:claimizer/core/utils/helper.dart';
+import 'dart:convert';
 import 'package:claimizer/feature/statistics/domain/entites/statistic.dart';
 import 'package:flutter/material.dart';
 
@@ -183,8 +182,8 @@ class StatisticSummary {
     next30DaysServiceContracts: json["Next_30Days_ServiceContracts"],
     bfsDate: json["bfs_date"],
     uniqueValue: json["unique_value"],
-    colorValue: json['color_value'],
-    sortValue: json['sort_value']
+    colorValue: json['color_value']?? const Color(0x00ffffff),
+    sortValue: json['sort_value'],
   );
 
   Map<String, dynamic> toJson() => {

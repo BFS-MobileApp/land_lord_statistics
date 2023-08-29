@@ -32,3 +32,13 @@ class StatisticsError extends StatisticState{
   @override
   List<Object> get props =>[msg];
 }
+
+// ignore: must_be_immutable
+class StatisticsRefresh extends StatisticState{
+
+  List<StatisticSummary> statisticList = [];
+  StatisticsRefresh({required this.statisticList});
+
+  @override
+  List<Object> get props =>[statisticList];
+}
