@@ -17,11 +17,12 @@ class StatisticWidgetItem extends StatefulWidget {
   final String buildingName;
   final String companyName;
   final String date;
-  final int id;
+  final String uniqueId;
   List<StatisticSummary> statisticList = [];
   Color color;
   int pos;
-  StatisticWidgetItem({super.key, required this.pos , required this.statisticList , required this.companyName, required this.date , required this.buildingName , required this.id , required this.color});
+  int sort;
+  StatisticWidgetItem({super.key, required this.sort , required this.pos , required this.statisticList , required this.companyName, required this.date , required this.buildingName , required this.uniqueId , required this.color});
 
   @override
   State<StatisticWidgetItem> createState() => _StatisticWidgetItemState();
@@ -32,13 +33,13 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   late Color pickerColor;
   AlignmentWidget alignmentWidget = AlignmentWidget();
   bool showSettingsMenu = false, isColorChanged = false;
-  int pos = -1;
+  int pos = -2;
+  var hex;
 
 
   void toggleSettingsMenu() {
     setState(() {
       showSettingsMenu = !showSettingsMenu;
-      print(showSettingsMenu);
     });
   }
 
@@ -53,12 +54,9 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   }
 
   setInitialColor(){
-    if(widget.color == const Color(0x00ffffff)){
-      setState(() {
-        widget.color = AppColors.colors[Helper.index(7)];
-        pickerColor = widget.color;
-      });
-    }
+    setState(() {
+      pickerColor = widget.color;
+    });
   }
 
   @override
@@ -86,9 +84,9 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                 setState((){
                   widget.statisticList[widget.pos].colorValue = pickerColor;
                   widget.color = pickerColor;
+                  hex = '#${pickerColor.value.toRadixString(16)}';
                   isColorChanged = true;
                 });
-                SharedPrefsHelper.setItemColor(AppStrings.companyScreen+widget.id.toString(), widget.color.value);
                 Navigator.of(context).pop();
                 refreshList();
               },
@@ -101,13 +99,23 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
 
   refreshList(){
     BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
-    if(isColorChanged == false && pos != -1){
-      BlocProvider.of<StatisticCubit>(context).setSettings(widget.statisticList[widget.pos].colorValue.toString(), pos , widget.statisticList[widget.pos].uniqueValue);
-    } else if(isColorChanged == true && pos != -1){
-      BlocProvider.of<StatisticCubit>(context).setSettings(widget.color.value.toString(), pos , widget.statisticList[widget.pos].uniqueValue);
-    } else if(isColorChanged == true && pos == -1){
-      BlocProvider.of<StatisticCubit>(context).setSettings(widget.color.value.toString(), pos , widget.statisticList[widget.pos].uniqueValue);
+    if(isColorChanged == false && pos != -2){
+      print(widget.statisticList[widget.pos].colorValue.toString());
+      BlocProvider.of<StatisticCubit>(context).setSettings('', pos+1 , widget.uniqueId);
+    } else if(isColorChanged == true && pos != -2){
+      BlocProvider.of<StatisticCubit>(context).setSettings(hex, pos+1 , widget.uniqueId);
+    } else if(isColorChanged == true && pos == -2){
+      BlocProvider.of<StatisticCubit>(context).setSettings(hex, widget.sort , widget.uniqueId);
     }
+  }
+
+  Color intColorToColor(int intColor) {
+    return Color(intColor);
+  }
+
+  String colorToHex(Color color) {
+    String hexColor = '#${color.value.toRadixString(16).toUpperCase()}';
+    return hexColor.padLeft(9, '0');
   }
 
   moveUp(){
@@ -127,18 +135,16 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
     setState(() {
       final item = widget.statisticList.removeAt(widget.pos);
       widget.statisticList.insert(0, item);
-      pos = widget.pos;
+      pos = 0;
     });
     refreshList();
   }
 
   moveDown(){
     toggleSettingsMenu();
-    print('here');
     if (widget.pos < widget.statisticList.length - 1) {
       setState(() {
         final item = widget.statisticList.removeAt(widget.pos);
-        print(item.companyName);
         widget.statisticList.insert(widget.pos + 1, item);
         pos = widget.pos;
       });
@@ -151,7 +157,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
     setState(() {
       final item = widget.statisticList.removeAt(widget.pos);
       widget.statisticList.add(item);
-      pos = widget.pos;
+      pos = widget.statisticList.length-1;
     });
     refreshList();
   }

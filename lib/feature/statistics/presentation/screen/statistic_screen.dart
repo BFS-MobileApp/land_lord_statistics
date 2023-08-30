@@ -30,6 +30,8 @@ class _StatisticScreenState extends State<StatisticScreen> {
   FocusNode focusNode = FocusNode();
   bool isInitialized = false , isSearching = false;
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
+  List<StatisticSummary> zeroSortItems = [];
+  List<StatisticSummary> nonZeroSortItems = [];
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
 
@@ -39,6 +41,22 @@ class _StatisticScreenState extends State<StatisticScreen> {
     getData();
   }
 
+  List<StatisticSummary> sortItemList(){
+    List<StatisticSummary> sortedItemList = [];
+    for (var item in statisticListData) {
+      if (item.sortValue == 0) {
+        zeroSortItems.add(item);
+      } else {
+        nonZeroSortItems.add(item);
+      }
+    }
+    sortedItemList.addAll(zeroSortItems);
+    for (var nonZeroItem in nonZeroSortItems) {
+      int indexToInsert = nonZeroItem.sortValue;
+      sortedItemList.insert(indexToInsert, nonZeroItem);
+    }
+    return sortedItemList;
+  }
   callLogoutDialog(){
     Future.delayed(const Duration(milliseconds: 500), () {
       AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'logOutPhase'.tr, yesOnTap: (){
@@ -62,6 +80,12 @@ class _StatisticScreenState extends State<StatisticScreen> {
     });
   }
 
+  Color convertColor(String color){
+    String hexColorValue = color.replaceAll(RegExp(r'[^0-9a-fA-F]'), '');
+    Color returnedColor = Color(int.parse(hexColorValue, radix: 16));
+    return returnedColor;
+
+  }
   deleteUserData() async{
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove(AppStrings.token);
@@ -82,6 +106,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
               statisticList = state.statistic.statisticData;
               statisticListData = state.statistic.statisticData;
               isInitialized = true;
+              statisticList =  sortItemList();
             }
             return ListView.builder(physics:const AlwaysScrollableScrollPhysics() , shrinkWrap: true ,  itemCount:statisticList.length , itemBuilder: (ctx , pos){
               return InkWell(
@@ -91,7 +116,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     statisticList = statisticListData;
                   });
                 },
-                child: StatisticWidgetItem(pos: pos , statisticList: statisticList , color:  HexColor(statisticList[pos].colorValue) , id: statisticList[pos].statisticsId , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+                child: StatisticWidgetItem(sort: statisticList[pos].sortValue, pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
               );
             });
           } else if(state is StatisticsRefresh){
@@ -103,7 +128,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     statisticList = statisticListData;
                   });
                 },
-                child: StatisticWidgetItem(pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , id: state.statisticList[pos].statisticsId , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+                child: StatisticWidgetItem(sort: state.statisticList[pos].sortValue,pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , uniqueId: state.statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(state.statisticList[pos].statisticsDate.toString()),),
               );
             });
           } else {

@@ -18,10 +18,11 @@ class StatisticsRemoteDataSourceImpl extends StatisticsRemoteDataSource {
 
   @override
   Future<void> setUserSettings(String color , int sort , String uniqueId)  async{
+
     final body = {
       AppStrings.companyStatisticDetails:{
         uniqueId:{
-          AppStrings.color:color,
+          AppStrings.color:color == '' ? null : color,
           AppStrings.sort:sort.toString()
         },
       }
