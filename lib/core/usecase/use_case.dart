@@ -45,3 +45,14 @@ class StatisticCompanySettings extends Equatable{
   // TODO: implement props
   List<Object?> get props => [uniqueId , sort , color];
 }
+
+class StatisticColumnSettings extends Equatable{
+  final String uniqueId;
+  final String color;
+
+  const StatisticColumnSettings({required this.uniqueId, required this.color});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [uniqueId , color];
+}

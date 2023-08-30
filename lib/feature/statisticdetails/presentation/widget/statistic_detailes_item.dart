@@ -1,11 +1,12 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:claimizer/config/PrefHelper/shared_pref_helper.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/hex_color.dart';
 import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
+import 'package:claimizer/feature/statisticdetails/presentation/cubit/statistic_details_cubit.dart';
 import 'package:claimizer/widgets/aligment_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,9 +19,13 @@ class StatisticDetailsItem extends StatefulWidget {
   final int id;
   final String uniqueId;
   final String icon;
+  final String userColor;
+  final String columnName;
   List<StatisticColoumn> statisticListData;
+
+
   int pos;
-  StatisticDetailsItem({super.key , required this.icon , required this.pos , required this.statisticListData , required this.itemName , required this.itemValue , required this.color , required this.id , required this.uniqueId});
+  StatisticDetailsItem({super.key , required this.columnName , required this.userColor , required this.icon , required this.pos , required this.statisticListData , required this.itemName , required this.itemValue , required this.color , required this.id , required this.uniqueId});
 
   @override
   State<StatisticDetailsItem> createState() => _StatisticDetailsItemState();
@@ -30,20 +35,12 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
 
   late Color pickerColor;
   AlignmentWidget alignmentWidget = AlignmentWidget();
+  var hex;
 
   @override
   void initState() {
     super.initState();
     setInitialColor();
-    getItemColor();
-  }
-
-  getItemColor() async{
-    SharedPrefsHelper.getItemColor(widget.uniqueId+widget.id.toString()).then((value){
-      setState(() {
-        widget.statisticListData[widget.pos].savedColor = value;
-      });
-    });
   }
 
   void changeColor(Color color) {
@@ -51,7 +48,14 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
   }
 
   void setInitialColor(){
-    pickerColor = HexColor(widget.color);
+    setState(() {
+      if(widget.userColor == ''){
+        pickerColor = HexColor(widget.color);
+      } else {
+        print('untial'+widget.userColor);
+        pickerColor = HexColor(widget.userColor);
+      }
+    });
   }
 
   void showColorPickerDialog(){
@@ -71,9 +75,11 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
               child: const Text('Got it'),
               onPressed: () {
                 setState((){
-                  widget.statisticListData[widget.pos].savedColor = pickerColor;
+                  //widget.statisticListData[widget.pos].savedColor = pickerColor;
+                  hex = '#${pickerColor.value.toRadixString(16)}';
+                  print('changed'+hex);
                 });
-                SharedPrefsHelper.setItemColor(widget.uniqueId+widget.id.toString(), widget.statisticListData[widget.pos].savedColor.value);
+                BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex,  widget.columnName);
                 Navigator.of(context).pop();
               },
             ),
@@ -90,7 +96,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
       return Center(
         child: Container(
           decoration: BoxDecoration(
-            color: widget.statisticListData[widget.pos].savedColor,
+            color: pickerColor,
             borderRadius:const  BorderRadius.all(
                 Radius.circular(15.0) //                 <--- border radius here
             ),

@@ -10,6 +10,7 @@ import 'package:claimizer/feature/login/presentation/cubit/login_cubit.dart';
 import 'package:claimizer/feature/statisticdetails/data/datasources/statistic_details_remote_data_source.dart';
 import 'package:claimizer/feature/statisticdetails/data/datasources/statistic_details_remote_data_source_impl.dart';
 import 'package:claimizer/feature/statisticdetails/domain/usecases/statistic_details_usecase.dart';
+import 'package:claimizer/feature/statisticdetails/domain/usecases/user_column_settings_use_case.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/cubit/statistic_details_cubit.dart';
 import 'package:claimizer/feature/statistics/data/datasources/statistics_remote_data_source.dart';
 import 'package:claimizer/feature/statistics/data/datasources/statistics_remote_data_source_impl.dart';
@@ -33,13 +34,14 @@ Future<void> init() async{
   //Blocs
   sl.registerFactory(() => LoginCubit(loginUseCase: sl()));
   sl.registerFactory(() => StatisticCubit( statisticCompanySettings: sl() , statisticUseCase: sl()));
-  sl.registerFactory(() => StatisticDetailsCubit(statisticDetailsUseCase: sl()));
+  sl.registerFactory(() => StatisticDetailsCubit( userColumnSettingsUseCase: sl(), statisticDetailsUseCase: sl()));
 
   //UseCase
   sl.registerLazySingleton(() => LoginUseCase(loginRepository: sl()));
   sl.registerLazySingleton(() => StatisticUseCase(statisticsRepository: sl()));
   sl.registerLazySingleton(() => StatisticDetailsUseCase(statisticDetailsRepository: sl()));
   sl.registerLazySingleton(() => UserSettingsUseCase(statisticsRepository: sl()));
+  sl.registerLazySingleton(() => UserColumnSettingsUseCase(statisticDetailsRepository: sl()));
 
   //Repository
   sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(loginRemoteDataSource: sl() , networkInfo: sl()));

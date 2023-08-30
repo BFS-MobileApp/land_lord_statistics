@@ -3,4 +3,6 @@ import 'package:claimizer/feature/statisticdetails/data/models/statistic_details
 abstract class StatisticDetailsRemoteDataSource {
 
   Future<StatisticDetailsModel> getStatisticDetails(String uniqueId);
+
+  Future<void> setUserSettings(String color , String uniqueId);
 }

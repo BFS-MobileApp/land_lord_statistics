@@ -157,7 +157,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
     setState(() {
       final item = widget.statisticList.removeAt(widget.pos);
       widget.statisticList.add(item);
-      pos = widget.statisticList.length-1;
+      pos = widget.statisticList.length-2;
     });
     refreshList();
   }

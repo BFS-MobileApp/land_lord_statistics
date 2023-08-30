@@ -170,7 +170,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                         shrinkWrap: true,
                         children: List.generate(statisticListData.length, (pos)
                         {
-                          return StatisticDetailsItem(icon: statisticListData[pos].iconSvg , statisticListData: statisticListData , pos: pos , uniqueId: widget.uniqueId , id: statisticListData[pos].id, color: statisticListData[pos].color.toString(),itemName: Helper.getCurrentLocal() == 'AR' ? statisticListData[pos].arName : statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
+                          return StatisticDetailsItem(columnName: statisticListData[pos].columnName , icon: statisticListData[pos].iconSvg , statisticListData: statisticListData , pos: pos , uniqueId: widget.uniqueId , id: statisticListData[pos].id, userColor: statisticListData[pos].userColor , color: statisticListData[pos].color.toString(),itemName: Helper.getCurrentLocal() == 'AR' ? statisticListData[pos].arName : statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
                         }),
                       ),
                       state.data.charts.isEmpty? const SizedBox() :  ListView.builder(shrinkWrap: true, physics: const ClampingScrollPhysics(),itemCount:state.data.charts.length  , itemBuilder: (ctx , pos){

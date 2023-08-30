@@ -124,9 +124,9 @@ class _StatisticScreenState extends State<StatisticScreen> {
               return InkWell(
                 onTap: (){
                   Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
-                  setState(() {
+                  /*setState(() {
                     statisticList = statisticListData;
-                  });
+                  });*/
                 },
                 child: StatisticWidgetItem(sort: state.statisticList[pos].sortValue,pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , uniqueId: state.statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(state.statisticList[pos].statisticsDate.toString()),),
               );

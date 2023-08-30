@@ -14,6 +14,7 @@ class AppStrings{
   static const String arCountryCode = 'AR';
   static const String local = 'local';
   static const String companyStatisticDetails = 'company_statistic_details';
+  static const String columnStatisticDetails = 'column_statistic_details';
   static const String color = 'color';
   static const String sort = 'sort';
 

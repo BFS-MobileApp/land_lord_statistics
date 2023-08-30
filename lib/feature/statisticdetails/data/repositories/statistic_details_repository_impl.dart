@@ -1,6 +1,7 @@
 import 'package:claimizer/core/error/exceptions.dart';
 import 'package:claimizer/core/error/failures.dart';
 import 'package:claimizer/core/network/network_info.dart';
+import 'package:claimizer/core/usecase/use_case.dart';
 import 'package:claimizer/feature/statisticdetails/data/datasources/statistic_details_remote_data_source.dart';
 import 'package:claimizer/feature/statisticdetails/domain/entities/statistic_details.dart';
 import 'package:claimizer/feature/statisticdetails/domain/repositories/statistic_details_repository.dart';
@@ -25,6 +26,20 @@ class StatisticDetailsRepositoryImpl extends StatisticDetailsRepository {
 			}
 		} else {
 			return Left(CashFailure(msg: 'connectionError'.tr));
+		}
+  }
+
+  @override
+  Future<Either<Failures, NoParams>> setUserCompanySettings(String color, String uniqueId) async{
+		if(await networkInfo.isConnected){
+			try{
+				await statisticDetailsRemoteDataSource.setUserSettings(color, uniqueId);
+				return Right(NoParams());
+			} on ServerException{
+				return Left(ServerFailure(msg: 'error'.tr));
+			}
+		} else {
+			return Left(CashFailure(msg: 'error'.tr));
 		}
   }
 

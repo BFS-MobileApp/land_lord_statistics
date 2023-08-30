@@ -32,7 +32,7 @@ class StatisticsRepositoryImpl extends StatisticsRepository {
   Future<Either<Failures, NoParams>> setUserCompanySettings(String color , int sort , String uniqueId) async{
 		if(await networkInfo.isConnected){
 			try{
-				final response = await statisticsRemoteDataSource.setUserSettings(color, sort, uniqueId);
+				await statisticsRemoteDataSource.setUserSettings(color, sort, uniqueId);
 				return Right(NoParams());
 			} on ServerException{
 				return Left(ServerFailure(msg: 'error'.tr));

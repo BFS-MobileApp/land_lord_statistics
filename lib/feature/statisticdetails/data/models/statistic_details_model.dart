@@ -3,6 +3,8 @@
 //     final chartModel = chartModelFromJson(jsonString);
 
 import 'dart:convert';
+import 'package:claimizer/core/utils/app_colors.dart';
+import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/core/utils/hex_color.dart';
 import 'package:claimizer/feature/statisticdetails/domain/entities/statistic_details.dart';
 import 'package:flutter/material.dart';
@@ -221,7 +223,7 @@ class StatisticColoumn {
     iconSvg: json["icon_svg"]??'',
     value: json["value"]??'',
     savedColor: HexColor(json["color"]??''),
-    userColor: json['user_color'],
+    userColor: json['user_color']??'',
     userSort: json['user_sort']
   );
 
@@ -279,6 +281,8 @@ class Statistics {
   dynamic next15DaysIssuedCheques;
   dynamic next30DaysServiceContracts;
   dynamic bfsDate;
+  dynamic colorValue;
+  dynamic sortValue;
 
   Statistics({
     required this.statisticsId,
