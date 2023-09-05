@@ -3,7 +3,6 @@ import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
-import 'package:claimizer/core/utils/hex_color.dart';
 import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
@@ -32,6 +31,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
   List<StatisticSummary> zeroSortItems = [];
   List<StatisticSummary> nonZeroSortItems = [];
+  List<StatisticSummary> sortedItemList = [];
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
 
@@ -42,7 +42,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
   }
 
   List<StatisticSummary> sortItemList(){
-    List<StatisticSummary> sortedItemList = [];
+
     for (var item in statisticListData) {
       if (item.sortValue == 0) {
         zeroSortItems.add(item);
@@ -53,7 +53,11 @@ class _StatisticScreenState extends State<StatisticScreen> {
     sortedItemList.addAll(zeroSortItems);
     for (var nonZeroItem in nonZeroSortItems) {
       int indexToInsert = nonZeroItem.sortValue;
-      sortedItemList.insert(indexToInsert, nonZeroItem);
+      if (indexToInsert >= sortedItemList.length) {
+        sortedItemList.add(nonZeroItem);
+      } else {
+        sortedItemList.insert(indexToInsert, nonZeroItem);
+      }
     }
     return sortedItemList;
   }
@@ -86,6 +90,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
     return returnedColor;
 
   }
+
   deleteUserData() async{
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove(AppStrings.token);
@@ -112,9 +117,6 @@ class _StatisticScreenState extends State<StatisticScreen> {
               return InkWell(
                 onTap: (){
                   Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
-                  setState(() {
-                    statisticList = statisticListData;
-                  });
                 },
                 child: StatisticWidgetItem(sort: statisticList[pos].sortValue, pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
               );
@@ -142,7 +144,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
   changeSearchingState(){
     setState(() {
       isSearching = false;
-      statisticList = statisticListData;
+      statisticList = sortedItemList;
       searchController.clear();
     });
   }
