@@ -11,6 +11,9 @@ abstract class StatisticDetailsState extends Equatable {
 class StatisticDetailsInitial extends StatisticDetailsState {
 }
 
+class StatisticDetailsInitialLoading extends StatisticDetailsState {
+}
+
 
 class StatisticDetailsInitialState extends StatisticDetailsState {
 
@@ -36,4 +39,14 @@ class StatisticsDetailsError extends StatisticDetailsState{
 
   @override
   List<Object> get props =>[msg];
+}
+
+class StatisticsDetailsRefresh extends StatisticDetailsState{
+
+  List<StatisticColoumn> statisticList = [];
+  final Data data;
+  StatisticsDetailsRefresh({required this.statisticList , required this.data});
+
+  @override
+  List<Object> get props =>[statisticList];
 }

@@ -13,7 +13,6 @@ import 'package:flutter_svg/svg.dart';
 
 class StatisticDetailsItem extends StatefulWidget {
 
-  final String color;
   final String itemName;
   final String itemValue;
   final int id;
@@ -22,10 +21,10 @@ class StatisticDetailsItem extends StatefulWidget {
   final String userColor;
   final String columnName;
   List<StatisticColoumn> statisticListData;
-
-
+  double sort;
   int pos;
-  StatisticDetailsItem({super.key , required this.columnName , required this.userColor , required this.icon , required this.pos , required this.statisticListData , required this.itemName , required this.itemValue , required this.color , required this.id , required this.uniqueId});
+  Data data;
+  StatisticDetailsItem({super.key , required this.data , required this.sort , required this.columnName , required this.userColor , required this.icon , required this.pos , required this.statisticListData , required this.itemName , required this.itemValue , required this.id , required this.uniqueId});
 
   @override
   State<StatisticDetailsItem> createState() => _StatisticDetailsItemState();
@@ -36,6 +35,8 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
   late Color pickerColor;
   AlignmentWidget alignmentWidget = AlignmentWidget();
   var hex;
+  bool showSettingsMenu = false, isColorChanged = false;
+  int pos = -2;
 
   @override
   void initState() {
@@ -47,15 +48,71 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
     setState(() => pickerColor = color);
   }
 
+  void toggleSettingsMenu() {
+    setState(() {
+      showSettingsMenu = !showSettingsMenu;
+    });
+  }
+
   void setInitialColor(){
     setState(() {
-      if(widget.userColor == ''){
-        pickerColor = HexColor(widget.color);
-      } else {
-        print('untial'+widget.userColor);
-        pickerColor = HexColor(widget.userColor);
-      }
+      pickerColor = HexColor(widget.userColor);
     });
+  }
+
+  moveUp(){
+    toggleSettingsMenu();
+    if (widget.pos > 0) {
+      setState(() {
+        final item = widget.statisticListData.removeAt(widget.pos);
+        widget.statisticListData.insert(widget.pos - 1, item);
+        pos = widget.pos;
+      });
+    }
+    refreshList();
+  }
+
+  moveToBeginning(){
+    toggleSettingsMenu();
+    setState(() {
+      final item = widget.statisticListData.removeAt(widget.pos);
+      widget.statisticListData.insert(0, item);
+      pos = 0;
+    });
+    refreshList();
+  }
+
+  moveDown(){
+    toggleSettingsMenu();
+    if (widget.pos < widget.statisticListData.length - 1) {
+      setState(() {
+        final item = widget.statisticListData.removeAt(widget.pos);
+        widget.statisticListData.insert(widget.pos + 1, item);
+        pos = widget.pos;
+      });
+    }
+    refreshList();
+  }
+
+  moveToEnd(){
+    toggleSettingsMenu();
+    setState(() {
+      final item = widget.statisticListData.removeAt(widget.pos);
+      widget.statisticListData.add(item);
+      pos = widget.statisticListData.length-2;
+    });
+    refreshList();
+  }
+
+  refreshList(){
+    BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
+    if(isColorChanged == false && pos != -2){
+      BlocProvider.of<StatisticDetailsCubit>(context).setSettings('', pos+1 , widget.uniqueId);
+    } else if(isColorChanged == true && pos != -2){
+      BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex, pos+1 , widget.uniqueId);
+    } else if(isColorChanged == true && pos == -2){
+      BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex, widget.sort , widget.uniqueId);
+    }
   }
 
   void showColorPickerDialog(){
@@ -75,12 +132,13 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
               child: const Text('Got it'),
               onPressed: () {
                 setState((){
-                  //widget.statisticListData[widget.pos].savedColor = pickerColor;
                   hex = '#${pickerColor.value.toRadixString(16)}';
-                  print('changed'+hex);
+                  widget.statisticListData[widget.pos].userColor = hex ;
+                  isColorChanged = true;
                 });
-                BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex,  widget.columnName);
+                //BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex,  widget.columnName);
                 Navigator.of(context).pop();
+                refreshList();
               },
             ),
           ],
@@ -93,54 +151,76 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
     if(widget.itemValue == ''){
       return const SizedBox();
     } else {
-      return Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: pickerColor,
-            borderRadius:const  BorderRadius.all(
-                Radius.circular(15.0) //                 <--- border radius here
-            ),
-          ),
-          height: ScreenUtil().setHeight(70),
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setHeight(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      return Stack(
+        children: [
+          GestureDetector(
+            onTap: toggleSettingsMenu,
+            child: Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: HexColor(widget.userColor),
+                  borderRadius:const  BorderRadius.all(
+                      Radius.circular(15.0) //                 <--- border radius here
+                  ),
+                ),
+                height: ScreenUtil().setHeight(75),
+                width: MediaQuery.of(context).size.width,
+                child: Column(
                   children: [
-                    Expanded(child: Text(widget.itemName ,
-                      softWrap: false,
-                      maxLines: 1,
-                      overflow: TextOverflow.fade,
-                      style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 18.sp),)),
-                    IconButton(
-                        onPressed: ()=>showColorPickerDialog(),
-                        icon: Icon(Icons.settings , color: AppColors.black , size: 20.sp,))
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(10) , horizontal: ScreenUtil().setWidth(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text(widget.itemName ,
+                            softWrap: false,
+                            maxLines: 1,
+                            overflow: TextOverflow.fade,
+                            style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 18.sp),)),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: ScreenUtil().setWidth(12) , right: ScreenUtil().setWidth(12) , bottom: ScreenUtil().setHeight(12)),
+                          alignment: alignmentWidget.returnAlignment(),
+                          child: Text(widget.itemValue, style: TextStyle(color: Colors.black , fontWeight: FontWeight.w600 , fontSize: 13.sp),),
+                        ),
+                        Container(
+                          height: ScreenUtil().setHeight(20),
+                          width: ScreenUtil().setWidth(20),
+                          margin: EdgeInsets.only(left: ScreenUtil().setWidth(12) , right: ScreenUtil().setWidth(12) , bottom: ScreenUtil().setHeight(12)),
+                          alignment: alignmentWidget.returnAlignment(),
+                          child: SvgPicture.string(widget.icon),
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(12)),
-                    alignment: alignmentWidget.returnAlignment(),
-                    child: Text(widget.itemValue, style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 13.sp),),
-                  ),
-                  Container(
-                    height: ScreenUtil().setHeight(20),
-                    width: ScreenUtil().setWidth(20),
-                    margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setHeight(20)),
-                    alignment: alignmentWidget.returnAlignment(),
-                    child: SvgPicture.string(widget.icon),
-                  )
-                ],
-              )
-            ],
+            ),
           ),
-        ),
+          if(showSettingsMenu)
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(right: ScreenUtil().setWidth(50) , top: ScreenUtil().setHeight(15) , left: ScreenUtil().setWidth(30)),
+              height: ScreenUtil().setHeight(50),
+              color: AppColors.offWhiteColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(icon: const Icon(Icons.color_lens) , iconSize: 22.sp, onPressed: showColorPickerDialog,),
+                  IconButton(icon: const Icon(Icons.arrow_upward) , iconSize: 22.sp, onPressed: moveUp,),
+                  IconButton(icon: const Icon(Icons.vertical_align_top) , iconSize: 22.sp, onPressed: moveToBeginning,),
+                  IconButton(icon: const Icon(Icons.arrow_downward) , iconSize: 22.sp, onPressed: (){moveDown();},),
+                  IconButton(icon: const Icon(Icons.vertical_align_bottom) , iconSize: 22.sp, onPressed: moveToEnd,),
+                ],
+              ),
+            )
+        ],
       );
     }
   }

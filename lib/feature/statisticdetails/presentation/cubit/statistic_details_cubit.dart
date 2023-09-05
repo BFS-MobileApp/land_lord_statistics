@@ -23,8 +23,13 @@ class StatisticDetailsCubit extends Cubit<StatisticDetailsState> {
     emit(response.fold((failures) => StatisticsDetailsError(msg: mapFailureToMsg(failures)), (res) => StatisticsDetailsLoaded(data: res.data)));
   }
 
-  Future<void> setSettings(String color , String uniqueId) async{
-    await userColumnSettingsUseCase(StatisticColumnSettings(color: color ,  uniqueId: uniqueId));
+  Future<void> setSettings(String color , double sort , String uniqueId) async{
+    await userColumnSettingsUseCase(StatisticColumnSettings(color: color ,  uniqueId: uniqueId , sort: sort));
+  }
+
+  Future<void> refreshList(List<StatisticColoumn> statisticList , Data data ) async{
+    emit(StatisticDetailsInitialLoading());
+    emit(StatisticsDetailsRefresh(statisticList: statisticList , data: data));
   }
 
 

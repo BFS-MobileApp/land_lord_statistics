@@ -30,10 +30,10 @@ class StatisticDetailsRepositoryImpl extends StatisticDetailsRepository {
   }
 
   @override
-  Future<Either<Failures, NoParams>> setUserCompanySettings(String color, String uniqueId) async{
+  Future<Either<Failures, NoParams>> setUserCompanySettings(String color, String uniqueId, double sort) async{
 		if(await networkInfo.isConnected){
 			try{
-				await statisticDetailsRemoteDataSource.setUserSettings(color, uniqueId);
+				await statisticDetailsRemoteDataSource.setUserSettings(color, uniqueId , sort);
 				return Right(NoParams());
 			} on ServerException{
 				return Left(ServerFailure(msg: 'error'.tr));

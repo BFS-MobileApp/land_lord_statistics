@@ -145,7 +145,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
           } else if (state is StatisticsDetailsLoaded) {
             if (!isInitialized) {
               statisticListData = state.data.statisticColoumns;
-              statisticListData.sort((a, b) => a.sort.compareTo(b.sort));
+              statisticListData.sort((a, b) => a.userSort.compareTo(b.userSort));
               statisticListData.removeWhere((element) => element.value =='');
               statisticListDataDetails = statisticListData;
               isInitialized = true;
@@ -170,7 +170,39 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                         shrinkWrap: true,
                         children: List.generate(statisticListData.length, (pos)
                         {
-                          return StatisticDetailsItem(columnName: statisticListData[pos].columnName , icon: statisticListData[pos].iconSvg , statisticListData: statisticListData , pos: pos , uniqueId: widget.uniqueId , id: statisticListData[pos].id, userColor: statisticListData[pos].userColor , color: statisticListData[pos].color.toString(),itemName: Helper.getCurrentLocal() == 'AR' ? statisticListData[pos].arName : statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
+                          return StatisticDetailsItem(data: state.data , sort: statisticListData[pos].sort , columnName: statisticListData[pos].columnName , icon: statisticListData[pos].iconSvg , statisticListData: statisticListData , pos: pos , uniqueId: widget.uniqueId , id: statisticListData[pos].id, userColor: statisticListData[pos].userColor == '' ? statisticListData[pos].color : statisticListData[pos].userColor ,itemName: Helper.getCurrentLocal() == 'AR' ? statisticListData[pos].arName : statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
+                        }),
+                      ),
+                      state.data.charts.isEmpty? const SizedBox() :  ListView.builder(shrinkWrap: true, physics: const ClampingScrollPhysics(),itemCount:state.data.charts.length  , itemBuilder: (ctx , pos){
+                        return ChartWidget(chartsColors: state.data.charts[pos].finalApiData.color , precent: state.data.charts[pos].finalApiData.percent , chartData: state.data.charts[pos].chartData);
+                      })
+                    ],
+                  ))
+                ],
+              ),
+            );
+          } else if(state is StatisticsDetailsRefresh){
+            return Container(
+              margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(20) , bottom: ScreenUtil().setHeight(50)),
+              child: Column(
+                children: [
+                  TextItem(itemName: '${'company'.tr}: ', itemValue: widget.companyName),
+                  widget.buildingName == '' ? const SizedBox() : TextItem(itemName: '${'buildingName'.tr}: ', itemValue: widget.buildingName),
+                  TextItem(itemName: '${'statisticDate'.tr}: ', itemValue: widget.date),
+                  SizedBox(height: ScreenUtil().setHeight(8),),
+                  Expanded(child: ListView(
+                    children: [
+                      GridView.count(
+                        crossAxisCount: 1,
+                        padding: EdgeInsets.zero,
+                        childAspectRatio: 4,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 2,
+                        physics: const NeverScrollableScrollPhysics(), // to disable GridView's scrolling
+                        shrinkWrap: true,
+                        children: List.generate(statisticListData.length, (pos)
+                        {
+                          return StatisticDetailsItem(data: state.data , sort: state.statisticList[pos].sort , columnName: state.statisticList[pos].columnName , icon: state.statisticList[pos].iconSvg , statisticListData: state.statisticList , pos: pos , uniqueId: widget.uniqueId , id: state.statisticList[pos].id, userColor: state.statisticList[pos].userColor == '' ? state.statisticList[pos].color : state.statisticList[pos].userColor , itemName: Helper.getCurrentLocal() == 'AR' ? statisticListData[pos].arName : statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
                         }),
                       ),
                       state.data.charts.isEmpty? const SizedBox() :  ListView.builder(shrinkWrap: true, physics: const ClampingScrollPhysics(),itemCount:state.data.charts.length  , itemBuilder: (ctx , pos){

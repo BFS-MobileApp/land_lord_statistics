@@ -9,5 +9,5 @@ class UserColumnSettingsUseCase  implements UseCase<NoParams , StatisticColumnSe
   UserColumnSettingsUseCase({required this.statisticDetailsRepository});
 
   @override
-  Future<Either<Failures, NoParams>> call(StatisticColumnSettings statisticColumnSettings) => statisticDetailsRepository.setUserCompanySettings(statisticColumnSettings.color, statisticColumnSettings.uniqueId);
+  Future<Either<Failures, NoParams>> call(StatisticColumnSettings statisticColumnSettings) => statisticDetailsRepository.setUserCompanySettings(statisticColumnSettings.color, statisticColumnSettings.uniqueId , statisticColumnSettings.sort);
 }
