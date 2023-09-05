@@ -5,6 +5,7 @@ import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/cubit/statistic_details_cubit.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/widget/chart_widget.dart';
+import 'package:claimizer/feature/statisticdetails/presentation/widget/statistic_detailes_item.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/widget/text_item.dart';
 import 'package:claimizer/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../widget/statistic_detailes_item.dart';
 
 class StatisticDetailsScreen extends StatefulWidget {
 

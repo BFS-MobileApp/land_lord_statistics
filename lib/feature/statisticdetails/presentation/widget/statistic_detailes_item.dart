@@ -147,6 +147,10 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
     );
   }
 
+  int _countWords(String text) {
+    return text.split(' ').where((word) => word.isNotEmpty).length;
+  }
+
   Widget itemWidget(context){
     if(widget.itemValue == ''){
       return const SizedBox();
@@ -176,7 +180,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
                             softWrap: false,
                             maxLines: 1,
                             overflow: TextOverflow.fade,
-                            style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 18.sp),)),
+                            style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: _countWords(widget.itemName) <=6 ? 18.sp : 15.sp),)),
                         ],
                       ),
                     ),
