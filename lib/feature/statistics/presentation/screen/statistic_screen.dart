@@ -6,8 +6,10 @@ import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
+import 'package:claimizer/feature/statistics/presentation/widget/statistic_item.dart';
 import 'package:claimizer/feature/statistics/presentation/widget/statistic_widget.dart';
 import 'package:claimizer/widgets/alert_dilog_widget.dart';
+import 'package:claimizer/widgets/aligment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,6 +34,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
   List<StatisticSummary> zeroSortItems = [];
   List<StatisticSummary> nonZeroSortItems = [];
   List<StatisticSummary> sortedItemList = [];
+  AlignmentWidget alignmentWidget = AlignmentWidget();
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
 
@@ -113,26 +116,54 @@ class _StatisticScreenState extends State<StatisticScreen> {
               isInitialized = true;
               statisticList =  sortItemList();
             }
-            return ListView.builder(physics:const AlwaysScrollableScrollPhysics() , shrinkWrap: true ,  itemCount:statisticList.length , itemBuilder: (ctx , pos){
-              return InkWell(
-                onTap: (){
-                  Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
-                },
-                child: StatisticWidgetItem(sort: statisticList[pos].sortValue, pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
-              );
-            });
+            return ListView(
+              children: [
+                ListView.builder(physics:const ClampingScrollPhysics() , shrinkWrap: true ,  itemCount:statisticList.length , itemBuilder: (ctx , pos){
+                  return InkWell(
+                    onTap: (){
+                      Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
+                    },
+                    child: StatisticWidgetItem(sort: statisticList[pos].sortValue, pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+                  );
+                }),
+                Container(
+                  alignment: alignmentWidget.returnAlignment(),
+                  margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10) , vertical: ScreenUtil().setHeight(5)),
+                  child: Row(
+                    children: [
+                      Text('${'count'.tr}: ' ,style: const TextStyle(fontWeight: FontWeight.w500),),
+                      Text(statisticList.length.toString(),style: const TextStyle(fontWeight: FontWeight.w500),)
+                    ],
+                  ),
+                )
+              ],
+            );
           } else if(state is StatisticsRefresh){
-            return ListView.builder(physics:const AlwaysScrollableScrollPhysics() , shrinkWrap: true ,  itemCount:state.statisticList.length , itemBuilder: (ctx , pos){
-              return InkWell(
-                onTap: (){
-                  Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
-                  /*setState(() {
+            return ListView(
+              children: [
+                ListView.builder(physics:const ClampingScrollPhysics() , shrinkWrap: true ,  itemCount:state.statisticList.length , itemBuilder: (ctx , pos){
+                  return InkWell(
+                    onTap: (){
+                      Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
+                      /*setState(() {
                     statisticList = statisticListData;
                   });*/
-                },
-                child: StatisticWidgetItem(sort: state.statisticList[pos].sortValue,pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , uniqueId: state.statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(state.statisticList[pos].statisticsDate.toString()),),
-              );
-            });
+                    },
+                    child: StatisticWidgetItem(sort: state.statisticList[pos].sortValue,pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , uniqueId: state.statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(state.statisticList[pos].statisticsDate.toString()),),
+                  );
+                }),
+                Container(
+                  alignment: alignmentWidget.returnAlignment(),
+                  margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10) , vertical: ScreenUtil().setHeight(5)),
+                  child: Row(
+                    children: [
+                      Text('${'count'.tr}: ' ,style: const TextStyle(fontWeight: FontWeight.w500),),
+                      Text(statisticList.length.toString(),style: const TextStyle(fontWeight: FontWeight.w500),)
+                    ],
+                  ),
+                )
+              ],
+            );
           } else {
             return const Center(
               child: CircularProgressIndicator(),
@@ -196,7 +227,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
               ))),
             ) :
           AppBar(
-              title: Text('companies'.tr),
+              title: Text('landlordStatistics'.tr),
               actions: <Widget>[
                 GestureDetector(
                   onTap: () {
