@@ -174,7 +174,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                         }),
                       ),
                       state.data.charts.isEmpty? const SizedBox() :  ListView.builder(shrinkWrap: true, physics: const ClampingScrollPhysics(),itemCount:state.data.charts.length  , itemBuilder: (ctx , pos){
-                        return ChartWidget(chartsColors: state.data.charts[pos].finalApiData.color , precent: state.data.charts[pos].finalApiData.percent , chartData: state.data.charts[pos].chartData);
+                        return ChartWidget(englishName: state.data.charts[pos].chartSetting.enName, araibicName: state.data.charts[pos].chartSetting.arName, chartsColors: state.data.charts[pos].finalApiData.color , precent: state.data.charts[pos].finalApiData.percent , chartData: state.data.charts[pos].chartData);
                       })
                     ],
                   ))
@@ -206,7 +206,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                         }),
                       ),
                       state.data.charts.isEmpty? const SizedBox() :  ListView.builder(shrinkWrap: true, physics: const ClampingScrollPhysics(),itemCount:state.data.charts.length  , itemBuilder: (ctx , pos){
-                        return ChartWidget(chartsColors: state.data.charts[pos].finalApiData.color , precent: state.data.charts[pos].finalApiData.percent , chartData: state.data.charts[pos].chartData);
+                        return ChartWidget(englishName: state.data.charts[pos].chartSetting.enName, araibicName: state.data.charts[pos].chartSetting.arName , chartsColors: state.data.charts[pos].finalApiData.color , precent: state.data.charts[pos].finalApiData.percent , chartData: state.data.charts[pos].chartData);
                       })
                     ],
                   ))
