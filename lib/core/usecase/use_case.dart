@@ -36,7 +36,7 @@ class StatisticDetailsParams extends Equatable{
 
 class StatisticCompanySettings extends Equatable{
   final String uniqueId;
-  final int sort;
+  final double sort;
   final String color;
 
   const StatisticCompanySettings({required this.uniqueId,required this.sort,required this.color});

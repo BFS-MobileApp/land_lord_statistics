@@ -20,7 +20,7 @@ class ChartNameItem extends StatelessWidget {
           width: ScreenUtil().setWidth(12),
           margin: EdgeInsets.all(10.0.sp),
           decoration: BoxDecoration(
-              color: itemColor.withOpacity(0.35),
+              color: itemColor.withOpacity(0.9),
               shape: BoxShape.circle
           ),
         ),

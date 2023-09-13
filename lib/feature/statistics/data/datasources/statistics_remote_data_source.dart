@@ -4,5 +4,5 @@ abstract class StatisticsRemoteDataSource {
 
   Future<StatisticModel> getStatisticData();
 
-  Future<void> setUserSettings(String color , int sort , String uniqueId);
+  Future<void> setUserSettings(String color , double sort , String uniqueId);
 }

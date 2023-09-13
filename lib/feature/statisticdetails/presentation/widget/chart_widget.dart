@@ -51,7 +51,7 @@ class ChartWidget extends StatelessWidget {
               series: <PieSeries<Data, String>>[
                 PieSeries<Data, String>(
                     explode: true,
-                    opacity: 0.35,
+                    opacity: 0.9,
                     explodeIndex: 0,
                     dataSource: <Data>[
                       for(int i=0;i<precent.length;i++) Data('${precent[i].toStringAsFixed(2)}%' , roundedPercentages[i]),

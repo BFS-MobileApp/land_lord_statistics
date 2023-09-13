@@ -6,7 +6,6 @@ import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
-import 'package:claimizer/feature/statistics/presentation/widget/statistic_item.dart';
 import 'package:claimizer/feature/statistics/presentation/widget/statistic_widget.dart';
 import 'package:claimizer/widgets/alert_dilog_widget.dart';
 import 'package:claimizer/widgets/aligment_widget.dart';
@@ -44,26 +43,28 @@ class _StatisticScreenState extends State<StatisticScreen> {
     getData();
   }
 
-  List<StatisticSummary> sortItemList(){
-
-    for (var item in statisticListData) {
-      if (item.sortValue == 0) {
-        zeroSortItems.add(item);
-      } else {
-        nonZeroSortItems.add(item);
-      }
+  dynamic findMaxSortValue() {
+    dynamic maxSortValue = double.negativeInfinity;
+    for (var data in statisticList) {
+        double sortValue = double.tryParse(data.sortValue.toString()) ?? 0.0;
+        if (sortValue > maxSortValue) {
+          maxSortValue = sortValue;
+        }
     }
-    sortedItemList.addAll(zeroSortItems);
-    for (var nonZeroItem in nonZeroSortItems) {
-      int indexToInsert = nonZeroItem.sortValue;
-      if (indexToInsert >= sortedItemList.length) {
-        sortedItemList.add(nonZeroItem);
-      } else {
-        sortedItemList.insert(indexToInsert, nonZeroItem);
-      }
-    }
-    return sortedItemList;
+    return maxSortValue;
   }
+
+  double findMinSortValue() {
+    double minSortValue = double.infinity;
+    for (var data in statisticList) {
+        double sortValue = double.tryParse(data.sortValue.toString()) ?? 0.0;
+        if (sortValue < minSortValue) {
+          minSortValue = sortValue;
+        }
+    }
+    return minSortValue;
+  }
+
   callLogoutDialog(){
     Future.delayed(const Duration(milliseconds: 500), () {
       AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'logOutPhase'.tr, yesOnTap: (){
@@ -87,13 +88,6 @@ class _StatisticScreenState extends State<StatisticScreen> {
     });
   }
 
-  Color convertColor(String color){
-    String hexColorValue = color.replaceAll(RegExp(r'[^0-9a-fA-F]'), '');
-    Color returnedColor = Color(int.parse(hexColorValue, radix: 16));
-    return returnedColor;
-
-  }
-
   deleteUserData() async{
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove(AppStrings.token);
@@ -114,7 +108,9 @@ class _StatisticScreenState extends State<StatisticScreen> {
               statisticList = state.statistic.statisticData;
               statisticListData = state.statistic.statisticData;
               isInitialized = true;
-              statisticList =  sortItemList();
+              //statisticList =  sortItemList();
+              statisticList.sort((a, b) => a.sortValue.compareTo(b.sortValue));
+
             }
             return ListView(
               children: [
@@ -123,7 +119,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     onTap: (){
                       Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
                     },
-                    child: StatisticWidgetItem(sort: statisticList[pos].sortValue, pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+                    child: StatisticWidgetItem(maxSort: findMaxSortValue() , minSort: findMinSortValue() ,sort: statisticList[pos].sortValue, pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
                   );
                 }),
                 Container(
@@ -149,7 +145,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     statisticList = statisticListData;
                   });*/
                     },
-                    child: StatisticWidgetItem(sort: state.statisticList[pos].sortValue,pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , uniqueId: state.statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(state.statisticList[pos].statisticsDate.toString()),),
+                    child: StatisticWidgetItem(maxSort: findMaxSortValue() , minSort: findMinSortValue() ,sort: state.statisticList[pos].sortValue,pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , uniqueId: state.statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(state.statisticList[pos].statisticsDate.toString()),),
                   );
                 }),
                 Container(

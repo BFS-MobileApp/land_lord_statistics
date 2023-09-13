@@ -23,7 +23,7 @@ class StatisticCubit extends Cubit<StatisticState> {
     emit(response.fold((failures) => StatisticsError(msg: mapFailureToMsg(failures)), (statistic) => StatisticsLoaded(statistic: statistic)));
   }
 
-  Future<void> setSettings(String color , int sort , String uniqueId) async{
+  Future<void> setSettings(String color , double sort , String uniqueId) async{
     await statisticCompanySettings(StatisticCompanySettings(color: color ,  sort: sort , uniqueId: uniqueId));
   }
 

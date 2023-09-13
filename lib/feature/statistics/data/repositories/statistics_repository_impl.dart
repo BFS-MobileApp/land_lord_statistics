@@ -29,7 +29,7 @@ class StatisticsRepositoryImpl extends StatisticsRepository {
   }
 
   @override
-  Future<Either<Failures, NoParams>> setUserCompanySettings(String color , int sort , String uniqueId) async{
+  Future<Either<Failures, NoParams>> setUserCompanySettings(String color , double sort , String uniqueId) async{
 		if(await networkInfo.isConnected){
 			try{
 				await statisticsRemoteDataSource.setUserSettings(color, sort, uniqueId);

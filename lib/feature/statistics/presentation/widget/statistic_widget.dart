@@ -1,5 +1,3 @@
-import 'package:claimizer/config/PrefHelper/shared_pref_helper.dart';
-import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
@@ -21,8 +19,10 @@ class StatisticWidgetItem extends StatefulWidget {
   List<StatisticSummary> statisticList = [];
   Color color;
   int pos;
-  int sort;
-  StatisticWidgetItem({super.key, required this.sort , required this.pos , required this.statisticList , required this.companyName, required this.date , required this.buildingName , required this.uniqueId , required this.color});
+  dynamic sort;
+  dynamic maxSort;
+  dynamic minSort;
+  StatisticWidgetItem({super.key, required this.maxSort , required this.minSort , required this.sort , required this.pos , required this.statisticList , required this.companyName, required this.date , required this.buildingName , required this.uniqueId , required this.color});
 
   @override
   State<StatisticWidgetItem> createState() => _StatisticWidgetItemState();
@@ -35,6 +35,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   bool showSettingsMenu = false, isColorChanged = false;
   int pos = -2;
   var hex;
+  double previousSort = 0.0, nextSort = 0.0;
 
 
   void toggleSettingsMenu() {
@@ -51,6 +52,29 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   void initState() {
     super.initState();
     setInitialColor();
+    setInitialValue();
+    print(widget.maxSort);
+  }
+
+  setInitialValue(){
+    if(widget.pos == 0){
+      setState(() {
+        previousSort = widget.minSort;
+      });
+    } else {
+      setState(() {
+        previousSort = widget.statisticList[widget.pos-1].sortValue;
+      });
+    }
+    if(widget.pos == widget.statisticList.length-1){
+      setState(() {
+        nextSort = widget.maxSort;
+      });
+    } else {
+      setState(() {
+        nextSort = widget.statisticList[widget.pos+1].sortValue;
+      });
+    }
   }
 
   setInitialColor(){
@@ -65,6 +89,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   }
 
   void showColorPickerDialog(){
+    double sort = widget.sort+0.0;
     toggleSettingsMenu();
     showDialog(
       context: context,
@@ -88,7 +113,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                   isColorChanged = true;
                 });
                 Navigator.of(context).pop();
-                refreshList();
+                refreshList(sort);
               },
             ),
           ],
@@ -97,15 +122,14 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
     );
   }
 
-  refreshList(){
+  refreshList(double sort){
     BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
     if(isColorChanged == false && pos != -2){
-      print(widget.statisticList[widget.pos].colorValue.toString());
-      BlocProvider.of<StatisticCubit>(context).setSettings('', pos+1 , widget.uniqueId);
+      BlocProvider.of<StatisticCubit>(context).setSettings('', sort , widget.uniqueId);
     } else if(isColorChanged == true && pos != -2){
-      BlocProvider.of<StatisticCubit>(context).setSettings(hex, pos+1 , widget.uniqueId);
+      BlocProvider.of<StatisticCubit>(context).setSettings(hex, sort , widget.uniqueId);
     } else if(isColorChanged == true && pos == -2){
-      BlocProvider.of<StatisticCubit>(context).setSettings(hex, widget.sort , widget.uniqueId);
+      BlocProvider.of<StatisticCubit>(context).setSettings(hex, widget.sort+0.0 , widget.uniqueId);
     }
   }
 
@@ -127,7 +151,13 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
         pos = widget.pos;
       });
     }
-    refreshList();
+    print(previousSort);
+    double sort = widget.sort - previousSort -0.2;
+    if(sort <0){
+      sort = 0;
+    }
+    print(sort);
+    refreshList(sort);
   }
 
   moveToBeginning(){
@@ -137,7 +167,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
       widget.statisticList.insert(0, item);
       pos = 0;
     });
-    refreshList();
+    refreshList(0);
   }
 
   moveDown(){
@@ -149,7 +179,9 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
         pos = widget.pos;
       });
     }
-    refreshList();
+    double sort = nextSort +0.2;
+    print(sort);
+    refreshList(sort);
   }
 
   moveToEnd(){
@@ -159,7 +191,10 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
       widget.statisticList.add(item);
       pos = widget.statisticList.length-2;
     });
-    refreshList();
+    print('maxSort'+widget.maxSort.toString());
+    double sort = widget.maxSort + 2.5;
+    print(sort);
+    refreshList(sort);
   }
 
   @override
