@@ -1,4 +1,5 @@
 import 'package:claimizer/core/utils/app_colors.dart';
+import 'package:claimizer/core/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,26 +11,21 @@ class ChartNameItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          alignment: Alignment.center,
+    return Center(
+      child: ListTile(
+        minLeadingWidth : 10,
+        title: Text(itemName  , style: TextStyle(fontSize: 12.sp , fontWeight: FontWeight.w400 , color: AppColors.black),),
+        leading: Container(
+          //alignment: Alignment.center,
           height: ScreenUtil().setHeight(12),
           width: ScreenUtil().setWidth(12),
-          margin: EdgeInsets.all(10.0.sp),
+          margin: Helper.getCurrentLocal() == 'AR' ? EdgeInsets.only(right: MediaQuery.of(context).size.width/4.5) : EdgeInsets.only(left: MediaQuery.of(context).size.width/4.5),
           decoration: BoxDecoration(
               color: itemColor.withOpacity(0.9),
               shape: BoxShape.circle
           ),
         ),
-        SizedBox(width: ScreenUtil().setWidth(5),),
-        Align(
-          alignment: Alignment.center,
-          child: Text(itemName , style: TextStyle(fontSize: 12.sp , fontWeight: FontWeight.w400 , color: AppColors.black),),
-        )
-      ],
+      ),
     );
   }
 }

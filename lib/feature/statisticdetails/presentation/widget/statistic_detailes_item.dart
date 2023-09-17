@@ -116,6 +116,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
   }
 
   void showColorPickerDialog(){
+    toggleSettingsMenu();
     showDialog(
       context: context,
       builder: (BuildContext con){
