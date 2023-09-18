@@ -18,7 +18,8 @@ class StatisticItem extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: ScreenUtil().setHeight(5) , right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10) , bottom: ScreenUtil().setHeight(5)),
       alignment: alignmentWidget.returnAlignment(),
-      child: Text('$itemKey: $itemValue' , style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 17.sp),),
+      child: Text('$itemKey: $itemValue' ,maxLines: 3,
+        overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 17.sp),),
     );
   }
 }

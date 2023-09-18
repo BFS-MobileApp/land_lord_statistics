@@ -6,6 +6,9 @@ class HexColor extends Color {
     hexColor = hexColor.toUpperCase().replaceAll("#", "");
     if (hexColor.length == 6) {
       hexColor = "FF$hexColor";
+    } else if (hexColor.length < 6) {
+      hexColor = hexColor * (6 - hexColor.length) + hexColor;
+      hexColor = "FF$hexColor";
     }
     return int.parse(hexColor, radix: 16);
   }

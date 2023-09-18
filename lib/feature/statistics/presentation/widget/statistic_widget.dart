@@ -80,6 +80,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   setInitialColor(){
     setState(() {
       pickerColor = widget.color;
+      print('color1'+widget.color.toString());
     });
   }
 
@@ -109,6 +110,8 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                 setState((){
                   widget.statisticList[widget.pos].colorValue = pickerColor;
                   widget.color = pickerColor;
+                  print('color2'+widget.color.toString());
+                  print('color2'+pickerColor.toString());
                   hex = '#${pickerColor.value.toRadixString(16)}';
                   isColorChanged = true;
                 });
