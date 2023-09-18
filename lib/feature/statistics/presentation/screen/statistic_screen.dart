@@ -34,6 +34,12 @@ class _StatisticScreenState extends State<StatisticScreen> {
   List<StatisticSummary> nonZeroSortItems = [];
   List<StatisticSummary> sortedItemList = [];
   AlignmentWidget alignmentWidget = AlignmentWidget();
+  ScrollController _scrollController = ScrollController();
+  final int pageSize = 50; // Number of items per page
+  int currentPage = 0;
+  bool hasMoreData = true , isLoading = false;
+
+
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
 
@@ -41,7 +47,39 @@ class _StatisticScreenState extends State<StatisticScreen> {
   void initState() {
     super.initState();
     getData();
+    _scrollController.addListener(_loadMoreData);
   }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _loadMoreData() {
+    print("Loading more data...");
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      print("Pagination logic executed."); // Add this line
+
+      final startIndex = currentPage * pageSize;
+      final endIndex = (currentPage + 1) * pageSize;
+
+      if (startIndex < statisticListData.length) {
+        // Add the next page of data to the statisticList
+        final nextPageData = statisticListData.sublist(startIndex, endIndex);
+        setState(() {
+          statisticList.addAll(nextPageData);
+          currentPage++;
+        });
+      } else {
+        // No more data to load
+        setState(() {
+          hasMoreData = false;
+        });
+      }
+    }
+  }
+
 
   dynamic findMaxSortValue() {
     dynamic maxSortValue = double.negativeInfinity;
@@ -94,6 +132,22 @@ class _StatisticScreenState extends State<StatisticScreen> {
     preferences.remove(AppStrings.userName);
   }
 
+  firstLoad(StatisticsLoaded state){
+    if(state.statistic.statisticData.length > pageSize){
+      for(int i=0;i<pageSize;i++){
+        statisticList.add(state.statistic.statisticData[i]);
+      }
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          hasMoreData = true;
+          currentPage = 1;
+        });
+      });
+    } else {
+      statisticList = state.statistic.statisticData;
+    }
+  }
+
   Widget _statisticWidget(){
     return BlocBuilder<StatisticCubit, StatisticState>(
         builder: ((context, state) {
@@ -105,16 +159,15 @@ class _StatisticScreenState extends State<StatisticScreen> {
             return ErrorWidget(()=>getData());
           } else if (state is StatisticsLoaded) {
             if (!isInitialized) {
-              statisticList = state.statistic.statisticData;
               statisticListData = state.statistic.statisticData;
+              firstLoad(state);
               isInitialized = true;
-              //statisticList =  sortItemList();
               statisticList.sort((a, b) => a.sortValue.compareTo(b.sortValue));
 
             }
             return ListView(
               children: [
-                ListView.builder(physics:const ClampingScrollPhysics() , shrinkWrap: true ,  itemCount:statisticList.length , itemBuilder: (ctx , pos){
+                ListView.builder(  controller: _scrollController, physics:const ClampingScrollPhysics() , shrinkWrap: true ,  itemCount:statisticList.length , itemBuilder: (ctx , pos){
                   return InkWell(
                     onTap: (){
                       Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
@@ -137,7 +190,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
           } else if(state is StatisticsRefresh){
             return ListView(
               children: [
-                ListView.builder(physics:const ClampingScrollPhysics() , shrinkWrap: true ,  itemCount:state.statisticList.length , itemBuilder: (ctx , pos){
+                ListView.builder(controller: _scrollController , physics:const ClampingScrollPhysics() , shrinkWrap: true ,  itemCount:state.statisticList.length , itemBuilder: (ctx , pos){
                   return InkWell(
                     onTap: (){
                       Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));

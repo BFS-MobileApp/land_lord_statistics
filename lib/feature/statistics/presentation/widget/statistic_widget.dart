@@ -211,7 +211,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
               color: widget.color,
               borderRadius:const  BorderRadius.all(Radius.circular(15.0)),
             ),
-            height: widget.buildingName == '' ? ScreenUtil().setHeight(70) : ScreenUtil().setHeight(100),
+            height: widget.buildingName == '' ? ScreenUtil().setHeight(70) : ScreenUtil().setHeight(115),
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
