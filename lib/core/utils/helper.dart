@@ -26,7 +26,9 @@ class Helper{
     List<String> words = item.split(' ');
     List<String> result = [];
     for (int i = 0; i < words.length && i < 2; i++) {
-      result.add(words[i][0]);
+      if (words[i].isNotEmpty) {
+        result.add(words[i][0]);
+      }
     }
     String resultString = result.join();
     return resultString;

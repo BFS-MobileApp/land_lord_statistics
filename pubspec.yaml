@@ -19,6 +19,7 @@ dependencies:
   syncfusion_flutter_charts: ^22.1.39
   flutter_colorpicker: ^1.0.3
   flutter_svg: ^2.0.7
+  infinite_scroll_pagination: ^3.2.0
   flutter:
     sdk: flutter
 

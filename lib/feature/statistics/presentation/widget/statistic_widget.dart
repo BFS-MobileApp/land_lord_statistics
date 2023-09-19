@@ -53,7 +53,6 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
     super.initState();
     setInitialColor();
     setInitialValue();
-    print(widget.maxSort);
   }
 
   setInitialValue(){
@@ -80,7 +79,6 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   setInitialColor(){
     setState(() {
       pickerColor = widget.color;
-      print('color1'+widget.color.toString());
     });
   }
 
@@ -110,8 +108,6 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                 setState((){
                   widget.statisticList[widget.pos].colorValue = pickerColor;
                   widget.color = pickerColor;
-                  print('color2'+widget.color.toString());
-                  print('color2'+pickerColor.toString());
                   hex = '#${pickerColor.value.toRadixString(16)}';
                   isColorChanged = true;
                 });
@@ -154,12 +150,10 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
         pos = widget.pos;
       });
     }
-    print(previousSort);
     double sort = widget.sort - previousSort -0.2;
     if(sort <0){
       sort = 0;
     }
-    print(sort);
     refreshList(sort);
   }
 
@@ -183,7 +177,6 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
       });
     }
     double sort = nextSort +0.2;
-    print(sort);
     refreshList(sort);
   }
 
@@ -194,9 +187,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
       widget.statisticList.add(item);
       pos = widget.statisticList.length-2;
     });
-    print('maxSort'+widget.maxSort.toString());
     double sort = widget.maxSort + 2.5;
-    print(sort);
     refreshList(sort);
   }
 
@@ -211,14 +202,14 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
               color: widget.color,
               borderRadius:const  BorderRadius.all(Radius.circular(15.0)),
             ),
-            height: widget.buildingName == '' ? ScreenUtil().setHeight(70) : ScreenUtil().setHeight(115),
+            //height: widget.buildingName == '' ? ScreenUtil().setHeight(83) : ScreenUtil().setHeight(136),
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    StatisticItem(itemKey: 'company'.tr , itemValue: widget.companyName),
+                    Expanded(child: StatisticItem(itemKey: 'company'.tr , itemValue: widget.companyName)),
                     GestureDetector(
                       onTap: toggleSettingsMenu,
                       child: Container(
