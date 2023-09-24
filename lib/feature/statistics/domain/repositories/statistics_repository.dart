@@ -8,4 +8,6 @@ abstract class StatisticsRepository {
   Future<Either<Failures , Statistic>> getStatistic();
 
   Future<Either<Failures , NoParams>> setUserCompanySettings(String color , double sort , String uniqueId);
+
+  Future<Either<Failures , NoParams>> setUserCompanySortSettings(List<String> companiesSort);
 }

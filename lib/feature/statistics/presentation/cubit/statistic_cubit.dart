@@ -4,6 +4,7 @@ import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/domain/entites/statistic.dart';
 import 'package:claimizer/feature/statistics/domain/usecases/statistic_use_case.dart';
+import 'package:claimizer/feature/statistics/domain/usecases/user_comanies_sort_setting.dart';
 import 'package:claimizer/feature/statistics/domain/usecases/user_settings_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +16,8 @@ class StatisticCubit extends Cubit<StatisticState> {
 
   final StatisticUseCase statisticUseCase;
   final UserSettingsUseCase statisticCompanySettings;
-  StatisticCubit({required this.statisticUseCase , required this.statisticCompanySettings}) : super(StatisticInitial());
+  final UserCompaniesSortSetting userCompaniesSortSetting;
+  StatisticCubit({required this.statisticUseCase , required this.statisticCompanySettings , required this.userCompaniesSortSetting}) : super(StatisticInitial());
 
   Future<void> getData() async{
     emit(StatisticsIsLoading());
@@ -27,8 +29,11 @@ class StatisticCubit extends Cubit<StatisticState> {
     await statisticCompanySettings(StatisticCompanySettings(color: color ,  sort: sort , uniqueId: uniqueId));
   }
 
+  Future<void> setCompanySort(List<String> companies) async{
+    await userCompaniesSortSetting(StatisticCompanySortSettings(companiesSort: companies));
+  }
+
   Future<void> refreshList(List<StatisticSummary> statisticList) async{
-    print('here2');
     emit(StatisticInitial());
     emit(StatisticsRefresh(statisticList: statisticList));
   }

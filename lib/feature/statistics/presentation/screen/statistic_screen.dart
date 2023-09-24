@@ -113,8 +113,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
               statisticList = state.statistic.statisticData;
               statisticListData = state.statistic.statisticData;
               isInitialized = true;
-              statisticList.sort((a, b) => a.sortValue.compareTo(b.sortValue));
-
+              //statisticList.sort((a, b) => a.sortValue.compareTo(b.sortValue));
             }
             return ListView(
               children: [

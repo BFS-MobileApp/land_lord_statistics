@@ -26,6 +26,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/api/api_consumer.dart';
 import 'feature/statisticdetails/data/repositories/statistic_details_repository_impl.dart';
 import 'feature/statisticdetails/domain/repositories/statistic_details_repository.dart';
+import 'feature/statistics/domain/usecases/user_comanies_sort_setting.dart';
 
 final sl = GetIt.instance;
 
@@ -33,7 +34,7 @@ Future<void> init() async{
 
   //Blocs
   sl.registerFactory(() => LoginCubit(loginUseCase: sl()));
-  sl.registerFactory(() => StatisticCubit( statisticCompanySettings: sl() , statisticUseCase: sl()));
+  sl.registerFactory(() => StatisticCubit(statisticCompanySettings: sl() , userCompaniesSortSetting: sl() , statisticUseCase: sl()));
   sl.registerFactory(() => StatisticDetailsCubit( userColumnSettingsUseCase: sl(), statisticDetailsUseCase: sl()));
 
   //UseCase
@@ -42,6 +43,7 @@ Future<void> init() async{
   sl.registerLazySingleton(() => StatisticDetailsUseCase(statisticDetailsRepository: sl()));
   sl.registerLazySingleton(() => UserSettingsUseCase(statisticsRepository: sl()));
   sl.registerLazySingleton(() => UserColumnSettingsUseCase(statisticDetailsRepository: sl()));
+  sl.registerLazySingleton(() => UserCompaniesSortSetting(statisticsRepository: sl()));
 
   //Repository
   sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(loginRemoteDataSource: sl() , networkInfo: sl()));

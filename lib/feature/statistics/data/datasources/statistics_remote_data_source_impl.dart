@@ -23,11 +23,21 @@ class StatisticsRemoteDataSourceImpl extends StatisticsRemoteDataSource {
       AppStrings.companyStatisticDetails:{
         uniqueId:{
           AppStrings.color:color == '' ? null : color,
-          AppStrings.sort:sort.toString()
+          //AppStrings.sort:sort.toString()
         },
       }
     };
     await consumer.post(EndPoints.updateStatisticsCompany , body: body);
   }
+
+  @override
+  Future<void> setUserSortSettings(List<String> companiesList) async{
+    final body = [{
+      AppStrings.companiesSort: companiesList
+    }];
+    await consumer.post(EndPoints.updateCompaniesSort , body: body);
+  }
+
+
 
 }

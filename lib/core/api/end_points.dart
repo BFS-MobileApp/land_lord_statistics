@@ -6,4 +6,5 @@ class EndPoints{
   static const String statisticDetails = 'statistics/';
   static const String updateStatisticsCompany = 'statistics-company-details/update';
   static const String updateStatisticsColumn = 'statistics-column-details/update';
+  static const String updateCompaniesSort = 'statistics-company-sort/update';
 }

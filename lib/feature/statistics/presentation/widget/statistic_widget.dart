@@ -38,6 +38,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   double previousSort = 0.0, nextSort = 0.0;
 
 
+
   void toggleSettingsMenu() {
     setState(() {
       showSettingsMenu = !showSettingsMenu;
@@ -76,6 +77,14 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
     }
   }
 
+  List<String> getCompaniesSortId(){
+    List<String> companiesSort = [];
+    for(var company in widget.statisticList){
+      companiesSort.add(company.uniqueValue);
+    }
+    return companiesSort;
+  }
+
   setInitialColor(){
     setState(() {
       pickerColor = widget.color;
@@ -88,7 +97,6 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   }
 
   void showColorPickerDialog(){
-    double sort = widget.sort+0.0;
     toggleSettingsMenu();
     showDialog(
       context: context,
@@ -112,7 +120,8 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                   isColorChanged = true;
                 });
                 Navigator.of(context).pop();
-                refreshList(sort);
+                BlocProvider.of<StatisticCubit>(context).setSettings(hex, 0 , widget.uniqueId);
+                //refreshList(sort);
               },
             ),
           ],
@@ -150,11 +159,8 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
         pos = widget.pos;
       });
     }
-    double sort = widget.sort - previousSort -0.2;
-    if(sort <0){
-      sort = 0;
-    }
-    refreshList(sort);
+    BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
+    BlocProvider.of<StatisticCubit>(context).setCompanySort(getCompaniesSortId());
   }
 
   moveToBeginning(){
@@ -164,7 +170,8 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
       widget.statisticList.insert(0, item);
       pos = 0;
     });
-    refreshList(0);
+    BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
+    BlocProvider.of<StatisticCubit>(context).setCompanySort(getCompaniesSortId());
   }
 
   moveDown(){
@@ -176,8 +183,8 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
         pos = widget.pos;
       });
     }
-    double sort = nextSort +0.2;
-    refreshList(sort);
+    BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
+    BlocProvider.of<StatisticCubit>(context).setCompanySort(getCompaniesSortId());
   }
 
   moveToEnd(){
@@ -187,8 +194,8 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
       widget.statisticList.add(item);
       pos = widget.statisticList.length-2;
     });
-    double sort = widget.maxSort + 2.5;
-    refreshList(sort);
+    BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
+    BlocProvider.of<StatisticCubit>(context).setCompanySort(getCompaniesSortId());
   }
 
   @override

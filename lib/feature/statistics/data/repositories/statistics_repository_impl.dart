@@ -42,4 +42,18 @@ class StatisticsRepositoryImpl extends StatisticsRepository {
 		}
   }
 
+  @override
+  Future<Either<Failures, NoParams>> setUserCompanySortSettings(List<String> companiesSort) async{
+		if(await networkInfo.isConnected){
+			try{
+				await statisticsRemoteDataSource.setUserSortSettings(companiesSort);
+				return Right(NoParams());
+			} on ServerException{
+				return Left(ServerFailure(msg: 'error'.tr));
+			}
+		} else {
+			return Left(CashFailure(msg: 'error'.tr));
+		}
+  }
+
 }
