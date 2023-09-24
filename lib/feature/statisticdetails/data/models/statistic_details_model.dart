@@ -81,7 +81,7 @@ class Chart {
     chartSettingsId: json["chart_settings_id"]??0,
     statisticsId: json["statistics_id"]??0,
     chartData: List<ChartDatum>.from(json["chart_data"].map((x) => ChartDatum.fromJson(x))),
-    finalApiData: FinalApiData.fromJson(json["final_api_data"]),
+    finalApiData: FinalApiData.fromJson(json["final_api_data"] == [] ? [{}] : json["final_api_data"]),
     type: json["type"]??'',
     chartSetting: ChartSetting.fromJson(json["chart_setting"]),
   );
@@ -154,31 +154,47 @@ class ChartSetting {
 }
 
 class FinalApiData {
-  List<String> labels;
-  List<dynamic> values;
-  List<String> color;
-  List<dynamic> percent;
+  final List<String> labels;
+  final List<dynamic> values;
+  final List<dynamic> percent;
+  final List<String> color;
 
   FinalApiData({
     required this.labels,
     required this.values,
+    required this.percent,
     required this.color,
-    required this.percent
   });
 
-  factory FinalApiData.fromJson(Map<String, dynamic> json) => FinalApiData(
-    labels: List<String>.from(json["labels"].map((x) => x)),
-    values: List<dynamic>.from(json["values"].map((x) => x)),
-    color: List<String>.from(json["color"].map((x) => x)),
-    percent: List<dynamic>.from(json["percent"].map((x) => x)),
-  );
+  factory FinalApiData.fromJson(dynamic json) {
+    if (json is Map<String, dynamic>) {
+      return FinalApiData(
+        labels: List<String>.from(json["labels"]),
+        values: List<dynamic>.from(json["values"]),
+        percent: List<dynamic>.from(json["percent"]),
+        color: List<String>.from(json["color"]),
+      );
+    } else {
+      // Handle the case where "final_api_data" is an empty list
+      return FinalApiData(
+        labels: [],
+        values: [],
+        percent: [],
+        color: [],
+      );
+    }
+  }
 
-  Map<String, dynamic> toJson() => {
-    "labels": List<dynamic>.from(labels.map((x) => x)),
-    "values": List<dynamic>.from(values.map((x) => x)),
-    "color": List<dynamic>.from(color.map((x) => x)),
-  };
+  Map<String, dynamic> toJson() {
+    return {
+      "labels": labels,
+      "values": values,
+      "percent": percent,
+      "color": color,
+    };
+  }
 }
+
 
 class StatisticColoumn {
   int id;

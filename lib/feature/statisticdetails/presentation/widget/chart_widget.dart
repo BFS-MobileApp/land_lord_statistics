@@ -54,7 +54,7 @@ class ChartWidget extends StatelessWidget {
                     opacity: 0.9,
                     explodeIndex: 0,
                     dataSource: <Data>[
-                      for(int i=0;i<precent.length;i++) Data('${precent[i].toStringAsFixed(2)}%' , roundedPercentages[i]),
+                      for(int i=0;i<precent.length;i++) precent[i] == null ? Data('0%' , 0) : Data('${precent[i].toStringAsFixed(2)}%' , roundedPercentages[i]),
                     ],
                     xValueMapper: ( Data data, _) => data.text,
                     yValueMapper: ( Data data, _) => data.value,
