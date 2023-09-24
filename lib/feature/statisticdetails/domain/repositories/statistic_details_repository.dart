@@ -7,4 +7,5 @@ abstract class StatisticDetailsRepository {
 
   Future<Either<Failures , StatisticDetails>> getStatisticDetails(String uniqueId);
   Future<Either<Failures , NoParams>> setUserCompanySettings(String color , String uniqueId, double sort);
+  Future<Either<Failures , NoParams>> setUserColumnsSettings(List<String> columnsSort);
 }

@@ -68,3 +68,13 @@ class StatisticColumnSettings extends Equatable{
   // TODO: implement props
   List<Object?> get props => [uniqueId , color];
 }
+
+class StatisticColumnSortSettings extends Equatable{
+  final List<String> columnsSorts;
+
+  const StatisticColumnSortSettings({required this.columnsSorts});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [columnsSorts];
+}

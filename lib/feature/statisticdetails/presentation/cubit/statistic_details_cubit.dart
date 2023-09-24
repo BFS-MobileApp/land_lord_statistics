@@ -4,6 +4,7 @@ import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:claimizer/feature/statisticdetails/domain/usecases/statistic_details_usecase.dart';
 import 'package:claimizer/feature/statisticdetails/domain/usecases/user_column_settings_use_case.dart';
+import 'package:claimizer/feature/statisticdetails/domain/usecases/user_columns_sort_settings.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:claimizer/feature/statisticdetails/domain/entities/statistic_details.dart';
@@ -15,7 +16,8 @@ class StatisticDetailsCubit extends Cubit<StatisticDetailsState> {
 
   final StatisticDetailsUseCase statisticDetailsUseCase;
   final UserColumnSettingsUseCase userColumnSettingsUseCase;
-  StatisticDetailsCubit({required this.statisticDetailsUseCase , required this.userColumnSettingsUseCase}) : super(StatisticDetailsInitial());
+  final UserColumnSortSettingsUseCase userColumnSortSettingsUseCase;
+  StatisticDetailsCubit({required this.userColumnSortSettingsUseCase , required this.statisticDetailsUseCase , required this.userColumnSettingsUseCase}) : super(StatisticDetailsInitial());
 
   Future<void> getData(String uniquId) async{
     emit(StatisticsDetailsIsLoading());
@@ -25,6 +27,10 @@ class StatisticDetailsCubit extends Cubit<StatisticDetailsState> {
 
   Future<void> setSettings(String color , double sort , String uniqueId) async{
     await userColumnSettingsUseCase(StatisticColumnSettings(color: color ,  uniqueId: uniqueId , sort: sort));
+  }
+
+  Future<void> setColumnsSettings(List<String> columnsSort) async{
+    await userColumnSortSettingsUseCase(StatisticColumnSortSettings(columnsSorts: columnsSort));
   }
 
   Future<void> refreshList(List<StatisticColoumn> statisticList , Data data ) async{

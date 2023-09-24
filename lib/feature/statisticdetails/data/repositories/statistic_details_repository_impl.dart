@@ -43,4 +43,18 @@ class StatisticDetailsRepositoryImpl extends StatisticDetailsRepository {
 		}
   }
 
+  @override
+  Future<Either<Failures, NoParams>> setUserColumnsSettings(List<String> columnsSort) async{
+		if(await networkInfo.isConnected){
+			try{
+				await statisticDetailsRemoteDataSource.setUserColumnSettings(columnsSort);
+				return Right(NoParams());
+			} on ServerException{
+				return Left(ServerFailure(msg: 'error'.tr));
+			}
+		} else {
+			return Left(CashFailure(msg: 'error'.tr));
+		}
+  }
+
 }

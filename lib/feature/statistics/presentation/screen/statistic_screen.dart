@@ -113,7 +113,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
               statisticList = state.statistic.statisticData;
               statisticListData = state.statistic.statisticData;
               isInitialized = true;
-              //statisticList.sort((a, b) => a.sortValue.compareTo(b.sortValue));
+              statisticList.sort((a, b) => a.sortValue.compareTo(b.sortValue));
             }
             return ListView(
               children: [
@@ -122,7 +122,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     onTap: (){
                       Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
                     },
-                    child: StatisticWidgetItem(maxSort: findMaxSortValue() , minSort: findMinSortValue() ,sort: statisticList[pos].sortValue, pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+                    child: StatisticWidgetItem(maxSort: findMaxSortValue() , minSort: findMinSortValue() , pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
                   );
                 }),
                 Container(
@@ -148,7 +148,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     statisticList = statisticListData;
                   });*/
                     },
-                    child: StatisticWidgetItem(maxSort: findMaxSortValue() , minSort: findMinSortValue() ,sort: state.statisticList[pos].sortValue,pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , uniqueId: state.statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(state.statisticList[pos].statisticsDate.toString()),),
+                    child: StatisticWidgetItem(maxSort: findMaxSortValue() , minSort: findMinSortValue() ,pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , uniqueId: state.statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(state.statisticList[pos].statisticsDate.toString()),),
                   );
                 }),
                 Container(

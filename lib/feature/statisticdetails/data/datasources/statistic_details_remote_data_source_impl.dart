@@ -22,11 +22,19 @@ class StatisticDetailsRemoteDataSourceImpl extends StatisticDetailsRemoteDataSou
       AppStrings.columnStatisticDetails:{
         uniqueId:{
           AppStrings.color:color == '' ? null : color,
-          AppStrings.sort:sort
+          //AppStrings.sort:sort
         },
       }
     };
     await consumer.post(EndPoints.updateStatisticsColumn , body: body);
+  }
+
+  @override
+  Future<void> setUserColumnSettings(List<String> columnSortList) async{
+    final body = {
+      AppStrings.columnsSort: columnSortList
+    };
+    await consumer.post(EndPoints.updateColumnsSort , body: body);
   }
 
 }

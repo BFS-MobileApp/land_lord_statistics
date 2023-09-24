@@ -240,7 +240,7 @@ class StatisticColoumn {
     value: json["value"]??'',
     savedColor: HexColor(json["color"]??''),
     userColor: json['user_color']??'',
-    userSort: json['user_sort']??0
+    userSort: json['user_sort'] == false ? 0 : json['user_sort']
   );
 
   Map<String, dynamic> toJson() => {

@@ -19,10 +19,10 @@ class StatisticWidgetItem extends StatefulWidget {
   List<StatisticSummary> statisticList = [];
   Color color;
   int pos;
-  dynamic sort;
+  //dynamic sort;
   dynamic maxSort;
   dynamic minSort;
-  StatisticWidgetItem({super.key, required this.maxSort , required this.minSort , required this.sort , required this.pos , required this.statisticList , required this.companyName, required this.date , required this.buildingName , required this.uniqueId , required this.color});
+  StatisticWidgetItem({super.key, required this.maxSort , required this.minSort , required this.pos , required this.statisticList , required this.companyName, required this.date , required this.buildingName , required this.uniqueId , required this.color});
 
   @override
   State<StatisticWidgetItem> createState() => _StatisticWidgetItemState();
@@ -53,10 +53,10 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   void initState() {
     super.initState();
     setInitialColor();
-    setInitialValue();
+    //setInitialValue();
   }
 
-  setInitialValue(){
+  /*setInitialValue(){
     if(widget.pos == 0){
       setState(() {
         previousSort = widget.minSort;
@@ -75,7 +75,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
         nextSort = widget.statisticList[widget.pos+1].sortValue;
       });
     }
-  }
+  }*/
 
   List<String> getCompaniesSortId(){
     List<String> companiesSort = [];
@@ -129,7 +129,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
       },
     );
   }
-
+/*
   refreshList(double sort){
     BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
     if(isColorChanged == false && pos != -2){
@@ -139,7 +139,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
     } else if(isColorChanged == true && pos == -2){
       BlocProvider.of<StatisticCubit>(context).setSettings(hex, widget.sort+0.0 , widget.uniqueId);
     }
-  }
+  }*/
 
   Color intColorToColor(int intColor) {
     return Color(intColor);

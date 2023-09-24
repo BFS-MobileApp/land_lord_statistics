@@ -69,7 +69,8 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
         pos = widget.pos;
       });
     }
-    refreshList();
+    BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
+    BlocProvider.of<StatisticDetailsCubit>(context).setColumnsSettings(getColumnsSortList());
   }
 
   moveToBeginning(){
@@ -79,7 +80,8 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
       widget.statisticListData.insert(0, item);
       pos = 0;
     });
-    refreshList();
+    BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
+    BlocProvider.of<StatisticDetailsCubit>(context).setColumnsSettings(getColumnsSortList());
   }
 
   moveDown(){
@@ -91,7 +93,8 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
         pos = widget.pos;
       });
     }
-    refreshList();
+    BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
+    BlocProvider.of<StatisticDetailsCubit>(context).setColumnsSettings(getColumnsSortList());
   }
 
   moveToEnd(){
@@ -101,10 +104,11 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
       widget.statisticListData.add(item);
       pos = widget.statisticListData.length-2;
     });
-    refreshList();
+    BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
+    BlocProvider.of<StatisticDetailsCubit>(context).setColumnsSettings(getColumnsSortList());
   }
 
-  refreshList(){
+  /*refreshList(){
     BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
     if(isColorChanged == false && pos != -2){
       BlocProvider.of<StatisticDetailsCubit>(context).setSettings('', pos+1 , widget.uniqueId);
@@ -113,6 +117,14 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
     } else if(isColorChanged == true && pos == -2){
       BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex, widget.sort , widget.uniqueId);
     }
+  }*/
+  
+  List<String> getColumnsSortList(){
+    List<String> columnsSorts = [];
+    for(var columns in widget.statisticListData){
+      columnsSorts.add(columns.columnName);
+    }
+    return columnsSorts;
   }
 
   void showColorPickerDialog(){
@@ -139,7 +151,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
                 });
                 //BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex,  widget.columnName);
                 Navigator.of(context).pop();
-                refreshList();
+                BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex, 0 , widget.uniqueId);
               },
             ),
           ],
