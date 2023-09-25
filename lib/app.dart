@@ -5,6 +5,7 @@ import 'package:claimizer/core/utils/local_strings.dart';
 import 'package:claimizer/feature/login/presentation/cubit/login_cubit.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/cubit/statistic_details_cubit.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
+import 'package:claimizer/feature/useraccounts/presentation/cubit/user_accounts_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => di.sl<LoginCubit>()),
           BlocProvider(create: (context) => di.sl<StatisticCubit>()),
           BlocProvider(create: (context) => di.sl<StatisticDetailsCubit>()),
+          BlocProvider(create: (context) => di.sl<UserAccountsCubit>()),
         ],
         child: ScreenUtilInit(
             designSize: const Size(360, 690),

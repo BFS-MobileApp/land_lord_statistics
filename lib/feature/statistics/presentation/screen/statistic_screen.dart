@@ -255,6 +255,18 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     ),
                   ),
                 ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.userAccountsRoutes);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0.sp),
+                    child: const Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ],
               leading: IconButton(
                 onPressed: changeLocalization,

@@ -1,51 +1,48 @@
-import 'package:claimizer/config/PrefHelper/model/user_model.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:claimizer/feature/useraccounts/data/models/user_model.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-  static late Database _database;
+  static final DatabaseHelper instance = DatabaseHelper._init();
+  static Database? _database;
+
+  DatabaseHelper._init();
 
   Future<Database> get database async {
-    if (_database != null) {
-      return _database;
-    }
-
-    // If the database is null, initialize it
-    _database = await initDatabase();
-    return _database;
+    _database ??= await _initDatabase();
+    return _database!;
   }
 
-  Future<Database> initDatabase() async {
+
+  Future<Database> _initDatabase() async {
     final databasesPath = await getDatabasesPath();
     final path = join(databasesPath, 'my_database.db');
+    return await openDatabase(path, version: 1, onCreate: _createDatabase);
+  }
 
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: (Database db, int version) async {
-        // Create the table when the database is created
-        await db.execute('''
-          CREATE TABLE users (
+
+  Future<void> _createDatabase(Database db, int version) async {
+    await db.execute('''
+      CREATE TABLE users (
             name TEXT,
             email TEXT PRIMARY KEY,
             token TEXT,
             active INTEGER
           )
-        ''');
-      },
-    );
+    ''');
   }
 
-  Future<int> insertUser(User user) async {
+
+  Future<int> insertUser(UserModel user) async {
     final db = await database;
     return await db.insert('users', user.toMap());
   }
 
-  Future<List<User>> getUsers() async {
+  Future<List<UserModel>> getUsers() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('users');
     return List.generate(maps.length, (i) {
-      return User.fromMap(maps[i]);
+      return UserModel.fromMap(maps[i]);
     });
   }
 

@@ -7,7 +7,6 @@ class Statistic extends Equatable{
   final List<StatisticSummary> statisticData;
   const Statistic({required this.statisticData});
   @override
-  // TODO: implement props
   List<Object?> get props => [statisticData];
 
 }

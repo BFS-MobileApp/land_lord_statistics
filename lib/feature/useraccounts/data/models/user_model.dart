@@ -1,15 +1,17 @@
-class User {
+import 'package:claimizer/feature/useraccounts/domain/entities/user.dart';
+
+class UserModel extends User{
   String name;
   String email;
   String token;
   bool active;
 
-  User({
+  UserModel({
     required this.name,
     required this.email,
     required this.token,
     required this.active,
-  });
+  }) : super(active: active, email: email, name: name, token: token);
 
   // Convert User object to a Map
   Map<String, dynamic> toMap() {
@@ -22,8 +24,8 @@ class User {
   }
 
   // Create a User object from a Map
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
       name: map['name'],
       email: map['email'],
       token: map['token'],
