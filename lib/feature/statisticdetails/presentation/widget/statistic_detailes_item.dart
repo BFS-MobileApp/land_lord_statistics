@@ -151,7 +151,8 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
                 });
                 //BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex,  widget.columnName);
                 Navigator.of(context).pop();
-                BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex, 0 , widget.uniqueId);
+                BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
+                BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex, 0 , widget.columnName);
               },
             ),
           ],
