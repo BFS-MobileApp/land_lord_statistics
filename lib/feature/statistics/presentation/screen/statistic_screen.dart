@@ -3,7 +3,6 @@ import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
-import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:claimizer/feature/statistics/presentation/widget/statistic_widget.dart';
@@ -70,16 +69,6 @@ class _StatisticScreenState extends State<StatisticScreen> {
     return minSortValue;
   }
 
-  callLogoutDialog(){
-    Future.delayed(const Duration(milliseconds: 500), () {
-      AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'logOutPhase'.tr, yesOnTap: (){
-        deleteUserData();
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>const LoginScreen()), (Route<dynamic> route) => false);
-      }, context: context);
-      dialogWidget.logOutDialog();
-    });
-  }
-
   void filterSearchResults(String name) {
     if(name.isEmpty){
       setState(() {
@@ -93,11 +82,6 @@ class _StatisticScreenState extends State<StatisticScreen> {
     });
   }
 
-  deleteUserData() async{
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.remove(AppStrings.token);
-    preferences.remove(AppStrings.userName);
-  }
 
   Widget _statisticWidget(){
     return BlocBuilder<StatisticCubit, StatisticState>(
@@ -245,7 +229,6 @@ class _StatisticScreenState extends State<StatisticScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    callLogoutDialog();
                   },
                   child: Padding(
                     padding: EdgeInsets.all(8.0.sp),

@@ -9,9 +9,7 @@ class UserAccountsLocalDataSourceImpl extends UserAccountsLocalDataSource {
 
   @override
   Future<List<UserModel>> getUsersAccountsList() async{
-    print('here');
     final users = await dbhelper.getUsers();
-    print('here');
     for (var user in users) {
       print('User: ${user.name}, Email: ${user.email}, Active: ${user.active}');
     }

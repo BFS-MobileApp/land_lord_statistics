@@ -14,7 +14,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+
+  bool addOtherMail;
+  LoginScreen({super.key , required this.addOtherMail});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -96,7 +98,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   goToNextScreen(){
     Future.delayed(const Duration(milliseconds: 500), () {
-      Navigator.pushReplacementNamed(context, Routes.statisticRoutes);
+      if(widget.addOtherMail){
+        Navigator.pushReplacementNamed(context, Routes.userAccountsRoutes);
+      } else {
+        Navigator.pushReplacementNamed(context, Routes.statisticRoutes);
+      }
     });
   }
 

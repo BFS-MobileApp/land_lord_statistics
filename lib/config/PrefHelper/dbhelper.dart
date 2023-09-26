@@ -33,9 +33,18 @@ class DatabaseHelper {
   }
 
 
-  Future<int> insertUser(UserModel user) async {
+  Future<void> insertUser(UserModel user) async {
     final db = await database;
-    return await db.insert('users', user.toMap());
+    // Check if the email already exists in the database
+    final existingUsers = await db.query(
+      'users',
+      where: 'email = ?',
+      whereArgs: [user.email],
+    );
+    if (existingUsers.isEmpty) {
+      // Email doesn't exist, proceed with insertion
+      await db.insert('users', user.toMap());
+    }
   }
 
   Future<List<UserModel>> getUsers() async {
@@ -88,5 +97,15 @@ class DatabaseHelper {
     } else {
       return null; // No active user found
     }
+  }
+
+  Future<void> deleteAllActiveUsers() async {
+    final db = await database;
+    // Delete all users with active status set to true (1)
+    await db.delete(
+      'users',
+      where: 'active = ?',
+      whereArgs: [1], // 1 represents an active user
+    );
   }
 }

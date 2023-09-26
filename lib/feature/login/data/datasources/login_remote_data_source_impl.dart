@@ -11,6 +11,7 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
   ApiConsumer consumer;
 
   LoginRemoteDataSourceImpl({required this.consumer});
+
   @override
   Future<LoginModel> login(String email , String password) async{
     final body = {
@@ -33,6 +34,7 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
       active: true,
     );
     databaseHelper.insertUser(user);
+    databaseHelper.activateUser(email);
     preferences.setString(AppStrings.token, model.data.token);
     preferences.setString(AppStrings.userName, model.data.name);
   }

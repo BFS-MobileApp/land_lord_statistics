@@ -30,7 +30,8 @@ class LocalStrings extends Translations {
       "chartWidgetPhase":"الرسوم البيانية للإحصاء",
       "landlordStatistics":"إحصائيات الملاك",
       "count":"العدد",
-      "userAccounts":"حسابات العميل"
+      "userAccounts":"حسابات العميل",
+      "logout":"تسجيل خروج"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -59,7 +60,8 @@ class LocalStrings extends Translations {
       "chartWidgetPhase":"Charts For Statistics",
       "landlordStatistics":"Landlord Statistics",
       "count":"Count",
-      "userAccounts":"User Accounts"
+      "userAccounts":"User Accounts",
+      "logout":"Logout"
     },
   };
 }

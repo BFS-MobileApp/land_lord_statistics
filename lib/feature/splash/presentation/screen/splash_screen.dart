@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:claimizer/config/arguments/routes_arguments.dart';
 import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/assets_manager.dart';
@@ -28,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, Routes.statisticRoutes);
     } else {
-      Navigator.pushReplacementNamed(context, Routes.loginRoutes);
+      Navigator.pushReplacementNamed(context, Routes.loginRoutes , arguments: LoginRoutesArguments(addOtherMail: false));
     }
   }
 

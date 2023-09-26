@@ -17,7 +17,8 @@ class UserAccountItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(email , style: TextStyle(fontWeight: FontWeight.w600 , fontSize: 16.sp),),
-            isActive ? Icon(Icons.check , size: 25.sp , color: AppColors.black,) : const SizedBox()
+            SizedBox(height: ScreenUtil().setHeight(8),),
+            isActive ? Icon(Icons.check , size: 25.sp , color: AppColors.black,) : Icon(Icons.circle_outlined , size: 20.sp , color: AppColors.black,)
           ],
         ),
       ),

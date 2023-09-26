@@ -1,10 +1,15 @@
-import 'package:claimizer/core/utils/app_colors.dart';
+import 'package:claimizer/config/PrefHelper/dbhelper.dart';
+import 'package:claimizer/config/arguments/routes_arguments.dart';
+import 'package:claimizer/config/routes/app_routes.dart';
+import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/feature/useraccounts/presentation/cubit/user_accounts_cubit.dart';
 import 'package:claimizer/feature/useraccounts/presentation/widget/user_accounts_item.dart';
+import 'package:claimizer/widgets/alert_dilog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserAccountsScreen extends StatefulWidget {
   const UserAccountsScreen({super.key});
@@ -23,6 +28,26 @@ class _UserAccountsScreenState extends State<UserAccountsScreen> {
     super.initState();
     getAccounts();
   }
+
+  callLogoutDialog(){
+    Future.delayed(const Duration(milliseconds: 500), () {
+      AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'logOutPhase'.tr, yesOnTap: (){
+        deleteUserData();
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(Routes.loginRoutes,arguments: LoginRoutesArguments(addOtherMail: false), (Route<dynamic> route) => false);
+      }, context: context);
+      dialogWidget.logOutDialog();
+    });
+  }
+
+  deleteUserData() async{
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    final databaseHelper = DatabaseHelper.instance;
+    databaseHelper.deleteAllActiveUsers();
+    preferences.remove(AppStrings.token);
+    preferences.remove(AppStrings.userName);
+  }
+
   Widget userAccountsWidgets(){
     return BlocBuilder<UserAccountsCubit, UserAccountsState>(
         builder: ((context, state) {
@@ -52,21 +77,46 @@ class _UserAccountsScreenState extends State<UserAccountsScreen> {
       ),
       body: ListView(
         children: [
-          Container(
-            margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(30)),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('userAccounts'.tr , style: const TextStyle(color: Colors.blue , ),),
-                    Icon(Icons.add , size:  25.sp, color: Colors.blue,)
-                  ],
-                ),
-                userAccountsWidgets()
-              ],
+          Card(
+            elevation: 3,
+            child: Container(
+              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.height/2),
+              margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(30)),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('userAccounts'.tr , style: const TextStyle(color: Colors.blue , ),),
+                      IconButton(
+                        onPressed: ()=>Navigator.pushReplacementNamed(context, Routes.loginRoutes , arguments: LoginRoutesArguments(addOtherMail: true)),
+                        icon: const Icon(Icons.add),
+                        iconSize: 25.sp,
+                        color: Colors.blue,
+                      )
+                    ],
+                  ),
+                  userAccountsWidgets()
+                ],
+              ),
             ),
           ),
+          Card(
+            elevation: 3,
+            child: Container(
+              margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(30)),
+              child: InkWell(
+                onTap: ()=>callLogoutDialog(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('logout'.tr , style: TextStyle(fontSize: 18.sp , color: Colors.red),),
+                    const Icon(Icons.logout)
+                  ],
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
