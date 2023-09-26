@@ -16,6 +16,7 @@ class LoginCubit extends Cubit<LoginState> {
 
   void initLoginPage() => emit(LoginInitial());
 
+
   Future<void> login(String email , String password) async{
     emit(LoginIsLoading());
     Either<Failures , Login> response = await loginUseCase(LoginParams(email: email, password: password));

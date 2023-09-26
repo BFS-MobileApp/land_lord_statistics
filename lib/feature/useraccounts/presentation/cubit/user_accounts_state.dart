@@ -28,3 +28,12 @@ class UserAccountsError extends UserAccountsState{
   @override
   List<Object> get props =>[msg];
 }
+
+class UserAccountChanged extends UserAccountsState{
+  final List<User> userAccounts;
+
+  const UserAccountChanged({required this.userAccounts});
+
+  @override
+  List<Object> get props =>[userAccounts];
+}

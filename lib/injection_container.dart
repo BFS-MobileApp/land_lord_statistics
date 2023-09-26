@@ -44,7 +44,7 @@ Future<void> init() async{
   sl.registerFactory(() => LoginCubit(loginUseCase: sl()));
   sl.registerFactory(() => StatisticCubit(statisticCompanySettings: sl() , userCompaniesSortSetting: sl() , statisticUseCase: sl()));
   sl.registerFactory(() => StatisticDetailsCubit(userColumnSortSettingsUseCase: sl(), userColumnSettingsUseCase: sl(), statisticDetailsUseCase: sl()));
-  sl.registerFactory(() => UserAccountsCubit(userAccountsUseCase: sl()));
+  sl.registerFactory(() => UserAccountsCubit(dbHelper: sl(),userAccountsUseCase: sl()));
 
   //UseCase
   sl.registerLazySingleton(() => LoginUseCase(loginRepository: sl()));

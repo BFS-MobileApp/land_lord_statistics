@@ -33,10 +33,15 @@ class _UserAccountsScreenState extends State<UserAccountsScreen> {
     Future.delayed(const Duration(milliseconds: 500), () {
       AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'logOutPhase'.tr, yesOnTap: (){
         deleteUserData();
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(Routes.loginRoutes,arguments: LoginRoutesArguments(addOtherMail: false), (Route<dynamic> route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil(Routes.loginRoutes,arguments: LoginRoutesArguments(addOtherMail: false), (Route<dynamic> route) => false);
       }, context: context);
       dialogWidget.logOutDialog();
+    });
+  }
+
+  goToNextScreen(){
+    Future.delayed(const Duration(milliseconds: 500), () {
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.statisticRoutes, (Route<dynamic> route) => false);
     });
   }
 
@@ -47,6 +52,7 @@ class _UserAccountsScreenState extends State<UserAccountsScreen> {
     preferences.remove(AppStrings.token);
     preferences.remove(AppStrings.userName);
   }
+
 
   Widget userAccountsWidgets(){
     return BlocBuilder<UserAccountsCubit, UserAccountsState>(
@@ -61,6 +67,9 @@ class _UserAccountsScreenState extends State<UserAccountsScreen> {
             return ListView.builder(shrinkWrap: true, physics: const ClampingScrollPhysics(),itemCount: state.userAccounts.length , itemBuilder: (ctx , pos){
               return UserAccountItem(email: state.userAccounts[pos].email, isActive: state.userAccounts[pos].active);
             });
+          } else if(state is UserAccountChanged){
+            goToNextScreen();
+            return const SizedBox();
           } else {
             return const Center(
               child: CircularProgressIndicator(),

@@ -1,4 +1,5 @@
 import 'package:claimizer/feature/useraccounts/data/models/user_model.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -81,22 +82,16 @@ class DatabaseHelper {
     );
   }
 
-  Future<String?> getActiveUserToken() async {
+  Future<String> getActiveUserToken() async {
     final db = await database;
-
-    // Query the database to retrieve the token of the active user
     final result = await db.query(
       'users',
       where: 'active = ?',
       whereArgs: [1], // 1 represents an active user
       columns: ['token'],
     );
-
-    if (result.isNotEmpty) {
-      return result.first['token'] as String;
-    } else {
-      return null; // No active user found
-    }
+    debugPrint('database token'+result.first['token'].toString());
+    return result.first['token'].toString();
   }
 
   Future<void> deleteAllActiveUsers() async {

@@ -1,7 +1,6 @@
-import 'package:claimizer/core/utils/app_strings.dart';
+import 'package:claimizer/config/PrefHelper/dbhelper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AppInterceptor extends Interceptor{
 
@@ -40,10 +39,8 @@ class AppInterceptor extends Interceptor{
 
   Future<String> returnUserToken() async{
     String token = '';
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    if(preferences.containsKey(AppStrings.token)){
-      token = preferences.getString(AppStrings.token).toString();
-    }
+    final databaseHelper = DatabaseHelper.instance;
+    await databaseHelper.getActiveUserToken().then((value) => token = value);
     return token;
   }
 }
