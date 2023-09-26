@@ -39,6 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     startTimer();
     Helper.getDefaultLanguage();
+    Helper.getCurrentLocal();
   }
 
   @override

@@ -31,7 +31,8 @@ class LocalStrings extends Translations {
       "landlordStatistics":"إحصائيات الملاك",
       "count":"العدد",
       "userAccounts":"حسابات العميل",
-      "logout":"تسجيل خروج"
+      "logout":"تسجيل خروج",
+      "changeLanguage":"تغير اللغة"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -61,7 +62,8 @@ class LocalStrings extends Translations {
       "landlordStatistics":"Landlord Statistics",
       "count":"Count",
       "userAccounts":"User Accounts",
-      "logout":"Logout"
+      "logout":"Logout",
+      "changeLanguage":"Change Language"
     },
   };
 }

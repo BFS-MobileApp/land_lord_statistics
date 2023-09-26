@@ -1,9 +1,9 @@
 import 'package:claimizer/config/arguments/routes_arguments.dart';
 import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
+import 'package:claimizer/feature/setting/presentation/screen/setting_screen.dart';
 import 'package:claimizer/feature/splash/presentation/screen/splash_screen.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/screens/statistic_details_screen.dart';
 import 'package:claimizer/feature/statistics/presentation/screen/statistic_screen.dart';
-import 'package:claimizer/feature/useraccounts/presentation/screen/user_account_screen.dart';
 import 'package:flutter/material.dart';
 
 class Routes{
@@ -35,7 +35,7 @@ class AppRoutes{
         });
       case Routes.userAccountsRoutes:
         return MaterialPageRoute(builder: (context) {
-          return const UserAccountsScreen();
+          return const SettingScreen();
         });
       case Routes.statisticDetailsRoutes:
         final args = routeSettings.arguments as StatisticDetailsRoutesArguments;

@@ -1,4 +1,4 @@
-import 'package:claimizer/feature/useraccounts/data/models/user_model.dart';
+import 'package:claimizer/feature/setting/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -90,7 +90,6 @@ class DatabaseHelper {
       whereArgs: [1], // 1 represents an active user
       columns: ['token'],
     );
-    debugPrint('database token'+result.first['token'].toString());
     return result.first['token'].toString();
   }
 

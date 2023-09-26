@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 
 import '../entities/user.dart';
 
-abstract class UserAccountsRepository {
+abstract class SettingRepository {
 
   Future<Either<Failures , List<User>>> getUserAccounts();
 }

@@ -24,14 +24,12 @@ class LanguageLocalDataSourceImpl implements LanguageLocalDataSource{
       var locale = const Locale('ar','AR');
       Get.updateLocale(locale);
     }
-    debugPrint('datasource'+currentLocal.countryCode.toString());
     await sharedPreferences.setString(AppStrings.local, languageCode);
   }
 
   @override
   Future<String?> getSavedLanguage() async {
     if(sharedPreferences.containsKey(AppStrings.local)){
-      debugPrint('hi ${sharedPreferences.getString(AppStrings.local)}');
       return sharedPreferences.getString(AppStrings.local);
     } else {
       return AppStrings.enCountryCode;

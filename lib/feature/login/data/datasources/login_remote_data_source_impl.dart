@@ -4,7 +4,7 @@ import 'package:claimizer/core/api/end_points.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/feature/login/data/datasources/login_remote_data_source.dart';
 import 'package:claimizer/feature/login/data/models/login_model.dart';
-import 'package:claimizer/feature/useraccounts/data/models/user_model.dart';
+import 'package:claimizer/feature/setting/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {

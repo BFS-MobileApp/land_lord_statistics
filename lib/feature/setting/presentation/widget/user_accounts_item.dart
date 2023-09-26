@@ -1,5 +1,5 @@
 import 'package:claimizer/core/utils/app_colors.dart';
-import 'package:claimizer/feature/useraccounts/presentation/cubit/user_accounts_cubit.dart';
+import 'package:claimizer/feature/setting/presentation/cubit/setting_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,11 +14,11 @@ class UserAccountItem extends StatelessWidget {
     return InkWell(
       onTap: (){
         if(!isActive){
-          BlocProvider.of<UserAccountsCubit>(context).changeAccount(email);
+          BlocProvider.of<SettingCubit>(context).changeAccount(email);
         }
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
+        margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(15)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

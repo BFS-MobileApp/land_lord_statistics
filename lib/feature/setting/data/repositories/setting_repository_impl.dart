@@ -1,16 +1,15 @@
 import 'package:claimizer/core/error/exceptions.dart';
 import 'package:claimizer/core/error/failures.dart';
-import 'package:claimizer/feature/useraccounts/data/datasources/useraccounts_remote_data_source.dart';
-import 'package:claimizer/feature/useraccounts/domain/repositories/useraccounts_repository.dart';
+import 'package:claimizer/feature/setting/data/datasources/setting_local_data_source.dart';
+import 'package:claimizer/feature/setting/domain/repositories/setting_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
-
 import '../../domain/entities/user.dart';
 
-class UserAccountsRepositoryImpl extends UserAccountsRepository {
+class SettingRepositoryImpl extends SettingRepository {
 
-	UserAccountsLocalDataSource userAccountsLocalDataSource;
-	UserAccountsRepositoryImpl({required this.userAccountsLocalDataSource});
+	SettingLocalDataSource userAccountsLocalDataSource;
+	SettingRepositoryImpl({required this.userAccountsLocalDataSource});
 
   @override
   Future<Either<Failures, List<User>>> getUserAccounts() async{

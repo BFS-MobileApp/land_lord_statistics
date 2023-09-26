@@ -32,7 +32,6 @@ class StatisticsRemoteDataSourceImpl extends StatisticsRemoteDataSource {
 
   @override
   Future<void> setUserSortSettings(List<String> companiesList) async{
-    print(companiesList);
     final body = {
       AppStrings.companiesSort: companiesList
     };

@@ -3,18 +3,18 @@ import 'package:claimizer/config/PrefHelper/dbhelper.dart';
 import 'package:claimizer/core/error/failures.dart';
 import 'package:claimizer/core/usecase/use_case.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
-import 'package:claimizer/feature/useraccounts/domain/entities/user.dart';
-import 'package:claimizer/feature/useraccounts/domain/usecases/user_accounts_use_case.dart';
+import 'package:claimizer/feature/setting/domain/entities/user.dart';
+import 'package:claimizer/feature/setting/domain/usecases/setting_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-part 'user_accounts_state.dart';
+part 'setting_state.dart';
 
-class UserAccountsCubit extends Cubit<UserAccountsState> {
+class SettingCubit extends Cubit<SettingState> {
 
-  final UserAccountsUseCase userAccountsUseCase;
+  final SettingUseCase userAccountsUseCase;
   final DatabaseHelper dbHelper;
-  UserAccountsCubit({required this.userAccountsUseCase , required this.dbHelper}) : super(UserAccountsInitial());
+  SettingCubit({required this.userAccountsUseCase , required this.dbHelper}) : super(UserAccountsInitial());
 
   Future<void> getData() async{
     emit(UserAccountsLoading());

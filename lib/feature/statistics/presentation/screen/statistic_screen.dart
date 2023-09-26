@@ -1,18 +1,15 @@
 import 'package:claimizer/config/arguments/routes_arguments.dart';
 import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
-import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:claimizer/feature/statistics/presentation/widget/statistic_widget.dart';
-import 'package:claimizer/widgets/alert_dilog_widget.dart';
 import 'package:claimizer/widgets/aligment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class StatisticScreen extends StatefulWidget {
   const StatisticScreen({super.key});
@@ -163,19 +160,6 @@ class _StatisticScreenState extends State<StatisticScreen> {
     });
   }
 
-  changeLocalization(){
-    final currentLocal = Get.locale;
-    //print('main'+currentLocal!.countryCode.toString());
-    if (currentLocal!.countryCode == 'AR') {
-      var locale = const Locale('en', 'US');
-      Get.updateLocale(locale);
-      Helper.setDefaultLang(AppStrings.enCountryCode);
-    } else {
-      var locale = const Locale('ar', 'AR');
-      Get.updateLocale(locale);
-      Helper.setDefaultLang(AppStrings.arCountryCode);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -227,35 +211,18 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0.sp),
-                    child: const Icon(
-                      Icons.logout,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.userAccountsRoutes);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0.sp),
-                    child: const Icon(
-                      Icons.person,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
               ],
-              leading: IconButton(
-                onPressed: changeLocalization,
-                icon: const Icon(Icons.translate_outlined ),
-                color: AppColors.whiteColor,
-                iconSize: 20.sp,
+              leading: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.userAccountsRoutes);
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(8.0.sp),
+                  child: const Icon(
+                    Icons.settings,
+                    color: Colors.white,
+                  ),
+                ),
               ),
           ),
           body: _statisticWidget(),

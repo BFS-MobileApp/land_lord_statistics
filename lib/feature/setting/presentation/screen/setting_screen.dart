@@ -2,8 +2,9 @@ import 'package:claimizer/config/PrefHelper/dbhelper.dart';
 import 'package:claimizer/config/arguments/routes_arguments.dart';
 import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
-import 'package:claimizer/feature/useraccounts/presentation/cubit/user_accounts_cubit.dart';
-import 'package:claimizer/feature/useraccounts/presentation/widget/user_accounts_item.dart';
+import 'package:claimizer/core/utils/helper.dart';
+import 'package:claimizer/feature/setting/presentation/cubit/setting_cubit.dart';
+import 'package:claimizer/feature/setting/presentation/widget/user_accounts_item.dart';
 import 'package:claimizer/widgets/alert_dilog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,22 +12,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserAccountsScreen extends StatefulWidget {
-  const UserAccountsScreen({super.key});
+class SettingScreen extends StatefulWidget {
+  const SettingScreen({super.key});
 
   @override
-  State<UserAccountsScreen> createState() => _UserAccountsScreenState();
+  State<SettingScreen> createState() => _SettingScreenState();
 }
 
-class _UserAccountsScreenState extends State<UserAccountsScreen> {
+class _SettingScreenState extends State<SettingScreen> {
 
-  getAccounts() =>BlocProvider.of<UserAccountsCubit>(context).getData();
+  String dropDownValue = '';
+  var items = ['EN', 'AR'];
+
+
+  getAccounts() =>BlocProvider.of<SettingCubit>(context).getData();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getAccounts();
+    getCurrentLocal();
   }
 
   callLogoutDialog(){
@@ -53,9 +59,8 @@ class _UserAccountsScreenState extends State<UserAccountsScreen> {
     preferences.remove(AppStrings.userName);
   }
 
-
   Widget userAccountsWidgets(){
-    return BlocBuilder<UserAccountsCubit, UserAccountsState>(
+    return BlocBuilder<SettingCubit, SettingState>(
         builder: ((context, state) {
           if (state is UserAccountsLoading) {
             return const Center(
@@ -78,6 +83,28 @@ class _UserAccountsScreenState extends State<UserAccountsScreen> {
         }));
   }
 
+  changeLocalization(){
+    final currentLocal = Get.locale;
+    if (currentLocal!.countryCode == 'AR') {
+      var locale = const Locale('en', 'US');
+      Get.updateLocale(locale);
+      Helper.setDefaultLang(AppStrings.enCountryCode);
+    } else {
+      var locale = const Locale('ar', 'AR');
+      Get.updateLocale(locale);
+      Helper.setDefaultLang(AppStrings.arCountryCode);
+    }
+  }
+
+  getCurrentLocal(){
+    if(Helper.getCurrentLocal() == 'AR'){
+      setState(() {
+        dropDownValue = items[1];
+      });
+    } else {
+      dropDownValue = items[0];
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +117,7 @@ class _UserAccountsScreenState extends State<UserAccountsScreen> {
             elevation: 3,
             child: Container(
               constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.height/2),
-              margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(30)),
+              margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(30)),
               child: Column(
                 children: [
                   Row(
@@ -107,6 +134,42 @@ class _UserAccountsScreenState extends State<UserAccountsScreen> {
                   ),
                   userAccountsWidgets()
                 ],
+              ),
+            ),
+          ),
+
+          Card(
+            elevation: 3,
+            child: Container(
+              margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(30)),
+              child: InkWell(
+                onTap: ()=>callLogoutDialog(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('changeLanguage'.tr , style: TextStyle(fontSize: 18.sp , color: Colors.blueAccent),),
+                    DropdownButton(
+                      value: dropDownValue,
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      items: items.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Text(items),
+                        );
+                      }).toList(),
+                      // After selecting the desired option,it will
+                      // change button value to selected value
+                      onChanged: (String? newValue) {
+                        if(newValue != dropDownValue){
+                          setState(() {
+                            dropDownValue = newValue!;
+                          });
+                          changeLocalization();
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

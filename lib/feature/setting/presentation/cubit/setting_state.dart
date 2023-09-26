@@ -1,17 +1,17 @@
-part of 'user_accounts_cubit.dart';
+part of 'setting_cubit.dart';
 
-abstract class UserAccountsState extends Equatable {
-  const UserAccountsState();
+abstract class SettingState extends Equatable {
+  const SettingState();
 
   @override
   List<Object> get props => [];
 }
 
-class UserAccountsInitial extends UserAccountsState {}
+class UserAccountsInitial extends SettingState {}
 
-class UserAccountsLoading extends UserAccountsState{}
+class UserAccountsLoading extends SettingState{}
 
-class UserAccountsLoaded extends UserAccountsState{
+class UserAccountsLoaded extends SettingState{
 
   final List<User> userAccounts;
 
@@ -21,7 +21,7 @@ class UserAccountsLoaded extends UserAccountsState{
   List<Object> get props =>[userAccounts];
 }
 
-class UserAccountsError extends UserAccountsState{
+class UserAccountsError extends SettingState{
   final String msg;
   const UserAccountsError({required this.msg});
 
@@ -29,7 +29,7 @@ class UserAccountsError extends UserAccountsState{
   List<Object> get props =>[msg];
 }
 
-class UserAccountChanged extends UserAccountsState{
+class UserAccountChanged extends SettingState{
   final List<User> userAccounts;
 
   const UserAccountChanged({required this.userAccounts});

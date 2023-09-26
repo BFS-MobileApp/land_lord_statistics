@@ -7,6 +7,11 @@ import 'package:claimizer/feature/login/data/repositories/login_repository_impl.
 import 'package:claimizer/feature/login/domain/repositories/login_repository.dart';
 import 'package:claimizer/feature/login/domain/usecases/login_usecase.dart';
 import 'package:claimizer/feature/login/presentation/cubit/login_cubit.dart';
+import 'package:claimizer/feature/setting/data/datasources/setting_local_data_source.dart';
+import 'package:claimizer/feature/setting/data/repositories/setting_repository_impl.dart';
+import 'package:claimizer/feature/setting/domain/repositories/setting_repository.dart';
+import 'package:claimizer/feature/setting/domain/usecases/setting_use_case.dart';
+import 'package:claimizer/feature/setting/presentation/cubit/setting_cubit.dart';
 import 'package:claimizer/feature/statisticdetails/data/datasources/statistic_details_remote_data_source.dart';
 import 'package:claimizer/feature/statisticdetails/data/datasources/statistic_details_remote_data_source_impl.dart';
 import 'package:claimizer/feature/statisticdetails/domain/usecases/statistic_details_usecase.dart';
@@ -20,18 +25,13 @@ import 'package:claimizer/feature/statistics/domain/repositories/statistics_repo
 import 'package:claimizer/feature/statistics/domain/usecases/statistic_use_case.dart';
 import 'package:claimizer/feature/statistics/domain/usecases/user_settings_use_case.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
-import 'package:claimizer/feature/useraccounts/data/datasources/useraccounts_remote_data_source.dart';
-import 'package:claimizer/feature/useraccounts/data/datasources/useraccounts_remote_data_source_impl.dart';
-import 'package:claimizer/feature/useraccounts/data/repositories/useraccounts_repository_impl.dart';
-import 'package:claimizer/feature/useraccounts/domain/repositories/useraccounts_repository.dart';
-import 'package:claimizer/feature/useraccounts/domain/usecases/user_accounts_use_case.dart';
-import 'package:claimizer/feature/useraccounts/presentation/cubit/user_accounts_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'config/PrefHelper/dbhelper.dart';
 import 'core/api/api_consumer.dart';
+import 'feature/setting/data/datasources/setting_local_data_source_impl.dart';
 import 'feature/statisticdetails/data/repositories/statistic_details_repository_impl.dart';
 import 'feature/statisticdetails/domain/repositories/statistic_details_repository.dart';
 import 'feature/statistics/domain/usecases/user_comanies_sort_setting.dart';
@@ -44,7 +44,7 @@ Future<void> init() async{
   sl.registerFactory(() => LoginCubit(loginUseCase: sl()));
   sl.registerFactory(() => StatisticCubit(statisticCompanySettings: sl() , userCompaniesSortSetting: sl() , statisticUseCase: sl()));
   sl.registerFactory(() => StatisticDetailsCubit(userColumnSortSettingsUseCase: sl(), userColumnSettingsUseCase: sl(), statisticDetailsUseCase: sl()));
-  sl.registerFactory(() => UserAccountsCubit(dbHelper: sl(),userAccountsUseCase: sl()));
+  sl.registerFactory(() => SettingCubit(dbHelper: sl(),userAccountsUseCase: sl()));
 
   //UseCase
   sl.registerLazySingleton(() => LoginUseCase(loginRepository: sl()));
@@ -54,19 +54,19 @@ Future<void> init() async{
   sl.registerLazySingleton(() => UserColumnSettingsUseCase(statisticDetailsRepository: sl()));
   sl.registerLazySingleton(() => UserCompaniesSortSetting(statisticsRepository: sl()));
   sl.registerLazySingleton(() => UserColumnSortSettingsUseCase(statisticDetailsRepository: sl()));
-  sl.registerLazySingleton(() => UserAccountsUseCase(userAccountsRepository: sl()));
+  sl.registerLazySingleton(() => SettingUseCase(userAccountsRepository: sl()));
 
   //Repository
   sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(loginRemoteDataSource: sl() , networkInfo: sl()));
   sl.registerLazySingleton<StatisticsRepository>(() => StatisticsRepositoryImpl(statisticsRemoteDataSource: sl() , networkInfo: sl()));
   sl.registerLazySingleton<StatisticDetailsRepository>(() => StatisticDetailsRepositoryImpl(statisticDetailsRemoteDataSource: sl() , networkInfo: sl()));
-  sl.registerLazySingleton<UserAccountsRepository>(() => UserAccountsRepositoryImpl(userAccountsLocalDataSource: sl()));
+  sl.registerLazySingleton<SettingRepository>(() => SettingRepositoryImpl(userAccountsLocalDataSource: sl()));
 
   //DataSource
   sl.registerLazySingleton<LoginRemoteDataSource>(() => LoginRemoteDataSourceImpl(consumer: sl()));
   sl.registerLazySingleton<StatisticsRemoteDataSource>(() => StatisticsRemoteDataSourceImpl(consumer: sl()));
   sl.registerLazySingleton<StatisticDetailsRemoteDataSource>(() => StatisticDetailsRemoteDataSourceImpl(consumer: sl()));
-  sl.registerLazySingleton<UserAccountsLocalDataSource>(() => UserAccountsLocalDataSourceImpl(dbhelper: sl()));
+  sl.registerLazySingleton<SettingLocalDataSource>(() => SettingLocalDataSourceImpl(dbhelper: sl()));
 
   //Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));

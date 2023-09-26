@@ -1,4 +1,5 @@
-import 'package:claimizer/feature/useraccounts/domain/entities/user.dart';
+
+import 'package:claimizer/feature/setting/domain/entities/user.dart';
 
 class UserModel extends User{
   String name;
