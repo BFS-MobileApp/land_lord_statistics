@@ -26,10 +26,8 @@ class _StatisticScreenState extends State<StatisticScreen> {
   FocusNode focusNode = FocusNode();
   bool isInitialized = false , isSearching = false;
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
-  List<StatisticSummary> zeroSortItems = [];
-  List<StatisticSummary> nonZeroSortItems = [];
-  List<StatisticSummary> sortedItemList = [];
   AlignmentWidget alignmentWidget = AlignmentWidget();
+
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
 
@@ -73,7 +71,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
       });
     }
     setState(() {
-      statisticList = statisticList
+      statisticList = statisticListData
           .where((element) => element.companyName.toLowerCase().contains(name.toLowerCase()) || element.buildingName.toLowerCase().contains(name.toLowerCase()))
           .toList();
     });
@@ -95,6 +93,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
               statisticListData = state.statistic.statisticData;
               isInitialized = true;
               statisticList.sort((a, b) => a.sortValue.compareTo(b.sortValue));
+              statisticListData.sort((a, b) => a.sortValue.compareTo(b.sortValue));
             }
             return ListView(
               children: [
@@ -155,7 +154,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
   changeSearchingState(){
     setState(() {
       isSearching = false;
-      statisticList = sortedItemList;
+      statisticList = statisticListData;
       searchController.clear();
     });
   }
@@ -177,7 +176,11 @@ class _StatisticScreenState extends State<StatisticScreen> {
                 focusNode: focusNode,
                 onChanged: (value){
                   setState(() {
-                    filterSearchResults(value);
+                    if (value.isEmpty) {
+                      statisticList = statisticListData; // Reset to original list when search is empty
+                    } else {
+                      filterSearchResults(value); // Apply the filter for non-empty search
+                    }
                   });
                 },
                 onTapOutside: (_)=>changeSearchingState(),
@@ -188,6 +191,18 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     //labelText: "search".tr,
                     hintText: "search".tr,
                     hintStyle: searchTextStyle,
+                    suffixIcon: Container(
+                      padding: EdgeInsets.only(top: ScreenUtil().setHeight(18)),
+                      child: IconButton(
+                        onPressed: (){
+                          setState(() {
+                            statisticList = statisticListData;
+                            searchController.clear();
+                          });
+                        },
+                        icon: const Icon(Icons.clear , color: Colors.white,),
+                      ),
+                    ),
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.only(top: ScreenUtil().setHeight(30))
                 ),
