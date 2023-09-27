@@ -28,8 +28,14 @@ class ChartWidget extends StatelessWidget {
     return colors;
   }
 
+  void removeEmptyData(){
+    precent.removeWhere((value) => value == null || value == 0);
+    chartData.removeWhere((element) => element.value == 0 || element.value == null);
+  }
+
   @override
   Widget build(BuildContext context) {
+    removeEmptyData();
     roundedPercentages = precent.map((value) {
       if (value is int) {
         return value;
@@ -46,8 +52,6 @@ class ChartWidget extends StatelessWidget {
           child: SfCircularChart(
               palette: returnChartColors(),
               title: ChartTitle(text: Helper.getCurrentLocal() == 'AR' ? araibicName : englishName),
-              margin: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-              //legend: const Legend(isVisible: true , ),
               series: <PieSeries<Data, String>>[
                 PieSeries<Data, String>(
                     explode: true,
@@ -63,7 +67,7 @@ class ChartWidget extends StatelessWidget {
               ]
           ),
         ),
-        SizedBox(height: ScreenUtil().setHeight(100) , child: ListView.builder(shrinkWrap: true,scrollDirection: Axis.vertical,itemCount:  chartData.length, itemBuilder: (ctx , pos){
+        SizedBox(height: ScreenUtil().setHeight(80) , child: ListView.builder(shrinkWrap: true,scrollDirection: Axis.vertical,itemCount:  chartData.length, itemBuilder: (ctx , pos){
           return ChartNameItem(itemColor: returnChartColors()[pos], itemName: Helper.getCurrentLocal() == 'AR' ? chartData[pos].ar : chartData[pos].en);
         })),
       ],
