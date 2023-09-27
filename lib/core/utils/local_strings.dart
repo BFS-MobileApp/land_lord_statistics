@@ -32,7 +32,8 @@ class LocalStrings extends Translations {
       "count":"العدد",
       "userAccounts":"حسابات العميل",
       "logout":"تسجيل خروج",
-      "changeLanguage":"تغير اللغة"
+      "changeLanguage":"تغير اللغة",
+      "welcome":"اهلا"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -63,7 +64,8 @@ class LocalStrings extends Translations {
       "count":"Count",
       "userAccounts":"User Accounts",
       "logout":"Logout",
-      "changeLanguage":"Change Language"
+      "changeLanguage":"Change Language",
+      "welcome":"Welcome"
     },
   };
 }

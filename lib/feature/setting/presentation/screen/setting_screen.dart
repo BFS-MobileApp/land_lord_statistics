@@ -21,8 +21,9 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
 
-  String dropDownValue = '';
+  String dropDownValue = '' , name = '';
   var items = ['EN', 'AR'];
+  final databaseHelper = DatabaseHelper.instance;
 
 
   getAccounts() =>BlocProvider.of<SettingCubit>(context).getData();
@@ -33,6 +34,15 @@ class _SettingScreenState extends State<SettingScreen> {
     super.initState();
     getAccounts();
     getCurrentLocal();
+    getActiveUserName();
+  }
+
+  getActiveUserName() async{
+    await databaseHelper.getActiveUserName().then((value){
+      setState(() {
+        name = value;
+      });
+    });
   }
 
   callLogoutDialog(){
@@ -53,7 +63,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   deleteUserData() async{
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    final databaseHelper = DatabaseHelper.instance;
+
     databaseHelper.deleteAllActiveUsers();
     preferences.remove(AppStrings.token);
     preferences.remove(AppStrings.userName);
@@ -113,6 +123,17 @@ class _SettingScreenState extends State<SettingScreen> {
       ),
       body: ListView(
         children: [
+          Container(
+
+            margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(30)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('${'welcome'.tr} ' , style: TextStyle(fontSize: 16.sp , color: Colors.black , fontWeight: FontWeight.w600),),
+                Text(name ,)
+              ],
+            ),
+          ),
           Card(
             elevation: 3,
             child: Container(
@@ -137,7 +158,6 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ),
           ),
-
           Card(
             elevation: 3,
             child: Container(

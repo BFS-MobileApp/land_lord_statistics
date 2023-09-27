@@ -1,5 +1,4 @@
 import 'package:claimizer/feature/setting/data/models/user_model.dart';
-import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -90,7 +89,21 @@ class DatabaseHelper {
       whereArgs: [1], // 1 represents an active user
       columns: ['token'],
     );
+    if(result.isEmpty){
+      return '';
+    }
     return result.first['token'].toString();
+  }
+
+  Future<String> getActiveUserName() async {
+    final db = await database;
+    final result = await db.query(
+      'users',
+      where: 'active = ?',
+      whereArgs: [1], // 1 represents an active user
+      columns: ['name'],
+    );
+    return result.first['name'].toString();
   }
 
   Future<void> deleteAllActiveUsers() async {
