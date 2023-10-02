@@ -27,6 +27,8 @@ class _StatisticScreenState extends State<StatisticScreen> {
   bool isInitialized = false , isSearching = false;
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
   AlignmentWidget alignmentWidget = AlignmentWidget();
+  Map<String, bool> isMenuOpenMap = {};
+
 
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
@@ -98,11 +100,12 @@ class _StatisticScreenState extends State<StatisticScreen> {
             return ListView(
               children: [
                 ListView.builder(physics:const ClampingScrollPhysics() , shrinkWrap: true ,  itemCount:statisticList.length , itemBuilder: (ctx , pos){
+                  isMenuOpenMap.putIfAbsent(state.statistic.statisticData[pos].uniqueValue, () => false);
                   return InkWell(
                     onTap: (){
                       Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
                     },
-                    child: StatisticWidgetItem(maxSort: findMaxSortValue() , minSort: findMinSortValue() , pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+                    child: StatisticWidgetItem(isMenuOpenMap: isMenuOpenMap,maxSort: findMaxSortValue() , minSort: findMinSortValue() , pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
                   );
                 }),
                 Container(
@@ -121,6 +124,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
             return ListView(
               children: [
                 ListView.builder(physics:const ClampingScrollPhysics() , shrinkWrap: true ,  itemCount:state.statisticList.length , itemBuilder: (ctx , pos){
+                  //isMenuOpenMap.putIfAbsent(state.statisticList[pos].uniqueValue, () => false);
                   return InkWell(
                     onTap: (){
                       Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
@@ -128,7 +132,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     statisticList = statisticListData;
                   });*/
                     },
-                    child: StatisticWidgetItem(maxSort: findMaxSortValue() , minSort: findMinSortValue() ,pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , uniqueId: state.statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(state.statisticList[pos].statisticsDate.toString()),),
+                    child: StatisticWidgetItem(isMenuOpenMap: isMenuOpenMap,maxSort: findMaxSortValue() , minSort: findMinSortValue() ,pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , uniqueId: state.statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(state.statisticList[pos].statisticsDate.toString()),),
                   );
                 }),
                 Container(

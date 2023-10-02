@@ -22,7 +22,8 @@ class StatisticWidgetItem extends StatefulWidget {
   //dynamic sort;
   dynamic maxSort;
   dynamic minSort;
-  StatisticWidgetItem({super.key, required this.maxSort , required this.minSort , required this.pos , required this.statisticList , required this.companyName, required this.date , required this.buildingName , required this.uniqueId , required this.color});
+  Map<String, bool> isMenuOpenMap;
+  StatisticWidgetItem({super.key, required this.maxSort , required this.isMenuOpenMap , required this.minSort , required this.pos , required this.statisticList , required this.companyName, required this.date , required this.buildingName , required this.uniqueId , required this.color});
 
   @override
   State<StatisticWidgetItem> createState() => _StatisticWidgetItemState();
@@ -37,11 +38,11 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   var hex;
   double previousSort = 0.0, nextSort = 0.0;
 
-
-
   void toggleSettingsMenu() {
     setState(() {
-      showSettingsMenu = !showSettingsMenu;
+      widget.isMenuOpenMap.updateAll((key, value) => value = false);
+      BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
+      widget.isMenuOpenMap[widget.uniqueId] = !widget.isMenuOpenMap[widget.uniqueId]!;
     });
   }
 
@@ -53,29 +54,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   void initState() {
     super.initState();
     setInitialColor();
-    //setInitialValue();
   }
-
-  /*setInitialValue(){
-    if(widget.pos == 0){
-      setState(() {
-        previousSort = widget.minSort;
-      });
-    } else {
-      setState(() {
-        previousSort = widget.statisticList[widget.pos-1].sortValue;
-      });
-    }
-    if(widget.pos == widget.statisticList.length-1){
-      setState(() {
-        nextSort = widget.maxSort;
-      });
-    } else {
-      setState(() {
-        nextSort = widget.statisticList[widget.pos+1].sortValue;
-      });
-    }
-  }*/
 
   List<String> getCompaniesSortId(){
     List<String> companiesSort = [];
@@ -129,17 +108,6 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
       },
     );
   }
-/*
-  refreshList(double sort){
-    BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
-    if(isColorChanged == false && pos != -2){
-      BlocProvider.of<StatisticCubit>(context).setSettings('', sort , widget.uniqueId);
-    } else if(isColorChanged == true && pos != -2){
-      BlocProvider.of<StatisticCubit>(context).setSettings(hex, sort , widget.uniqueId);
-    } else if(isColorChanged == true && pos == -2){
-      BlocProvider.of<StatisticCubit>(context).setSettings(hex, widget.sort+0.0 , widget.uniqueId);
-    }
-  }*/
 
   Color intColorToColor(int intColor) {
     return Color(intColor);
@@ -250,7 +218,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
             ),
           ),
         ),
-        if(showSettingsMenu)
+        if(widget.isMenuOpenMap[widget.uniqueId]!)
           Container(
             alignment: Alignment.center,
             margin: EdgeInsets.only(right: ScreenUtil().setWidth(50) , top: ScreenUtil().setHeight(15) , left: ScreenUtil().setWidth(30)),

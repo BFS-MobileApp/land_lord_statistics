@@ -24,7 +24,8 @@ class StatisticDetailsItem extends StatefulWidget {
   double sort;
   int pos;
   Data data;
-  StatisticDetailsItem({super.key , required this.data , required this.sort , required this.columnName , required this.userColor , required this.icon , required this.pos , required this.statisticListData , required this.itemName , required this.itemValue , required this.id , required this.uniqueId});
+  Map<String, bool> isMenuOpenMap;
+  StatisticDetailsItem({super.key ,required this.isMenuOpenMap,  required this.data , required this.sort , required this.columnName , required this.userColor , required this.icon , required this.pos , required this.statisticListData , required this.itemName , required this.itemValue , required this.id , required this.uniqueId});
 
   @override
   State<StatisticDetailsItem> createState() => _StatisticDetailsItemState();
@@ -50,7 +51,9 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
 
   void toggleSettingsMenu() {
     setState(() {
-      showSettingsMenu = !showSettingsMenu;
+      widget.isMenuOpenMap.updateAll((key, value) => value = false);
+      BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
+      widget.isMenuOpenMap[widget.columnName] = !widget.isMenuOpenMap[widget.columnName]!;
     });
   }
 
@@ -220,7 +223,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
               ),
             ),
           ),
-          if(showSettingsMenu)
+          if(widget.isMenuOpenMap[widget.columnName]!)
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.only(right: ScreenUtil().setWidth(50) , top: ScreenUtil().setHeight(15) , left: ScreenUtil().setWidth(30)),
