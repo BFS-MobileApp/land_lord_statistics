@@ -111,7 +111,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                         Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: updatedStatisticListData[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? updatedStatisticListData[pos].companyNameAr :updatedStatisticListData[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? updatedStatisticListData[pos].buildingNameA : updatedStatisticListData[pos].buildingName , date: Helper.convertStringToDateOnly(updatedStatisticListData[pos].statisticsDate.toString())));
                       }
                     },
-                    child: StatisticWidgetItem(isMenuOpenMap: isMenuOpenMap,maxSort: findMaxSortValue() , minSort: findMinSortValue() , pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
+                    child: StatisticWidgetItem(isMenuOpenMap: isMenuOpenMap,maxSort: findMaxSortValue() , minSort: findMinSortValue() , pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
                   );
                 }),
                 Container(
@@ -138,7 +138,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     statisticList = statisticListData;
                   });*/
                     },
-                    child: StatisticWidgetItem(isMenuOpenMap: isMenuOpenMap,maxSort: findMaxSortValue() , minSort: findMinSortValue() ,pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , uniqueId: state.statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(state.statisticList[pos].statisticsDate.toString()),),
+                    child: StatisticWidgetItem(isMenuOpenMap: isMenuOpenMap,maxSort: findMaxSortValue() , minSort: findMinSortValue() ,pos: pos , statisticList: state.statisticList , color:  state.statisticList[pos].colorValue , uniqueId: state.statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].companyNameAr : state.statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == 'AR' ? state.statisticList[pos].buildingNameA : state.statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(state.statisticList[pos].statisticsDate.toString()),),
                   );
                 }),
                 Container(

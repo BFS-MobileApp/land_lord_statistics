@@ -170,7 +170,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
     BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
     BlocProvider.of<StatisticCubit>(context).setCompanySort(getCompaniesSortId());
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -191,7 +191,14 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                   children: [
                     Expanded(child: StatisticItem(itemKey: 'company'.tr , itemValue: widget.companyName)),
                     GestureDetector(
-                      onTap: toggleSettingsMenu,
+                      onTap: (){
+                        if(widget.isMenuOpenMap[widget.uniqueId]!){
+                          widget.isMenuOpenMap.updateAll((key, value) => value = false);
+                          BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
+                        } else {
+                          toggleSettingsMenu();
+                        }
+                      },
                       child: Container(
                         margin: EdgeInsets.only(left: ScreenUtil().setWidth(15) , right: ScreenUtil().setWidth(15)),
                         child: Icon(Icons.settings , color: AppColors.black , size: 20.sp,),
@@ -226,18 +233,21 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
         if(widget.isMenuOpenMap[widget.uniqueId]!)
           Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.only(right: ScreenUtil().setWidth(50) , top: ScreenUtil().setHeight(15) , left: ScreenUtil().setWidth(30)),
-            height: ScreenUtil().setHeight(50),
-            color: AppColors.offWhiteColor,
+            margin: EdgeInsets.only(right: ScreenUtil().setWidth(80) , top: widget.buildingName == '' ? ScreenUtil().setHeight(28) : ScreenUtil().setHeight(58) , left: ScreenUtil().setWidth(50)),
+            height: ScreenUtil().setHeight(40),
+            decoration: BoxDecoration(
+              color: AppColors.offWhiteColor,
+              borderRadius: BorderRadius.circular(10)
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                IconButton(icon: const Icon(Icons.color_lens) , iconSize: 22.sp, onPressed: showColorPickerDialog,),
-                IconButton(icon: const Icon(Icons.arrow_upward) , iconSize: 22.sp, onPressed: moveUp,),
-                IconButton(icon: const Icon(Icons.vertical_align_top) , iconSize: 22.sp, onPressed: moveToBeginning,),
-                IconButton(icon: const Icon(Icons.arrow_downward) , iconSize: 22.sp, onPressed: (){moveDown();},),
-                IconButton(icon: const Icon(Icons.vertical_align_bottom) , iconSize: 22.sp, onPressed: moveToEnd,),
+                IconButton(icon: const Icon(Icons.color_lens) , color: AppColors.primaryColor ,  iconSize: 22.sp, onPressed: showColorPickerDialog,),
+                IconButton(icon: const Icon(Icons.arrow_upward) , color: AppColors.primaryColor , iconSize: 22.sp, onPressed: moveUp,),
+                IconButton(icon: const Icon(Icons.vertical_align_top) , color: AppColors.primaryColor , iconSize: 22.sp, onPressed: moveToBeginning,),
+                IconButton(icon: const Icon(Icons.arrow_downward) , color: AppColors.primaryColor , iconSize: 22.sp, onPressed: (){moveDown();},),
+                IconButton(icon: const Icon(Icons.vertical_align_bottom) , color: AppColors.primaryColor , iconSize: 22.sp, onPressed: moveToEnd,),
               ],
             ),
           )
