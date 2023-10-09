@@ -99,6 +99,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                   isColorChanged = true;
                 });
                 Navigator.of(context).pop();
+                widget.isMenuOpenMap.updateAll((key, value) => value = false);
                 BlocProvider.of<StatisticCubit>(context).setSettings(hex, 0 , widget.uniqueId);
                 //refreshList(sort);
               },
@@ -127,6 +128,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
         pos = widget.pos;
       });
     }
+    widget.isMenuOpenMap.updateAll((key, value) => value = false);
     BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
     BlocProvider.of<StatisticCubit>(context).setCompanySort(getCompaniesSortId());
   }
@@ -138,6 +140,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
       widget.statisticList.insert(0, item);
       pos = 0;
     });
+    widget.isMenuOpenMap.updateAll((key, value) => value = false);
     BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
     BlocProvider.of<StatisticCubit>(context).setCompanySort(getCompaniesSortId());
   }
@@ -151,6 +154,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
         pos = widget.pos;
       });
     }
+    widget.isMenuOpenMap.updateAll((key, value) => value = false);
     BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
     BlocProvider.of<StatisticCubit>(context).setCompanySort(getCompaniesSortId());
   }
@@ -162,6 +166,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
       widget.statisticList.add(item);
       pos = widget.statisticList.length-2;
     });
+    widget.isMenuOpenMap.updateAll((key, value) => value = false);
     BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
     BlocProvider.of<StatisticCubit>(context).setCompanySort(getCompaniesSortId());
   }

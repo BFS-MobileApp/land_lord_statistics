@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:claimizer/config/PrefHelper/dbhelper.dart';
 import 'package:claimizer/config/arguments/routes_arguments.dart';
 import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
@@ -24,9 +25,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   checkLoggingState() async{
-    prefs = await SharedPreferences.getInstance();
+    /*prefs = await SharedPreferences.getInstance();
     if(prefs.containsKey(AppStrings.token)){
       // ignore: use_build_context_synchronously
+      Navigator.pushReplacementNamed(context, Routes.statisticRoutes);
+    } else {
+      Navigator.pushReplacementNamed(context, Routes.loginRoutes , arguments: LoginRoutesArguments(addOtherMail: false));
+    }*/
+    final dbHelper = DatabaseHelper.instance;
+    final hasUsers = await dbHelper.hasAnyUsers();
+    if(hasUsers){
       Navigator.pushReplacementNamed(context, Routes.statisticRoutes);
     } else {
       Navigator.pushReplacementNamed(context, Routes.loginRoutes , arguments: LoginRoutesArguments(addOtherMail: false));

@@ -49,11 +49,17 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
     setState(() => pickerColor = color);
   }
 
+  closeMenu(){
+    setState(() {
+      showSettingsMenu = false;
+    });
+  }
+
   void toggleSettingsMenu() {
     setState(() {
       widget.isMenuOpenMap.updateAll((key, value) => value = false);
-      BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
       widget.isMenuOpenMap[widget.columnName] = !widget.isMenuOpenMap[widget.columnName]!;
+      BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
     });
   }
 
@@ -65,6 +71,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
 
   moveUp(){
     toggleSettingsMenu();
+    closeMenu();
     if (widget.pos > 0) {
       setState(() {
         final item = widget.statisticListData.removeAt(widget.pos);
@@ -72,23 +79,27 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
         pos = widget.pos;
       });
     }
+    widget.isMenuOpenMap.updateAll((key, value) => value = false);
     BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
     BlocProvider.of<StatisticDetailsCubit>(context).setColumnsSettings(getColumnsSortList());
   }
 
   moveToBeginning(){
     toggleSettingsMenu();
+    closeMenu();
     setState(() {
       final item = widget.statisticListData.removeAt(widget.pos);
       widget.statisticListData.insert(0, item);
       pos = 0;
     });
+    widget.isMenuOpenMap.updateAll((key, value) => value = false);
     BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
     BlocProvider.of<StatisticDetailsCubit>(context).setColumnsSettings(getColumnsSortList());
   }
 
   moveDown(){
     toggleSettingsMenu();
+    closeMenu();
     if (widget.pos < widget.statisticListData.length - 1) {
       setState(() {
         final item = widget.statisticListData.removeAt(widget.pos);
@@ -96,17 +107,20 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
         pos = widget.pos;
       });
     }
+    widget.isMenuOpenMap.updateAll((key, value) => value = false);
     BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
     BlocProvider.of<StatisticDetailsCubit>(context).setColumnsSettings(getColumnsSortList());
   }
 
   moveToEnd(){
     toggleSettingsMenu();
+    closeMenu();
     setState(() {
       final item = widget.statisticListData.removeAt(widget.pos);
       widget.statisticListData.add(item);
       pos = widget.statisticListData.length-2;
     });
+    widget.isMenuOpenMap.updateAll((key, value) => value = false);
     BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
     BlocProvider.of<StatisticDetailsCubit>(context).setColumnsSettings(getColumnsSortList());
   }
@@ -154,6 +168,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
                 });
                 //BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex,  widget.columnName);
                 Navigator.of(context).pop();
+                widget.isMenuOpenMap.updateAll((key, value) => value = false);
                 BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData , widget.data);
                 BlocProvider.of<StatisticDetailsCubit>(context).setSettings(hex, 0 , widget.columnName);
               },

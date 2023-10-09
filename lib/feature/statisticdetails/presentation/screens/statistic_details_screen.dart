@@ -204,6 +204,8 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                         shrinkWrap: true,
                         children: List.generate(statisticListData.length, (pos)
                         {
+                          //isMenuOpenMap.clear();
+                          isMenuOpenMap.putIfAbsent(statisticListData[pos].columnName, () => false);
                           return StatisticDetailsItem(isMenuOpenMap: isMenuOpenMap,data: state.data , sort: state.statisticList[pos].sort , columnName: state.statisticList[pos].columnName , icon: state.statisticList[pos].iconSvg , statisticListData: state.statisticList , pos: pos , uniqueId: widget.uniqueId , id: state.statisticList[pos].id, userColor: state.statisticList[pos].userColor == '' ? state.statisticList[pos].color : state.statisticList[pos].userColor , itemName: Helper.getCurrentLocal() == 'AR' ? statisticListData[pos].arName : statisticListData[pos].enName,itemValue: statisticListData[pos].value,);
                         }),
                       ),

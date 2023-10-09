@@ -1,4 +1,7 @@
+import 'package:claimizer/config/arguments/routes_arguments.dart';
+import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/feature/setting/data/models/user_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -114,5 +117,47 @@ class DatabaseHelper {
       where: 'active = ?',
       whereArgs: [1], // 1 represents an active user
     );
+  }
+
+  Future<void> deleteUserAndCheckLast(String email, bool isActive , BuildContext context) async {
+    final db = await database;
+
+    // Delete the user with the specified email
+    await db.delete(
+      'users',
+      where: 'email = ?',
+      whereArgs: [email],
+    );
+
+    // Check if there are any remaining users
+    final remainingUsers = await db.query('users');
+
+    if (isActive && remainingUsers.isNotEmpty) {
+      // Make the first remaining user active
+      await db.update(
+        'users',
+        {'active': 1},
+        where: 'email = ?',
+        whereArgs: [remainingUsers.first['email']],
+      );
+      moveToNextScreen(context, Routes.statisticRoutes);
+    } else if(isActive && remainingUsers.isEmpty){
+      moveToNextScreen(context, Routes.loginRoutes);
+    }
+  }
+
+  moveToNextScreen(BuildContext context , String routes){
+    if(routes == Routes.statisticRoutes){
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.statisticRoutes, (Route<dynamic> route) => false);
+    } else {
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.loginRoutes,arguments: LoginRoutesArguments(addOtherMail: false), (Route<dynamic> route) => false);
+    }
+  }
+
+  Future<bool> hasAnyUsers() async {
+    final db = await database;
+    // Check if there are any users in the database
+    final usersCount = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM users'));
+    return usersCount! > 0;
   }
 }

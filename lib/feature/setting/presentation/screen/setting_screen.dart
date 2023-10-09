@@ -80,7 +80,7 @@ class _SettingScreenState extends State<SettingScreen> {
             return ErrorWidget((){});
           } else if (state is UserAccountsLoaded) {
             return ListView.builder(shrinkWrap: true, physics: const ClampingScrollPhysics(),itemCount: state.userAccounts.length , itemBuilder: (ctx , pos){
-              return UserAccountItem(email: state.userAccounts[pos].email, isActive: state.userAccounts[pos].active);
+              return UserAccountItem(ctx: context,email: state.userAccounts[pos].email, isActive: state.userAccounts[pos].active);
             });
           } else if(state is UserAccountChanged){
             goToNextScreen();

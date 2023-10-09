@@ -23,6 +23,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
   TextEditingController searchController = TextEditingController();
   List<StatisticSummary> statisticList = [];
   List<StatisticSummary> statisticListData = [];
+  List<StatisticSummary> updatedStatisticListData = [];
   FocusNode focusNode = FocusNode();
   bool isInitialized = false , isSearching = false;
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
@@ -76,6 +77,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
       statisticList = statisticListData
           .where((element) => element.companyName.toLowerCase().contains(name.toLowerCase()) || element.buildingName.toLowerCase().contains(name.toLowerCase()))
           .toList();
+      updatedStatisticListData = statisticList;
     });
   }
 
@@ -103,7 +105,11 @@ class _StatisticScreenState extends State<StatisticScreen> {
                   isMenuOpenMap.putIfAbsent(state.statistic.statisticData[pos].uniqueValue, () => false);
                   return InkWell(
                     onTap: (){
-                      Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
+                      if(updatedStatisticListData.isEmpty){
+                        Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
+                      } else {
+                        Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: updatedStatisticListData[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? updatedStatisticListData[pos].companyNameAr :updatedStatisticListData[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? updatedStatisticListData[pos].buildingNameA : updatedStatisticListData[pos].buildingName , date: Helper.convertStringToDateOnly(updatedStatisticListData[pos].statisticsDate.toString())));
+                      }
                     },
                     child: StatisticWidgetItem(isMenuOpenMap: isMenuOpenMap,maxSort: findMaxSortValue() , minSort: findMinSortValue() , pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == '' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
                   );
@@ -199,10 +205,11 @@ class _StatisticScreenState extends State<StatisticScreen> {
                       padding: EdgeInsets.only(top: ScreenUtil().setHeight(18)),
                       child: IconButton(
                         onPressed: (){
-                          setState(() {
+                          /*setState(() {
                             statisticList = statisticListData;
                             searchController.clear();
-                          });
+                          });*/
+                          changeSearchingState();
                         },
                         icon: const Icon(Icons.clear , color: Colors.white,),
                       ),

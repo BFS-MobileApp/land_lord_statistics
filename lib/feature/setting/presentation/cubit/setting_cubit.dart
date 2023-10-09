@@ -7,6 +7,7 @@ import 'package:claimizer/feature/setting/domain/entities/user.dart';
 import 'package:claimizer/feature/setting/domain/usecases/setting_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 part 'setting_state.dart';
 
@@ -25,6 +26,13 @@ class SettingCubit extends Cubit<SettingState> {
   Future<void> changeAccount(String email) async{
     emit(UserAccountsLoading());
     await dbHelper.activateUser(email);
+    Either<Failures , List<User>> response = await userAccountsUseCase(NoParams());
+    emit(response.fold((failures) => UserAccountsError(msg: mapFailureToMsg(failures)), (accounts) => UserAccountChanged(userAccounts: accounts)));
+  }
+
+  Future<void> removeAccount(String email , bool isActive , BuildContext context) async{
+    emit(UserAccountsLoading());
+    await dbHelper.deleteUserAndCheckLast(email , isActive , context);
     Either<Failures , List<User>> response = await userAccountsUseCase(NoParams());
     emit(response.fold((failures) => UserAccountsError(msg: mapFailureToMsg(failures)), (accounts) => UserAccountChanged(userAccounts: accounts)));
   }
