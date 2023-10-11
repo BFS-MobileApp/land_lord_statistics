@@ -26,8 +26,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool isErrorMessageAppeared = false;
 
-  Widget _loginWidget(){
+   Widget _loginWidget(){
     return Column(
       children: [
         SizedBox(height: ScreenUtil().setHeight(80),),
@@ -52,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Container(
             alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight: Alignment.topLeft,
             margin: EdgeInsets.only(top: ScreenUtil().setHeight(20) , left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10)),
-            child: TextWidget(text: 'password'.tr,fontSize: 17,)
+            child:  TextWidget(text: 'password'.tr,fontSize: 17,)
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 10.sp),
@@ -83,6 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget checkState(LoginState state){
      if(state is LoginIsLoading){
+       initialErrorStatus();
       return const Center(child: CircularProgressIndicator(),);
     } else if(state is LoginError){
       showErrorMessage(state.msg);
@@ -104,7 +106,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
   showErrorMessage(String message){
     Future.delayed(const Duration(milliseconds: 500), () {
-      MessageWidget.showSnackBar(message, AppColors.redAlertColor);
+      if(!isErrorMessageAppeared){
+        MessageWidget.showSnackBar(message, AppColors.redAlertColor);
+        setState(() {
+          isErrorMessageAppeared = true;
+        });
+      }
+    });
+  }
+
+  initialErrorStatus(){
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        isErrorMessageAppeared = false;
+      });
     });
   }
   @override

@@ -30,11 +30,13 @@ class LocalStrings extends Translations {
       "chartWidgetPhase":"الرسوم البيانية للإحصاء",
       "landlordStatistics":"إحصائيات الملاك",
       "count":"العدد",
-      "userAccounts":"حسابات العميل",
+      "userAccounts":"ادارة الحسابات",
       "logout":"تسجيل خروج",
       "changeLanguage":"تغير اللغة",
       "welcome":"اهلا",
-      "signedInPhase":"ان الان مسجل الدخول ك "
+      "signedInPhase":"ان الان مسجل الدخول ك ",
+      "invalidCredentials":"بيانات غير صحيحة",
+      "ok":"موافق"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -67,7 +69,8 @@ class LocalStrings extends Translations {
       "logout":"Logout",
       "changeLanguage":"Change Language",
       "welcome":"Welcome",
-      "signedInPhase":"You are now signed in as"
+      "signedInPhase":"You are now signed in as",
+      "ok":"OK"
     },
   };
 }

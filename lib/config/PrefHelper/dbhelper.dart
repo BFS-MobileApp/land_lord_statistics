@@ -120,6 +120,21 @@ class DatabaseHelper {
       where: 'active = ?',
       whereArgs: [1], // 1 represents an active user
     );
+    final remainingUsers = await db.query('users');
+    if(remainingUsers.isNotEmpty){
+      await db.update(
+        'users',
+        {'active': 1},
+        where: 'email = ?',
+        whereArgs: [remainingUsers.first['email']],
+      );
+    }
+    final result = await db.query(
+      'users',
+      where: 'active = ?',
+      whereArgs: [1], // 1 represents an active user
+      columns: ['name'],
+    );
   }
 
   Future<void> deleteUserAndCheckLast(String email, bool isActive , BuildContext context) async {

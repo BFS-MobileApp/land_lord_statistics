@@ -3,6 +3,7 @@ import 'package:claimizer/core/error/exceptions.dart';
 import 'package:claimizer/core/error/failures.dart';
 import 'package:claimizer/core/network/network_info.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
+import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/login/data/datasources/login_remote_data_source.dart';
 import 'package:claimizer/feature/login/domain/entities/login.dart';
 import 'package:claimizer/feature/login/domain/repositories/login_repository.dart';
@@ -27,7 +28,7 @@ class LoginRepositoryImpl extends LoginRepository {
           saveUserInfo(email , response.name , response.token);
           return Right(response);
         } else {
-          return Left(ServerFailure(msg: response.message));
+          return Left(ServerFailure(msg: Helper.getCurrentLocal() == 'AR' ? 'invalidCredentials'.tr : response.message));
         }
       } on ServerException{
         return Left(ServerFailure(msg: 'error'.tr));

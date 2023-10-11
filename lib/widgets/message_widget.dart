@@ -13,9 +13,7 @@ class MessageWidget{
       action: SnackBarAction(
         textColor: Colors.white,
         label: 'ok'.tr,
-        onPressed: () {
-          // Some code to undo the change.
-        },
+        onPressed: () {},
       ),
     );
     scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
