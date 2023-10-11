@@ -68,6 +68,9 @@ class _StatisticScreenState extends State<StatisticScreen> {
   }
 
   void filterSearchResults(String name) {
+    setState(() {
+      updatedStatisticListData.clear();
+    });
     if(name.isEmpty){
       setState(() {
         statisticList = statisticListData;
@@ -116,8 +119,13 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     onTap: (){
                       if(updatedStatisticListData.isEmpty){
                         Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
+                        updatedStatisticListData.clear();
+                        print('cleared');
+
                       } else {
                         Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: updatedStatisticListData[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? updatedStatisticListData[pos].companyNameAr :updatedStatisticListData[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? updatedStatisticListData[pos].buildingNameA : updatedStatisticListData[pos].buildingName , date: Helper.convertStringToDateOnly(updatedStatisticListData[pos].statisticsDate.toString())));
+                        updatedStatisticListData.clear();
+                        print('cleared');
                       }
                     },
                     child: StatisticWidgetItem(isMenuOpenMap: isMenuOpenMap,maxSort: findMaxSortValue() , minSort: findMinSortValue() , pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
@@ -175,6 +183,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
       isSearching = false;
       statisticList = statisticListData;
       searchController.clear();
+      //updatedStatisticListData.clear();
     });
   }
 

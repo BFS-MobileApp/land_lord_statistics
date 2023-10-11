@@ -63,7 +63,6 @@ class _SettingScreenState extends State<SettingScreen> {
 
   deleteUserData() async{
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-
     databaseHelper.deleteAllActiveUsers();
     preferences.remove(AppStrings.token);
     preferences.remove(AppStrings.userName);
@@ -99,10 +98,12 @@ class _SettingScreenState extends State<SettingScreen> {
       var locale = const Locale('en', 'US');
       Get.updateLocale(locale);
       Helper.setDefaultLang(AppStrings.enCountryCode);
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.statisticRoutes, (Route<dynamic> route) => false);
     } else {
       var locale = const Locale('ar', 'AR');
       Get.updateLocale(locale);
       Helper.setDefaultLang(AppStrings.arCountryCode);
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.statisticRoutes, (Route<dynamic> route) => false);
     }
   }
 

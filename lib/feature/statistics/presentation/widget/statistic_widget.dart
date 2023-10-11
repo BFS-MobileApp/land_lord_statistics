@@ -215,9 +215,10 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                     children: [
                       Text('${'statisticDate'.tr}: ${widget.date}' , style: TextStyle(color: Colors.black , fontWeight: FontWeight.w600 , fontSize: 13.sp),),
                       Container(
+                        margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(5)),
                         padding: EdgeInsets.all(3.sp),
-                        width: ScreenUtil().setWidth(30),
-                        height: ScreenUtil().setHeight(30),
+                        width: ScreenUtil().setWidth(35),
+                        height: ScreenUtil().setHeight(35),
                         decoration:  BoxDecoration(
                           color: widget.color,
                           shape: BoxShape.circle,

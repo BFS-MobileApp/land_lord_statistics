@@ -185,7 +185,7 @@ class StatisticSummary {
     bfsDate: json["bfs_date"],
     uniqueValue: json["unique_value"],
     colorValue: json['color_value'] != null ? HexColor(json['color_value']) : AppColors.colors[Helper.index(7)],
-    sortValue: json['sort_value'] ?? 0
+    sortValue: json['sort_value'] == false ? 0 : json['sort_value']
   );
 
   Map<String, dynamic> toJson() => {
