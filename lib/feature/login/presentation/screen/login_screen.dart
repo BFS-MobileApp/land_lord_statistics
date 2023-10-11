@@ -98,11 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   goToNextScreen(){
     Future.delayed(const Duration(milliseconds: 500), () {
-      if(widget.addOtherMail){
-        Navigator.pushReplacementNamed(context, Routes.userAccountsRoutes);
-      } else {
-        Navigator.pushReplacementNamed(context, Routes.statisticRoutes);
-      }
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.statisticRoutes, (Route<dynamic> route) => false);
     });
   }
 

@@ -46,11 +46,19 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
         statisticListData = statisticListDataDetails;
       });
     }
-    setState(() {
-      statisticListData = statisticListData
-          .where((element) => element.enName.toLowerCase().contains(name.toLowerCase()))
-          .toList();
-    });
+    if(Helper.getCurrentLocal() == 'AR'){
+      setState(() {
+        statisticListData = statisticListData
+            .where((element) => element.arName.toLowerCase().contains(name.toLowerCase()))
+            .toList();
+      });
+    } else {
+      setState(() {
+        statisticListData = statisticListData
+            .where((element) => element.enName.toLowerCase().contains(name.toLowerCase()))
+            .toList();
+      });
+    }
   }
 
   changeSearchingState(){
@@ -121,7 +129,11 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
     switch (selectedOption){
       case 1:
         setState(() {
-          statisticListData.sort((a, b) => a.enName.compareTo(b.enName));
+          if(Helper.getCurrentLocal()== 'AR'){
+            statisticListData.sort((a, b) => a.arName.compareTo(b.arName));
+          } else {
+            statisticListData.sort((a, b) => a.enName.compareTo(b.enName));
+          }
           selectedOption = 0;
         });
         break;

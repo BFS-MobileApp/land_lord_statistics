@@ -1,7 +1,10 @@
 import 'package:claimizer/config/arguments/routes_arguments.dart';
 import 'package:claimizer/config/routes/app_routes.dart';
+import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/feature/setting/data/models/user_model.dart';
+import 'package:claimizer/widgets/message_widget.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -140,6 +143,13 @@ class DatabaseHelper {
         where: 'email = ?',
         whereArgs: [remainingUsers.first['email']],
       );
+      final result = await db.query(
+        'users',
+        where: 'active = ?',
+        whereArgs: [1], // 1 represents an active user
+        columns: ['email'],
+      );
+      MessageWidget.showSnackBar('signedInPhase'.tr+result.first['email'].toString(), AppColors.green);
       moveToNextScreen(context, Routes.statisticRoutes);
     } else if(isActive && remainingUsers.isEmpty){
       moveToNextScreen(context, Routes.loginRoutes);

@@ -73,12 +73,21 @@ class _StatisticScreenState extends State<StatisticScreen> {
         statisticList = statisticListData;
       });
     }
-    setState(() {
-      statisticList = statisticListData
-          .where((element) => element.companyName.toLowerCase().contains(name.toLowerCase()) || element.buildingName.toLowerCase().contains(name.toLowerCase()))
-          .toList();
-      updatedStatisticListData = statisticList;
-    });
+    if(Helper.getCurrentLocal() == 'AR'){
+      setState(() {
+        statisticList = statisticListData
+            .where((element) => element.companyNameAr.toLowerCase().contains(name.toLowerCase()) || element.buildingNameA.toLowerCase().contains(name.toLowerCase()))
+            .toList();
+        updatedStatisticListData = statisticList;
+      });
+    } else {
+      setState(() {
+        statisticList = statisticListData
+            .where((element) => element.companyName.toLowerCase().contains(name.toLowerCase()) || element.buildingName.toLowerCase().contains(name.toLowerCase()))
+            .toList();
+        updatedStatisticListData = statisticList;
+      });
+    }
   }
 
 

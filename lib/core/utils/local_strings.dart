@@ -33,7 +33,8 @@ class LocalStrings extends Translations {
       "userAccounts":"حسابات العميل",
       "logout":"تسجيل خروج",
       "changeLanguage":"تغير اللغة",
-      "welcome":"اهلا"
+      "welcome":"اهلا",
+      "signedInPhase":"ان الان مسجل الدخول ك "
     },
     'en_US': {
       "appName":"Claimizer",
@@ -65,7 +66,8 @@ class LocalStrings extends Translations {
       "userAccounts":"User Accounts",
       "logout":"Logout",
       "changeLanguage":"Change Language",
-      "welcome":"Welcome"
+      "welcome":"Welcome",
+      "signedInPhase":"You are now signed in as"
     },
   };
 }
