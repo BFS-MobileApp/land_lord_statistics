@@ -1,9 +1,12 @@
+import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/setting/presentation/cubit/setting_cubit.dart';
+import 'package:claimizer/widgets/alert_dilog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class UserAccountItem extends StatelessWidget {
   final String email;
@@ -11,12 +14,23 @@ class UserAccountItem extends StatelessWidget {
   final BuildContext ctx;
   const UserAccountItem({super.key , required this.ctx , required this.email , required this.isActive});
 
+  callDeleteAccountDialog(BuildContext context){
+    Future.delayed(const Duration(milliseconds: 500), () {
+      AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'deleteAccountPhase'.tr, yesOnTap: (){
+        BlocProvider.of<SettingCubit>(context).removeAccount(email , isActive , ctx);
+      }, context: context);
+      dialogWidget.logOutDialog();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
         if(!isActive){
           BlocProvider.of<SettingCubit>(context).changeAccount(email);
+        } else {
+          Navigator.of(context).pushNamedAndRemoveUntil(Routes.statisticRoutes, (Route<dynamic> route) => false);
         }
       },
       child: Container(
@@ -35,7 +49,7 @@ class UserAccountItem extends StatelessWidget {
               children: [
                 isActive ? Icon(Icons.check , size: 25.sp , color: isActive ? AppColors.whiteColor : AppColors.black,) : Icon(Icons.circle_outlined , size: 20.sp , color: AppColors.black,),
                 IconButton(onPressed: (){
-                  BlocProvider.of<SettingCubit>(context).removeAccount(email , isActive , ctx);
+                  callDeleteAccountDialog(context);
                 }, icon: const Icon(Icons.clear) ,color: isActive ? AppColors.whiteColor : AppColors.black,   iconSize: 25.sp,)
               ],
             )

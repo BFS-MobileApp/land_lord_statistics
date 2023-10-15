@@ -37,7 +37,8 @@ class LocalStrings extends Translations {
       "signedInPhase":"ان الان مسجل الدخول ك ",
       "invalidCredentials":"بيانات غير صحيحة",
       "ok":"موافق",
-      "noData":"لا يوجد بيانات"
+      "noData":"لا يوجد بيانات",
+      "deleteAccountPhase":"هل انت متأكد من حذف هذا الحساب؟"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -72,7 +73,8 @@ class LocalStrings extends Translations {
       "welcome":"Welcome",
       "signedInPhase":"You are now signed in as",
       "ok":"OK",
-      "noData":"There is no data"
+      "noData":"There is no data",
+      "deleteAccountPhase":"Are you sure you want to delete this account?"
     },
   };
 }

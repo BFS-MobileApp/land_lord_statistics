@@ -6,6 +6,7 @@ import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/setting/presentation/cubit/setting_cubit.dart';
 import 'package:claimizer/feature/setting/presentation/widget/user_accounts_item.dart';
 import 'package:claimizer/widgets/alert_dilog_widget.dart';
+import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +23,6 @@ class SettingScreen extends StatefulWidget {
 class _SettingScreenState extends State<SettingScreen> {
 
   String dropDownValue = '' , name = '';
-  var items = ['EN', 'AR'];
   final databaseHelper = DatabaseHelper.instance;
 
 
@@ -110,12 +110,14 @@ class _SettingScreenState extends State<SettingScreen> {
   getCurrentLocal(){
     if(Helper.getCurrentLocal() == 'AR'){
       setState(() {
-        dropDownValue = items[1];
+        dropDownValue = 'العربية';
       });
     } else {
-      dropDownValue = items[0];
+
+      dropDownValue = 'English';
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,17 +126,6 @@ class _SettingScreenState extends State<SettingScreen> {
       ),
       body: ListView(
         children: [
-          Container(
-
-            margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(30)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('${'welcome'.tr} ' , style: TextStyle(fontSize: 16.sp , color: Colors.black , fontWeight: FontWeight.w600),),
-                Text(name ,)
-              ],
-            ),
-          ),
           Card(
             elevation: 3,
             child: Container(
@@ -169,25 +160,17 @@ class _SettingScreenState extends State<SettingScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('changeLanguage'.tr , style: TextStyle(fontSize: 18.sp , color: Colors.blueAccent),),
-                    DropdownButton(
+                    DropdownButton<String>(
                       value: dropDownValue,
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      items: items.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(items),
-                        );
-                      }).toList(),
-                      // After selecting the desired option,it will
-                      // change button value to selected value
                       onChanged: (String? newValue) {
-                        if(newValue != dropDownValue){
-                          setState(() {
-                            dropDownValue = newValue!;
-                          });
+                        setState(() {
                           changeLocalization();
-                        }
+                        });
                       },
+                      items: [
+                        buildDropdownItem('English', CountryFlag.fromLanguageCode('en')),
+                        buildDropdownItem('العربية', CountryFlag.fromLanguageCode('ar-sa')),
+                      ],
                     ),
                   ],
                 ),
@@ -210,6 +193,28 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  DropdownMenuItem<String> buildDropdownItem(String language, Widget flag) {
+    return DropdownMenuItem<String>(
+      value: language,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              SizedBox(
+                width: ScreenUtil().setWidth(20),
+                height: ScreenUtil().setHeight(20),
+                child: flag,
+              ),
+              SizedBox(width: ScreenUtil().setWidth(10.0)),
+              Text(language , style: const TextStyle(fontWeight: FontWeight.w600),),
+            ],
+          ),
         ],
       ),
     );
