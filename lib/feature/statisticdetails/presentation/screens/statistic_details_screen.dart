@@ -156,6 +156,11 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
           } else if (state is StatisticsDetailsError) {
             return ErrorWidgetItem(onTap: getData,);
           } else if (state is StatisticsDetailsLoaded) {
+            if(state.data.statisticColoumns.isEmpty){
+              return Center(
+                child: Text('noData'.tr , style: TextStyle(fontSize: 20.sp , color: AppColors.grey , fontWeight: FontWeight.w600),),
+              );
+            }
             if (!isInitialized) {
               statisticListData = state.data.statisticColoumns;
               statisticListData.sort((a, b) => a.userSort.compareTo(b.userSort));

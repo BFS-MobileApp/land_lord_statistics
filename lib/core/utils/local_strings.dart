@@ -36,7 +36,8 @@ class LocalStrings extends Translations {
       "welcome":"اهلا",
       "signedInPhase":"ان الان مسجل الدخول ك ",
       "invalidCredentials":"بيانات غير صحيحة",
-      "ok":"موافق"
+      "ok":"موافق",
+      "noData":"لا يوجد بيانات"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -70,7 +71,8 @@ class LocalStrings extends Translations {
       "changeLanguage":"Change Language",
       "welcome":"Welcome",
       "signedInPhase":"You are now signed in as",
-      "ok":"OK"
+      "ok":"OK",
+      "noData":"There is no data"
     },
   };
 }

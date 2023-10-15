@@ -104,6 +104,11 @@ class _StatisticScreenState extends State<StatisticScreen> {
           } else if (state is StatisticsError) {
             return ErrorWidget(()=>getData());
           } else if (state is StatisticsLoaded) {
+            if(state.statistic.statisticData.isEmpty){
+              return Center(
+                child: Text('noData'.tr , style: TextStyle(fontSize: 20.sp , color: AppColors.grey , fontWeight: FontWeight.w600),),
+              );
+            }
             if (!isInitialized) {
               statisticList = state.statistic.statisticData;
               statisticListData = state.statistic.statisticData;
