@@ -21,6 +21,7 @@ class UserAccountItem extends StatefulWidget {
 
 class _UserAccountItemState extends State<UserAccountItem> {
   bool showDeleteIcon = false;
+  bool showCircle = true;
 
   callDeleteAccountDialog(BuildContext context){
     Future.delayed(const Duration(milliseconds: 500), () {
@@ -42,6 +43,7 @@ class _UserAccountItemState extends State<UserAccountItem> {
       onLongPress: (){
         setState(() {
           showDeleteIcon = !showDeleteIcon;
+          showCircle = !showCircle;
         });
       },
       onTap: (){
@@ -67,9 +69,9 @@ class _UserAccountItemState extends State<UserAccountItem> {
               margin: Helper.getCurrentLocal() == 'AR' ? EdgeInsets.only(bottom: ScreenUtil().setHeight(5) , left: ScreenUtil().setWidth(5)) : EdgeInsets.only(bottom: ScreenUtil().setHeight(5) , right: ScreenUtil().setWidth(5)),
               child: Row(
                 children: [
-                  widget.isActive ? Icon(Icons.check , size: 25.sp , color: widget.isActive ? AppColors.whiteColor : AppColors.black,) : Icon(Icons.circle_outlined , size: 20.sp , color: AppColors.black,),
+                  widget.isActive ? Icon(Icons.check , size: 25.sp , color: widget.isActive ? AppColors.whiteColor : AppColors.black,) : showCircle ? Icon(Icons.circle_outlined , size: 20.sp , color: AppColors.black,) : const SizedBox(),
                   GestureDetector(
-                    child: showDeleteIcon ? Icon(Icons.delete  , color: widget.isActive ? AppColors.whiteColor : AppColors.red, size: 25.sp,) : SizedBox(),
+                    child: showDeleteIcon ? Icon(Icons.delete  , color: widget.isActive ? AppColors.whiteColor : AppColors.red, size: 25.sp,) : const SizedBox(),
                     onTap: (){ callDeleteAccountDialog(context); },
                   ),
                 ],

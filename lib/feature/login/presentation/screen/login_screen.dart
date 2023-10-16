@@ -59,16 +59,16 @@ class _LoginScreenState extends State<LoginScreen> {
           margin: EdgeInsets.symmetric(horizontal: 10.sp),
           child: TextFieldWidget(height: 8, width: MediaQuery.of(context).size.width, controller: passwordController, isPasswordTextField: true, keyboardType: TextInputType.emailAddress),
         ),
-        Container(
+        /*Container(
           alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topLeft: Alignment.topRight,
           margin: EdgeInsets.symmetric(horizontal: 10.sp , vertical: 10.sp),
           child:  InkWell(
             onTap: (){},
             child: TextWidget(text: 'forgotPassword'.tr, fontSize: 12.sp,fontWeight: FontWeight.w500 , fontColor: AppColors.lightBlue,),
           ),
-        ),
+        ),*/
         Container(
-          margin: EdgeInsets.symmetric(vertical: 10.sp),
+          margin: EdgeInsets.symmetric(vertical: 20.sp),
           child: ButtonWidget(
               width: MediaQuery.of(context).size.width*0.83,
               height: 45,

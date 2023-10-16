@@ -1,4 +1,4 @@
-package com.example.claimizer
+package com.befalcon.landlordstatistics
 
 import io.flutter.embedding.android.FlutterActivity
 

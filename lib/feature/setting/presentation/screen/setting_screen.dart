@@ -169,7 +169,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       },
                       items: [
                         buildDropdownItem('English', CountryFlag.fromLanguageCode('en')),
-                        buildDropdownItem('العربية', CountryFlag.fromLanguageCode('ar-sa')),
+                        buildDropdownItem('العربية', CountryFlag.fromCountryCode('ae')),
                       ],
                     ),
                   ],
