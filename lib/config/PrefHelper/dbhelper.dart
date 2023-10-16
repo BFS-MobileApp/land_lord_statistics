@@ -140,16 +140,13 @@ class DatabaseHelper {
   Future<void> deleteUserAndCheckLast(String email, bool isActive , BuildContext context) async {
     final db = await database;
 
-    // Delete the user with the specified email
     await db.delete(
       'users',
       where: 'email = ?',
       whereArgs: [email],
     );
-
-    // Check if there are any remaining users
+    MessageWidget.showSnackBar('deletedAccountSuccessfully'.tr, AppColors.green);
     final remainingUsers = await db.query('users');
-
     if (isActive && remainingUsers.isNotEmpty) {
       // Make the first remaining user active
       await db.update(
@@ -184,5 +181,16 @@ class DatabaseHelper {
     // Check if there are any users in the database
     final usersCount = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM users'));
     return usersCount! > 0;
+  }
+
+  Future<bool> isEmailAlreadyAdded(String email) async {
+    final db = await database;
+    final result = await db.query(
+      'users',
+      where: 'email = ?',
+      whereArgs: [email],
+      columns: ['email'],
+    );
+    return result.isNotEmpty;
   }
 }

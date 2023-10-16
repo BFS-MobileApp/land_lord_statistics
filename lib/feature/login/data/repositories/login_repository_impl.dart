@@ -48,8 +48,11 @@ class LoginRepositoryImpl extends LoginRepository {
       token: token,
       active: true,
     );
-    databaseHelper.insertUser(user);
-    databaseHelper.activateUser(email);
+    bool isEmailExist = await databaseHelper.isEmailAlreadyAdded(email);
+    if(!isEmailExist){
+      databaseHelper.insertUser(user);
+      databaseHelper.activateUser(email);
+    }
     preferences.setString(AppStrings.token, token);
     preferences.setString(AppStrings.userName, name);
   }
