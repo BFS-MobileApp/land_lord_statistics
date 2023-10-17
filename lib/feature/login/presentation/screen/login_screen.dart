@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),*/
         Container(
-          margin: EdgeInsets.symmetric(vertical: 20.sp),
+          margin: EdgeInsets.symmetric(horizontal: 8.sp , vertical: 20.sp),
           child: ButtonWidget(
               width: MediaQuery.of(context).size.width*0.83,
               height: 45,

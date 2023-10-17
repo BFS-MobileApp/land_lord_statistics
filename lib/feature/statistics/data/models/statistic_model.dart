@@ -8,7 +8,6 @@ import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/core/utils/hex_color.dart';
 import 'package:claimizer/feature/statistics/domain/entites/statistic.dart';
-import 'package:flutter/material.dart';
 
 StatisticModel statisticModelFromJson(String str) => StatisticModel.fromJson(json.decode(str));
 

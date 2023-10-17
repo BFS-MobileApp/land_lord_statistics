@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
                     locale: const Locale('en', 'US'),
                     fallbackLocale: const Locale('en', 'US'),
                     theme: appTheme(),
+                    debugShowCheckedModeBanner: false,
                     title: AppStrings.appName,
                     onGenerateRoute: AppRoutes.onGenerateRoute,
                     scaffoldMessengerKey: MessageWidget.scaffoldMessengerKey,

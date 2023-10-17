@@ -1,6 +1,8 @@
 class EndPoints{
 
-  static const baseUrl = 'https://beta.claimizer.com/api/v3/';
+  static const liveUrl = 'https://claimizer.com/api/v3/';
+  static const betaUrl = 'https://beta.claimizer.com/api/v3/';
+  //static const baseUrl = 'https://beta.claimizer.com/api/v3/';
   static const String login = 'login';
   static const String statistic = 'statistics';
   static const String statisticDetails = 'statistics/';

@@ -224,13 +224,14 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
             },
             child: Center(
               child: Container(
+                margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
                 decoration: BoxDecoration(
                   color: HexColor(widget.userColor),
                   borderRadius: const BorderRadius.all(Radius.circular(
                           15.0) //                 <--- border radius here
                       ),
                 ),
-                height: ScreenUtil().setHeight(75),
+                //height: ScreenUtil().setHeight(76),
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   children: [
