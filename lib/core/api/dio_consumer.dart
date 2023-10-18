@@ -22,7 +22,7 @@ class DioConsumer implements ApiConsumer{
       return dioClient;
     };
     client.options
-    ..baseUrl = EndPoints.liveUrl
+    ..baseUrl = EndPoints.betaUrl
     ..responseType = ResponseType.plain
     ..followRedirects = false
     ..connectTimeout =  const Duration(seconds: 15)

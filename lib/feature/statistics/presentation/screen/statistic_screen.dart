@@ -93,6 +93,14 @@ class _StatisticScreenState extends State<StatisticScreen> {
     }
   }
 
+  clearData(){
+    setState(() {
+      isInitialized = false;
+      statisticList.clear();
+      statisticListData.clear();
+      updatedStatisticListData.clear();
+    });
+  }
 
   Widget _statisticWidget(){
     return BlocBuilder<StatisticCubit, StatisticState>(
@@ -276,6 +284,9 @@ class _StatisticScreenState extends State<StatisticScreen> {
           ),
           body: _statisticWidget(),
         ),
-        onRefresh: () => getData());
+        onRefresh: () async{
+          await clearData();
+          await getData();
+        });
   }
 }

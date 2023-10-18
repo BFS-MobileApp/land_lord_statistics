@@ -1,0 +1,5 @@
+storePassword=123456789
+keyPassword=123456789
+keyAlias=my-key
+keyAlias=my-key-alias
+storeFile=C:/Users/a7med/StudioProjects/claimizer/android/app/my-key.jks
