@@ -224,7 +224,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
             },
             child: Center(
               child: Container(
-                margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
+                margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(5)),
                 decoration: BoxDecoration(
                   color: HexColor(widget.userColor),
                   borderRadius: const BorderRadius.all(Radius.circular(

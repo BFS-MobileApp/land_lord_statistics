@@ -12,7 +12,7 @@ class Helper{
 
   //
   static String convertStringToDateOnly(String date){
-    String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.parse(date));
+    String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.parse(date));
     return formattedDate;
   }
 
