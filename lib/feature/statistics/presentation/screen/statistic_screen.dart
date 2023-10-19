@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:claimizer/config/arguments/routes_arguments.dart';
 import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
@@ -210,7 +212,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
             child: Container(
               //margin: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
               color: AppColors.primaryColor,
-              child: Padding(padding: EdgeInsets.all(10.sp) , child: TextField(
+              child: Padding(padding: EdgeInsets.only(top: ScreenUtil().setHeight(10) , bottom: ScreenUtil().setHeight(5) , left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10)) , child: TextField(
                 style: searchTextStyle,
                 cursorColor: AppColors.whiteColor,
                 showCursor: true,
@@ -233,7 +235,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     hintText: "search".tr,
                     hintStyle: searchTextStyle,
                     suffixIcon: Container(
-                      padding: EdgeInsets.only(top: ScreenUtil().setHeight(18)),
+                      padding: EdgeInsets.only(top: ScreenUtil().setHeight(35)),
                       child: IconButton(
                         onPressed: (){
                           /*setState(() {
@@ -246,7 +248,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                       ),
                     ),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(top: ScreenUtil().setHeight(30))
+                    contentPadding: EdgeInsets.only(top: ScreenUtil().setHeight(45))
                 ),
               ))),
             ) :
@@ -268,18 +270,23 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     ),
                   ),
                 ),
-              ],
-              leading: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, Routes.userAccountsRoutes);
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(8.0.sp),
-                  child: const Icon(
-                    Icons.settings,
-                    color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.userAccountsRoutes);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0.sp),
+                    child: const Icon(
+                      Icons.settings,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
+                )
+              ],
+              leading: IconButton(
+                onPressed: ()=>exit(0),
+                icon: const Icon(Icons.arrow_back_sharp),
+                color: AppColors.whiteColor,
               ),
           ),
           body: _statisticWidget(),

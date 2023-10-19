@@ -1,17 +1,20 @@
 import 'package:claimizer/config/PrefHelper/dbhelper.dart';
 import 'package:claimizer/config/arguments/routes_arguments.dart';
 import 'package:claimizer/config/routes/app_routes.dart';
+import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/setting/presentation/cubit/setting_cubit.dart';
 import 'package:claimizer/feature/setting/presentation/widget/user_accounts_item.dart';
 import 'package:claimizer/widgets/alert_dilog_widget.dart';
+import 'package:claimizer/widgets/logo_widget.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -118,9 +121,17 @@ class _SettingScreenState extends State<SettingScreen> {
     }
   }
 
+  Future<void> _launchUrl() async {
+    final Uri _url = Uri.parse('https://www.befalcon.com');
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const LogoWidget(),
       appBar: AppBar(
         title: Text('userAccounts'.tr),
       ),
@@ -138,7 +149,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     children: [
                       Text('userAccounts'.tr , style: const TextStyle(color: Colors.blue , ),),
                       IconButton(
-                        onPressed: ()=>Navigator.pushReplacementNamed(context, Routes.loginRoutes , arguments: LoginRoutesArguments(addOtherMail: true)),
+                        onPressed: ()=>Navigator.pushNamed(context, Routes.loginRoutes , arguments: LoginRoutesArguments(addOtherMail: true)),
                         icon: const Icon(Icons.add),
                         iconSize: 25.sp,
                         color: Colors.blue,
@@ -192,7 +203,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

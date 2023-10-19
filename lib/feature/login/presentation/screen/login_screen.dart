@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:claimizer/config/routes/app_routes.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/assets_manager.dart';
 import 'package:claimizer/core/utils/helper.dart';
 import 'package:claimizer/feature/login/presentation/cubit/login_cubit.dart';
 import 'package:claimizer/widgets/button_widget.dart';
+import 'package:claimizer/widgets/logo_widget.dart';
 import 'package:claimizer/widgets/message_widget.dart';
 import 'package:claimizer/widgets/text_widget.dart';
 import 'package:claimizer/widgets/textfield_widget.dart';
@@ -130,6 +132,21 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return  BlocBuilder<LoginCubit , LoginState>(builder: (context , state){
       return Scaffold(
+       bottomNavigationBar: const LogoWidget(),
+        appBar: AppBar(
+          title: Text('login'.tr),
+          leading: IconButton(
+            onPressed: (){
+              if(widget.addOtherMail){
+                Navigator.of(context).pop();
+              } else {
+                exit(0);
+              }
+            },
+            icon: const Icon(Icons.arrow_back_sharp),
+            color: AppColors.whiteColor,
+          ),
+        ),
         body: checkState(state)
       );
     });
