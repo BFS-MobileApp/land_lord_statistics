@@ -224,7 +224,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
             },
             child: Center(
               child: Container(
-                margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(5)),
+                margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
                 decoration: BoxDecoration(
                   color: HexColor(widget.userColor),
                   borderRadius: const BorderRadius.all(Radius.circular(
@@ -237,7 +237,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
                   children: [
                     Container(
                       margin: EdgeInsets.symmetric(
-                          vertical: ScreenUtil().setHeight(10),
+                          vertical: ScreenUtil().setHeight(8),
                           horizontal: ScreenUtil().setWidth(10)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -265,7 +265,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
                           margin: EdgeInsets.only(
                               left: ScreenUtil().setWidth(12),
                               right: ScreenUtil().setWidth(12),
-                              bottom: ScreenUtil().setHeight(12)),
+                              ),
                           alignment: alignmentWidget.returnAlignment(),
                           child: Text(
                             widget.itemValue,
@@ -281,7 +281,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
                           margin: EdgeInsets.only(
                               left: ScreenUtil().setWidth(12),
                               right: ScreenUtil().setWidth(12),
-                              bottom: ScreenUtil().setHeight(12)),
+                              bottom: ScreenUtil().setHeight(5)),
                           alignment: alignmentWidget.returnAlignment(),
                           child: SvgPicture.string(widget.icon),
                         )

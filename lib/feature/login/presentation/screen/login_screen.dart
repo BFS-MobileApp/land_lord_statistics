@@ -82,6 +82,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    context.read<LoginCubit>().initLoginPage();
+  }
   Widget checkState(LoginState state){
      if(state is LoginIsLoading){
        initialErrorStatus();
@@ -90,9 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
       showErrorMessage(state.msg);
       return _loginWidget();
     } else if(state is LoginLoaded) {
-      context.read<LoginCubit>().initLoginPage();
       goToNextScreen();
-      return _loginWidget();
+      return const SizedBox();
     } else {
       return _loginWidget();
     }
