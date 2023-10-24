@@ -31,6 +31,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'config/PrefHelper/dbhelper.dart';
 import 'core/api/api_consumer.dart';
+import 'core/api/baseurl_service.dart';
 import 'feature/setting/data/datasources/setting_local_data_source_impl.dart';
 import 'feature/statisticdetails/data/repositories/statistic_details_repository_impl.dart';
 import 'feature/statisticdetails/domain/repositories/statistic_details_repository.dart';
@@ -81,4 +82,5 @@ Future<void> init() async{
   sl.registerLazySingleton(() => AppInterceptor());
   sl.registerLazySingleton(() => Dio());
   sl.registerLazySingleton(() => databaseHelper);
+  sl.registerLazySingleton(() => BaseUrlService());
 }

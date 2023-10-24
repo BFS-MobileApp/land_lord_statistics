@@ -1,6 +1,9 @@
 import 'package:claimizer/config/PrefHelper/dbhelper.dart';
+import 'package:claimizer/core/api/end_points.dart';
+import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppInterceptor extends Interceptor{
 
@@ -9,8 +12,11 @@ class AppInterceptor extends Interceptor{
    Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async{
     debugPrint('REQUEST[${options.method}] => PATH: ${options.path}');
     Map<String , dynamic> headers = {};
+    String url = '';
+    url = await getUrl();
     headers = await getHeaders();
     options.headers = headers;
+    options.baseUrl = url;
     super.onRequest(options, handler);
   }
 
@@ -43,4 +49,16 @@ class AppInterceptor extends Interceptor{
     await databaseHelper.getActiveUserToken().then((value) => token = value);
     return token;
   }
+
+  Future<String> getUrl() async{
+    String url = '';
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.containsKey(AppStrings.savedUrl)){
+      url = prefs.getString(AppStrings.savedUrl).toString();
+    } else {
+      url = EndPoints.betaUrl;
+    }
+    return url;
+  }
+
 }

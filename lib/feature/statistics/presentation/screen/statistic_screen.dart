@@ -8,6 +8,8 @@ import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
 import 'package:claimizer/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:claimizer/feature/statistics/presentation/widget/statistic_widget.dart';
 import 'package:claimizer/widgets/aligment_widget.dart';
+import 'package:claimizer/widgets/empty_data_widget.dart';
+import 'package:claimizer/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,7 +33,6 @@ class _StatisticScreenState extends State<StatisticScreen> {
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
   AlignmentWidget alignmentWidget = AlignmentWidget();
   Map<String, bool> isMenuOpenMap = {};
-
 
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
@@ -112,12 +113,11 @@ class _StatisticScreenState extends State<StatisticScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (state is StatisticsError) {
-            return ErrorWidget(()=>getData());
+            //return ErrorWidgetItem(onTap: (){getData();},);
+            return const EmptyDataWidget();
           } else if (state is StatisticsLoaded) {
             if(state.statistic.statisticData.isEmpty){
-              return Center(
-                child: Text('noData'.tr , style: TextStyle(fontSize: 20.sp , color: AppColors.grey , fontWeight: FontWeight.w600),),
-              );
+              return const EmptyDataWidget();
             }
             if (!isInitialized) {
               statisticList = state.statistic.statisticData;

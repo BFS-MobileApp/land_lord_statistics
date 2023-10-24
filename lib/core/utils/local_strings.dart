@@ -39,7 +39,9 @@ class LocalStrings extends Translations {
       "ok":"موافق",
       "noData":"لا يوجد بيانات",
       "deleteAccountPhase":"هل انت متأكد من حذف هذا الحساب؟",
-      "deletedAccountSuccessfully":"تم حذف الحساب بنجاح"
+      "deletedAccountSuccessfully":"تم حذف الحساب بنجاح",
+      "emptyEmail":"من فضلك ادخل البريد الالكتروني",
+      "emptyPassword":"من فضلك ادخل كلمه المرور"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -76,7 +78,9 @@ class LocalStrings extends Translations {
       "ok":"OK",
       "noData":"There is no data",
       "deleteAccountPhase":"Are you sure you want to delete this account?",
-      "deletedAccountSuccessfully":"Account has been deleted successfully"
+      "deletedAccountSuccessfully":"Account has been deleted successfully",
+      "emptyEmail":"Please enter your email",
+      "emptyPassword":"Please enter your password"
     },
   };
 }

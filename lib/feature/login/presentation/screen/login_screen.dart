@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:claimizer/config/routes/app_routes.dart';
+import 'package:claimizer/core/api/baseurl_service.dart';
+import 'package:claimizer/core/api/end_points.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/assets_manager.dart';
 import 'package:claimizer/core/utils/helper.dart';
@@ -34,7 +36,16 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       children: [
         SizedBox(height: ScreenUtil().setHeight(80),),
-        Image.asset(AssetsManager.logoIcon, width: ScreenUtil().setWidth(93),height: ScreenUtil().setHeight(95),),
+        InkWell(
+          child: Image.asset(AssetsManager.logoIcon, width: ScreenUtil().setWidth(93),height: ScreenUtil().setHeight(95),),
+          onLongPress: (){
+            if(!widget.addOtherMail){
+              showBaseUrlAlertDialog(context);
+            } else {
+              login();
+            }
+          },
+        ),
         Container(
             margin: EdgeInsets.symmetric(horizontal: 15.sp),
             child: TextWidget(text: 'login'.tr,fontSize: 32,)
@@ -75,12 +86,79 @@ class _LoginScreenState extends State<LoginScreen> {
               width: MediaQuery.of(context).size.width*0.83,
               height: 45,
               onTap: (){
-                context.read<LoginCubit>().login(emailController.value.text.toString(), passwordController.value.text.toString());
+                login();
               },
               name: 'login'.tr
           ),
         )
       ],
+    );
+  }
+
+  void login(){
+     if(emailController.value.text.isEmpty){
+       MessageWidget.showSnackBar('emptyEmail'.tr, AppColors.red);
+       return;
+     }
+     if(passwordController.value.text.isEmpty){
+       MessageWidget.showSnackBar('emptyPassword'.tr, AppColors.red);
+       return;
+     }
+     context.read<LoginCubit>().login(emailController.value.text.toString(), passwordController.value.text.toString());
+  }
+
+  Future<void> showBaseUrlAlertDialog(BuildContext context) async {
+    int groupValue = 0; // Get the current setting
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select Base URL'),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  RadioListTile(
+                    title: Text('Live URL'),
+                    value: 0,
+                    groupValue: groupValue,
+                    onChanged: (value) {
+                      setState(() {
+                        groupValue = value!;
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text('Beta URL'),
+                    value: 1,
+                    groupValue: groupValue,
+                    onChanged: (value) {
+                      setState(() {
+                        groupValue = value!;
+                      });
+                    },
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Update the shared preference based on the group value and close the dialog
+                      final BaseUrlService baseUrl = BaseUrlService();
+                      if(groupValue ==0){
+                        baseUrl.setUrl(EndPoints.liveUrl);
+                      } else {
+                        baseUrl.setUrl(EndPoints.betaUrl);
+                      }
+                      Navigator.of(context).pop();
+                      login();
+                    },
+                    child: Text('Save'),
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 

@@ -19,6 +19,7 @@ class AppStrings{
   static const String sort = 'sort';
   static const String companiesSort = 'company_statistic_sort';
   static const String columnsSort = 'column_statistic_sort';
+  static const String savedUrl = 'baseUrl';
 
 
 }

@@ -7,7 +7,6 @@ import 'package:claimizer/core/api/status_code.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:claimizer/injection_container.dart' as di;
-
 import '../error/exceptions.dart';
 
 class DioConsumer implements ApiConsumer{
