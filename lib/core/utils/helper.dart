@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:claimizer/config/PrefHelper/shared_pref_helper.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Helper{
-
   //
   static String convertStringToDateOnly(String date){
     String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.parse(date));

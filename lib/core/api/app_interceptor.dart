@@ -1,12 +1,9 @@
 import 'package:claimizer/config/PrefHelper/dbhelper.dart';
 import 'package:claimizer/core/api/end_points.dart';
-import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AppInterceptor extends Interceptor{
-
 
   @override
    Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async{
@@ -52,13 +49,12 @@ class AppInterceptor extends Interceptor{
 
   Future<String> getUrl() async{
     String url = '';
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(prefs.containsKey(AppStrings.savedUrl)){
-      url = prefs.getString(AppStrings.savedUrl).toString();
-    } else {
-      url = EndPoints.betaUrl;
+    final databaseHelper = DatabaseHelper.instance;
+    url = await databaseHelper.getSavedUrl();
+    print('a7med'+url);
+    if(url == ''){
+      url =  EndPoints.liveUrl;
     }
     return url;
   }
-
 }

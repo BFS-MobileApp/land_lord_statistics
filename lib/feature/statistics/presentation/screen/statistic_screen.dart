@@ -113,7 +113,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (state is StatisticsError) {
-            //return ErrorWidgetItem(onTap: (){getData();},);
+            return ErrorWidgetItem(onTap: (){getData();},);
             return const EmptyDataWidget();
           } else if (state is StatisticsLoaded) {
             if(state.statistic.statisticData.isEmpty){

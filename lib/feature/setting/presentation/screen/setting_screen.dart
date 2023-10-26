@@ -1,6 +1,8 @@
 import 'package:claimizer/config/PrefHelper/dbhelper.dart';
+import 'package:claimizer/config/PrefHelper/prefs.dart';
 import 'package:claimizer/config/arguments/routes_arguments.dart';
 import 'package:claimizer/config/routes/app_routes.dart';
+import 'package:claimizer/core/api/end_points.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/app_strings.dart';
 import 'package:claimizer/core/utils/helper.dart';
@@ -13,8 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -27,6 +27,8 @@ class _SettingScreenState extends State<SettingScreen> {
 
   String dropDownValue = '' , name = '';
   final databaseHelper = DatabaseHelper.instance;
+  bool isUsingMultiServerFeature = false;
+  String urlType = '';
 
 
   getAccounts() =>BlocProvider.of<SettingCubit>(context).getData();
@@ -38,6 +40,7 @@ class _SettingScreenState extends State<SettingScreen> {
     getAccounts();
     getCurrentLocal();
     getActiveUserName();
+    checkMultiServerFeature();
   }
 
   getActiveUserName() async{
@@ -48,14 +51,28 @@ class _SettingScreenState extends State<SettingScreen> {
     });
   }
 
-  callLogoutDialog(){
+  callLogoutDialog() async{
+    bool result = await checkIfThereIsExistingUsers();
     Future.delayed(const Duration(milliseconds: 500), () {
       AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'logOutPhase'.tr, yesOnTap: (){
         deleteUserData();
-        Navigator.of(context).pushNamedAndRemoveUntil(Routes.loginRoutes,arguments: LoginRoutesArguments(addOtherMail: false), (Route<dynamic> route) => false);
+        if(result == false){
+          databaseHelper.deleteAllSavedUrls();
+        }
+        Navigator.of(context).pushNamedAndRemoveUntil(Routes.loginRoutes,arguments: LoginRoutesArguments(addOtherMail: false , isThereExistingUsers: result), (Route<dynamic> route) => false);
       }, context: context);
       dialogWidget.logOutDialog();
     });
+  }
+
+  Future<bool> checkIfThereIsExistingUsers() async{
+    final databaseHelper = DatabaseHelper.instance;
+    int userNumbers = await databaseHelper.getUsersNums();
+    if(userNumbers>1){
+      return true;
+    }
+    return false;
+
   }
 
   goToNextScreen(){
@@ -65,10 +82,8 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   deleteUserData() async{
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
     databaseHelper.deleteAllActiveUsers();
-    preferences.remove(AppStrings.token);
-    preferences.remove(AppStrings.userName);
+    Prefs.clear();
   }
 
   Widget userAccountsWidgets(){
@@ -121,10 +136,22 @@ class _SettingScreenState extends State<SettingScreen> {
     }
   }
 
-  Future<void> _launchUrl() async {
-    final Uri _url = Uri.parse('https://www.befalcon.com');
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
+  checkMultiServerFeature() async{
+    DatabaseHelper databaseHelper = DatabaseHelper.instance;
+    bool result = await databaseHelper.hasDataInUrlTable();
+    if(result){
+      setState(() {
+        isUsingMultiServerFeature = true;
+      });
+      String url = await databaseHelper.getSavedUrl();
+      if(url == EndPoints.betaUrl){
+        setState(() {
+          urlType = 'Beta Version';
+        });
+      }
+      setState(() {
+        urlType = 'Live Version';
+      });
     }
   }
 
@@ -137,6 +164,12 @@ class _SettingScreenState extends State<SettingScreen> {
       ),
       body: ListView(
         children: [
+          isUsingMultiServerFeature ? Container(
+            margin: EdgeInsets.only(top: ScreenUtil().setHeight(25)),
+            child: Center(
+              child: Text(urlType , style: TextStyle(fontWeight: FontWeight.w700 , color: AppColors.primaryColor , fontSize: 16.sp),),
+            ),
+          ) : const SizedBox(),
           Card(
             elevation: 3,
             child: Container(
@@ -149,7 +182,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     children: [
                       Text('userAccounts'.tr , style: const TextStyle(color: Colors.blue , ),),
                       IconButton(
-                        onPressed: ()=>Navigator.pushNamed(context, Routes.loginRoutes , arguments: LoginRoutesArguments(addOtherMail: true)),
+                        onPressed: ()=>Navigator.pushNamed(context, Routes.loginRoutes , arguments: LoginRoutesArguments(addOtherMail: true , isThereExistingUsers: true)),
                         icon: const Icon(Icons.add),
                         iconSize: 25.sp,
                         color: Colors.blue,

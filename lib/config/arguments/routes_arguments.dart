@@ -14,5 +14,6 @@ class StatisticDetailsRoutesArguments extends RoutesArgument{
 
 class LoginRoutesArguments extends RoutesArgument{
   final bool addOtherMail;
-  LoginRoutesArguments({required this.addOtherMail});
+  final bool isThereExistingUsers;
+  LoginRoutesArguments({required this.addOtherMail , required this.isThereExistingUsers});
 }

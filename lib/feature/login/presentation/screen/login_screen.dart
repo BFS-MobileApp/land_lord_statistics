@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:claimizer/config/PrefHelper/dbhelper.dart';
+import 'package:claimizer/config/PrefHelper/prefs.dart';
 import 'package:claimizer/config/routes/app_routes.dart';
-import 'package:claimizer/core/api/baseurl_service.dart';
 import 'package:claimizer/core/api/end_points.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/core/utils/assets_manager.dart';
@@ -20,7 +21,8 @@ import 'package:get/get.dart';
 class LoginScreen extends StatefulWidget {
 
   bool addOtherMail;
-  LoginScreen({super.key , required this.addOtherMail});
+  bool isThereUsers;
+  LoginScreen({super.key , required this.addOtherMail , required this.isThereUsers});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -39,10 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
         InkWell(
           child: Image.asset(AssetsManager.logoIcon, width: ScreenUtil().setWidth(93),height: ScreenUtil().setHeight(95),),
           onLongPress: (){
-            if(!widget.addOtherMail){
+            if(!widget.addOtherMail && !widget.isThereUsers){
               showBaseUrlAlertDialog(context);
-            } else {
-              login();
             }
           },
         ),
@@ -86,6 +86,9 @@ class _LoginScreenState extends State<LoginScreen> {
               width: MediaQuery.of(context).size.width*0.83,
               height: 45,
               onTap: (){
+                if(!widget.isThereUsers && !widget.addOtherMail){
+                  setUrl('live');
+                }
                 login();
               },
               name: 'login'.tr
@@ -108,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> showBaseUrlAlertDialog(BuildContext context) async {
-    int groupValue = 0; // Get the current setting
+    String groupValue = 'live'; // Get the current setting
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -121,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: <Widget>[
                   RadioListTile(
                     title: Text('Live URL'),
-                    value: 0,
+                    value: 'live',
                     groupValue: groupValue,
                     onChanged: (value) {
                       setState(() {
@@ -131,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   RadioListTile(
                     title: Text('Beta URL'),
-                    value: 1,
+                    value: 'beta',
                     groupValue: groupValue,
                     onChanged: (value) {
                       setState(() {
@@ -141,13 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Update the shared preference based on the group value and close the dialog
-                      final BaseUrlService baseUrl = BaseUrlService();
-                      if(groupValue ==0){
-                        baseUrl.setUrl(EndPoints.liveUrl);
-                      } else {
-                        baseUrl.setUrl(EndPoints.betaUrl);
-                      }
+                      setUrl(groupValue);
                       Navigator.of(context).pop();
                       login();
                     },
@@ -162,10 +159,21 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  setUrl(String value){
+    final databaseHelper = DatabaseHelper.instance;
+     if(value == 'live'){
+       databaseHelper.insertUrl(EndPoints.liveUrl);
+     } else if(value == 'beta'){
+       databaseHelper.insertUrl(EndPoints.betaUrl);
+     }
+  }
+
   @override
   void initState() {
     super.initState();
     context.read<LoginCubit>().initLoginPage();
+    print(widget.addOtherMail);
+    print(widget.isThereUsers);
   }
   Widget checkState(LoginState state){
      if(state is LoginIsLoading){
@@ -175,12 +183,15 @@ class _LoginScreenState extends State<LoginScreen> {
       showErrorMessage(state.msg);
       return _loginWidget();
     } else if(state is LoginLoaded) {
+      clearMultiServerFeature();
       goToNextScreen();
       return const SizedBox();
     } else {
       return _loginWidget();
     }
   }
+
+  clearMultiServerFeature() => Prefs.clear();
 
   goToNextScreen(){
     Future.delayed(const Duration(milliseconds: 500), () {

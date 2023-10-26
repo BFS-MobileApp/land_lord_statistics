@@ -36,8 +36,41 @@ class DatabaseHelper {
             active INTEGER
           )
     ''');
+    await db.execute('''
+    CREATE TABLE url (
+      savedUrl TEXT
+    )
+  ''');
   }
 
+  Future<void> insertUrl(String savedUrl) async {
+    final db = await database;
+    await db.rawInsert('''
+    INSERT OR REPLACE INTO url (savedUrl)
+    VALUES (?)
+  ''', [savedUrl]);
+  }
+
+  Future<bool> hasDataInUrlTable() async {
+    final db = await database;
+    final List<Map<String, dynamic>> results = await db.rawQuery('SELECT * FROM url');
+    return results.isNotEmpty;
+  }
+
+  Future<String> getSavedUrl() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.rawQuery('SELECT savedUrl FROM url LIMIT 1');
+    if (maps.isNotEmpty) {
+      return maps[0]['savedUrl'] as String;
+    } else {
+      return ''; // Return null if no value is found
+    }
+  }
+
+  Future<void> deleteAllSavedUrls() async {
+    final db = await database;
+    await db.rawDelete('DELETE FROM url');
+  }
 
   Future<void> insertUser(UserModel user) async {
     final db = await database;
@@ -59,6 +92,12 @@ class DatabaseHelper {
     return List.generate(maps.length, (i) {
       return UserModel.fromMap(maps[i]);
     });
+  }
+
+  Future<int> getUsersNums() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('users');
+    return maps.length;
   }
 
   Future<void> activateUser(String email) async {
@@ -129,12 +168,6 @@ class DatabaseHelper {
         whereArgs: [remainingUsers.first['email']],
       );
     }
-    final result = await db.query(
-      'users',
-      where: 'active = ?',
-      whereArgs: [1], // 1 represents an active user
-      columns: ['name'],
-    );
   }
 
   Future<void> deleteUserAndCheckLast(String email, bool isActive , BuildContext context) async {
@@ -172,13 +205,12 @@ class DatabaseHelper {
     if(routes == Routes.statisticRoutes){
       Navigator.of(context).pushNamedAndRemoveUntil(Routes.statisticRoutes, (Route<dynamic> route) => false);
     } else {
-      Navigator.of(context).pushNamedAndRemoveUntil(Routes.loginRoutes,arguments: LoginRoutesArguments(addOtherMail: false), (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(Routes.loginRoutes,arguments: LoginRoutesArguments(addOtherMail: false , isThereExistingUsers: false), (Route<dynamic> route) => false);
     }
   }
 
   Future<bool> hasAnyUsers() async {
     final db = await database;
-    // Check if there are any users in the database
     final usersCount = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM users'));
     return usersCount! > 0;
   }

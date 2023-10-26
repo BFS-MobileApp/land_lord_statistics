@@ -7,6 +7,7 @@ import 'package:claimizer/feature/statisticdetails/presentation/cubit/statistic_
 import 'package:claimizer/feature/statisticdetails/presentation/widget/chart_widget.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/widget/statistic_detailes_item.dart';
 import 'package:claimizer/feature/statisticdetails/presentation/widget/text_item.dart';
+import 'package:claimizer/widgets/empty_data_widget.dart';
 import 'package:claimizer/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -164,9 +165,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
             return ErrorWidgetItem(onTap: getData,);
           } else if (state is StatisticsDetailsLoaded) {
             if(state.data.statisticColoumns.isEmpty){
-              return Center(
-                child: Text('noData'.tr , style: TextStyle(fontSize: 20.sp , color: AppColors.grey , fontWeight: FontWeight.w600),),
-              );
+              return const EmptyDataWidget();
             }
             if (!isInitialized) {
               statisticListData = state.data.statisticColoumns;
