@@ -23,6 +23,7 @@ dependencies:
   sqflite: ^2.3.0
   country_flags: ^2.1.1
   url_launcher: ^6.1.14
+  package_info_plus: ^4.2.0
   flutter:
     sdk: flutter
 

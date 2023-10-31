@@ -144,10 +144,12 @@ class _SettingScreenState extends State<SettingScreen> {
         isUsingMultiServerFeature = true;
       });
       String url = await databaseHelper.getSavedUrl();
+      print(url);
       if(url == EndPoints.betaUrl){
         setState(() {
           urlType = 'Beta Version';
         });
+        return;
       }
       setState(() {
         urlType = 'Live Version';

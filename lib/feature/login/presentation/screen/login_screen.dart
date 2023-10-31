@@ -86,9 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
               width: MediaQuery.of(context).size.width*0.83,
               height: 45,
               onTap: (){
-                if(!widget.isThereUsers && !widget.addOtherMail){
-                  setUrl('live');
-                }
                 login();
               },
               name: 'login'.tr

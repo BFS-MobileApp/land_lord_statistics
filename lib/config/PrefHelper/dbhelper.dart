@@ -1,5 +1,6 @@
 import 'package:claimizer/config/arguments/routes_arguments.dart';
 import 'package:claimizer/config/routes/app_routes.dart';
+import 'package:claimizer/core/api/end_points.dart';
 import 'package:claimizer/core/utils/app_colors.dart';
 import 'package:claimizer/feature/setting/data/models/user_model.dart';
 import 'package:claimizer/widgets/message_widget.dart';
@@ -63,7 +64,7 @@ class DatabaseHelper {
     if (maps.isNotEmpty) {
       return maps[0]['savedUrl'] as String;
     } else {
-      return ''; // Return null if no value is found
+      return EndPoints.liveUrl;
     }
   }
 

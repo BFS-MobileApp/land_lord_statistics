@@ -20,7 +20,6 @@ class StatisticsRemoteDataSourceImpl extends StatisticsRemoteDataSource {
     }
     return StatisticModel.fromJson(res);
   }
-
   @override
   Future<void> setUserSettings(String color , double sort , String uniqueId)  async{
 
