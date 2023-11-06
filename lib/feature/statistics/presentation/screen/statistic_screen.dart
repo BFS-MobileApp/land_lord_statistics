@@ -37,16 +37,29 @@ class _StatisticScreenState extends State<StatisticScreen> {
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
 
-  @override
+  @override 
   void initState() {
     super.initState();
     getData();
   }
 
+  /*Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    print(info.version);
+    print(info.packageName);
+  }*/
+
   @override
   void dispose() {
     super.dispose();
   }
+
+  /*callUpdateDialog() async{
+    Future.delayed(const Duration(milliseconds: 500), () {
+      ForceUpdateDialogWidget dialogWidget = ForceUpdateDialogWidget(context: context);
+      dialogWidget.updateDialog();
+    });
+  }*/
 
   dynamic findMaxSortValue() {
     dynamic maxSortValue = double.negativeInfinity;

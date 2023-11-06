@@ -41,7 +41,9 @@ class LocalStrings extends Translations {
       "deleteAccountPhase":"هل انت متأكد من حذف هذا الحساب؟",
       "deletedAccountSuccessfully":"تم حذف الحساب بنجاح",
       "emptyEmail":"من فضلك ادخل البريد الالكتروني",
-      "emptyPassword":"من فضلك ادخل كلمه المرور"
+      "emptyPassword":"من فضلك ادخل كلمه المرور",
+      "updatePhase":"هناك نسخة جديدة متاحة من التطبيق، يرجى تحديث التطبيق للاستمتاع بالميزات الجديدة",
+      "update":"تحديث"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -80,7 +82,9 @@ class LocalStrings extends Translations {
       "deleteAccountPhase":"Are you sure you want to delete this account?",
       "deletedAccountSuccessfully":"Account has been deleted successfully",
       "emptyEmail":"Please enter your email",
-      "emptyPassword":"Please enter your password"
+      "emptyPassword":"Please enter your password",
+      "updatePhase":"There is a new version of application available , please update the application to enjoy new features",
+      "update":"Update"
     },
   };
 }
