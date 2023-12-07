@@ -1,4 +1,4 @@
-import 'package:claimizer/core/utils/app_strings.dart';
+import 'package:LandlordStatistics/core/utils/app_strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BaseUrlService {
