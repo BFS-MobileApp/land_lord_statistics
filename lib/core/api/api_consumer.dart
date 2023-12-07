@@ -6,6 +6,4 @@ abstract class ApiConsumer{
 
   Future<dynamic> put(String path , {Map<String , dynamic>? queryParams , Map<String , dynamic>? body});
 
-
-
 }

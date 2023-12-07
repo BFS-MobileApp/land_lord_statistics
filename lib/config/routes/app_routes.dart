@@ -27,7 +27,7 @@ class AppRoutes{
       case Routes.loginRoutes:
         return MaterialPageRoute(builder: (context) {
           final args = routeSettings.arguments as LoginRoutesArguments;
-          return LoginScreen(addOtherMail: args.addOtherMail,);
+          return LoginScreen(addOtherMail: args.addOtherMail, isThereUsers: args.isThereExistingUsers,);
         });
       case Routes.statisticRoutes:
         return MaterialPageRoute(builder: (context) {

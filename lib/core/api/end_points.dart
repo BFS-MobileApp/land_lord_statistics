@@ -10,4 +10,5 @@ class EndPoints{
   static const String updateStatisticsColumn = 'statistics-column-details/update';
   static const String updateCompaniesSort = 'statistics-company-sort/update';
   static const String updateColumnsSort = 'statistics-column-sort/update';
+
 }

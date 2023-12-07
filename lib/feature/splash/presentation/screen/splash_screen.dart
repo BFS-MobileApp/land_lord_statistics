@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if(hasUsers){
       Navigator.pushReplacementNamed(context, Routes.statisticRoutes);
     } else {
-      Navigator.pushReplacementNamed(context, Routes.loginRoutes , arguments: LoginRoutesArguments(addOtherMail: false));
+      Navigator.pushReplacementNamed(context, Routes.loginRoutes , arguments: LoginRoutesArguments(addOtherMail: false , isThereExistingUsers: false));
     }
   }
 

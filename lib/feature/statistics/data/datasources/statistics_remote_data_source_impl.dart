@@ -13,9 +13,13 @@ class StatisticsRemoteDataSourceImpl extends StatisticsRemoteDataSource {
   @override
   Future<StatisticModel> getStatisticData() async{
     final res = await consumer.get(EndPoints.statistic);
+    if(res.toString().contains('Unauthenticated')){
+      Data data = Data(statisticSummary: [], count: 0);
+      StatisticModel model = StatisticModel(status: 400, data: data);
+      return model;
+    }
     return StatisticModel.fromJson(res);
   }
-
   @override
   Future<void> setUserSettings(String color , double sort , String uniqueId)  async{
 

@@ -18,8 +18,13 @@ class StatisticsRepositoryImpl extends StatisticsRepository {
   Future<Either<Failures, Statistic>> getStatistic() async{
 		if(await networkInfo.isConnected){
 			try{
-				final response =await statisticsRemoteDataSource.getStatisticData();
-				return Right(response);
+				final response = await statisticsRemoteDataSource.getStatisticData();
+				if(response.status != 200){
+					return Left(ServerFailure(msg: 'error'.tr));
+				} else {
+					return Right(response);
+				}
+
 			} on ServerException{
 				return Left(ServerFailure(msg: 'error'.tr));
 			}
