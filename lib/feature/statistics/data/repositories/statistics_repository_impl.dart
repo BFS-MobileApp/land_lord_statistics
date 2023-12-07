@@ -1,10 +1,10 @@
-import 'package:claimizer/core/error/exceptions.dart';
-import 'package:claimizer/core/error/failures.dart';
-import 'package:claimizer/core/network/network_info.dart';
-import 'package:claimizer/core/usecase/use_case.dart';
-import 'package:claimizer/feature/statistics/data/datasources/statistics_remote_data_source.dart';
-import 'package:claimizer/feature/statistics/domain/entites/statistic.dart';
-import 'package:claimizer/feature/statistics/domain/repositories/statistics_repository.dart';
+import 'package:LandlordStatistics/core/error/exceptions.dart';
+import 'package:LandlordStatistics/core/error/failures.dart';
+import 'package:LandlordStatistics/core/network/network_info.dart';
+import 'package:LandlordStatistics/core/usecase/use_case.dart';
+import 'package:LandlordStatistics/feature/statistics/data/datasources/statistics_remote_data_source.dart';
+import 'package:LandlordStatistics/feature/statistics/domain/entites/statistic.dart';
+import 'package:LandlordStatistics/feature/statistics/domain/repositories/statistics_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
 

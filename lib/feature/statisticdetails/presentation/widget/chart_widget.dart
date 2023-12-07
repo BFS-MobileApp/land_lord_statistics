@@ -1,10 +1,10 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:claimizer/core/utils/helper.dart';
-import 'package:claimizer/core/utils/hex_to_color.dart';
-import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
-import 'package:claimizer/feature/statisticdetails/presentation/widget/chart_name_item.dart';
-import 'package:claimizer/widgets/aligment_widget.dart';
+import 'package:LandlordStatistics/core/utils/helper.dart';
+import 'package:LandlordStatistics/core/utils/hex_to_color.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/data/models/statistic_details_model.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/chart_name_item.dart';
+import 'package:LandlordStatistics/widgets/aligment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

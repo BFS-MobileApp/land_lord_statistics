@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:claimizer/feature/login/domain/entities/login.dart';
+import 'package:LandlordStatistics/feature/login/domain/entities/login.dart';
 
 LoginModel loginModelFromJson(String str) => LoginModel.fromJson(json.decode(str));
 

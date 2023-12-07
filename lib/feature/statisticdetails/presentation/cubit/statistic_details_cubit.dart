@@ -1,13 +1,13 @@
-import 'package:claimizer/core/error/failures.dart';
-import 'package:claimizer/core/usecase/use_case.dart';
-import 'package:claimizer/core/utils/app_strings.dart';
-import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
-import 'package:claimizer/feature/statisticdetails/domain/usecases/statistic_details_usecase.dart';
-import 'package:claimizer/feature/statisticdetails/domain/usecases/user_column_settings_use_case.dart';
-import 'package:claimizer/feature/statisticdetails/domain/usecases/user_columns_sort_settings.dart';
+import 'package:LandlordStatistics/core/error/failures.dart';
+import 'package:LandlordStatistics/core/usecase/use_case.dart';
+import 'package:LandlordStatistics/core/utils/app_strings.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/data/models/statistic_details_model.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/domain/usecases/statistic_details_usecase.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/domain/usecases/user_column_settings_use_case.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/domain/usecases/user_columns_sort_settings.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:claimizer/feature/statisticdetails/domain/entities/statistic_details.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/domain/entities/statistic_details.dart';
 import 'package:equatable/equatable.dart';
 
 part 'statistic_details_state.dart';

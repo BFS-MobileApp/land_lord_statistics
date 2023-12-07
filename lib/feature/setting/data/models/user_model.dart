@@ -1,5 +1,5 @@
 
-import 'package:claimizer/feature/setting/domain/entities/user.dart';
+import 'package:LandlordStatistics/feature/setting/domain/entities/user.dart';
 
 class UserModel extends User{
   String name;

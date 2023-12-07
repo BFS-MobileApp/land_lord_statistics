@@ -1,4 +1,4 @@
-import 'package:claimizer/feature/login/data/models/login_model.dart';
+import 'package:LandlordStatistics/feature/login/data/models/login_model.dart';
 
 abstract class LoginRemoteDataSource {
 

@@ -1,5 +1,5 @@
-import 'package:claimizer/core/utils/app_colors.dart';
-import 'package:claimizer/core/utils/app_strings.dart';
+import 'package:LandlordStatistics/core/utils/app_colors.dart';
+import 'package:LandlordStatistics/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -3,10 +3,10 @@
 //     final chartModel = chartModelFromJson(jsonString);
 
 import 'dart:convert';
-import 'package:claimizer/core/utils/app_colors.dart';
-import 'package:claimizer/core/utils/helper.dart';
-import 'package:claimizer/core/utils/hex_color.dart';
-import 'package:claimizer/feature/statisticdetails/domain/entities/statistic_details.dart';
+import 'package:LandlordStatistics/core/utils/app_colors.dart';
+import 'package:LandlordStatistics/core/utils/helper.dart';
+import 'package:LandlordStatistics/core/utils/hex_color.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/domain/entities/statistic_details.dart';
 import 'package:flutter/material.dart';
 
 StatisticDetailsModel chartModelFromJson(String str) => StatisticDetailsModel.fromJson(json.decode(str));

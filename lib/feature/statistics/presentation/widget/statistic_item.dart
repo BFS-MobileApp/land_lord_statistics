@@ -1,5 +1,5 @@
-import 'package:claimizer/core/utils/helper.dart';
-import 'package:claimizer/widgets/aligment_widget.dart';
+import 'package:LandlordStatistics/core/utils/helper.dart';
+import 'package:LandlordStatistics/widgets/aligment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

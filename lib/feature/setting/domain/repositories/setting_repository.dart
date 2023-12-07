@@ -1,4 +1,4 @@
-import 'package:claimizer/core/error/failures.dart';
+import 'package:LandlordStatistics/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
 
 import '../entities/user.dart';

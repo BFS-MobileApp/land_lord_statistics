@@ -1,8 +1,8 @@
-import 'package:claimizer/core/api/api_consumer.dart';
-import 'package:claimizer/core/api/end_points.dart';
-import 'package:claimizer/core/utils/app_strings.dart';
-import 'package:claimizer/feature/statistics/data/datasources/statistics_remote_data_source.dart';
-import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
+import 'package:LandlordStatistics/core/api/api_consumer.dart';
+import 'package:LandlordStatistics/core/api/end_points.dart';
+import 'package:LandlordStatistics/core/utils/app_strings.dart';
+import 'package:LandlordStatistics/feature/statistics/data/datasources/statistics_remote_data_source.dart';
+import 'package:LandlordStatistics/feature/statistics/data/models/statistic_model.dart';
 
 class StatisticsRemoteDataSourceImpl extends StatisticsRemoteDataSource {
 

@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:claimizer/config/PrefHelper/shared_pref_helper.dart';
-import 'package:claimizer/core/utils/app_strings.dart';
+import 'package:LandlordStatistics/config/PrefHelper/shared_pref_helper.dart';
+import 'package:LandlordStatistics/core/utils/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

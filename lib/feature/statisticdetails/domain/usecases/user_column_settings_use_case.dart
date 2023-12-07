@@ -1,6 +1,6 @@
-import 'package:claimizer/core/error/failures.dart';
-import 'package:claimizer/core/usecase/use_case.dart';
-import 'package:claimizer/feature/statisticdetails/domain/repositories/statistic_details_repository.dart';
+import 'package:LandlordStatistics/core/error/failures.dart';
+import 'package:LandlordStatistics/core/usecase/use_case.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/domain/repositories/statistic_details_repository.dart';
 import 'package:dartz/dartz.dart';
 
 class UserColumnSettingsUseCase  implements UseCase<NoParams , StatisticColumnSettings>{

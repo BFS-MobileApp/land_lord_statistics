@@ -1,9 +1,9 @@
-import 'package:claimizer/config/arguments/routes_arguments.dart';
-import 'package:claimizer/feature/login/presentation/screen/login_screen.dart';
-import 'package:claimizer/feature/setting/presentation/screen/setting_screen.dart';
-import 'package:claimizer/feature/splash/presentation/screen/splash_screen.dart';
-import 'package:claimizer/feature/statisticdetails/presentation/screens/statistic_details_screen.dart';
-import 'package:claimizer/feature/statistics/presentation/screen/statistic_screen.dart';
+import 'package:LandlordStatistics/config/arguments/routes_arguments.dart';
+import 'package:LandlordStatistics/feature/login/presentation/screen/login_screen.dart';
+import 'package:LandlordStatistics/feature/setting/presentation/screen/setting_screen.dart';
+import 'package:LandlordStatistics/feature/splash/presentation/screen/splash_screen.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/presentation/screens/statistic_details_screen.dart';
+import 'package:LandlordStatistics/feature/statistics/presentation/screen/statistic_screen.dart';
 import 'package:flutter/material.dart';
 
 class Routes{

@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:claimizer/core/api/api_consumer.dart';
-import 'package:claimizer/core/api/app_interceptor.dart';
-import 'package:claimizer/core/api/end_points.dart';
-import 'package:claimizer/core/api/status_code.dart';
+import 'package:LandlordStatistics/core/api/api_consumer.dart';
+import 'package:LandlordStatistics/core/api/app_interceptor.dart';
+import 'package:LandlordStatistics/core/api/end_points.dart';
+import 'package:LandlordStatistics/core/api/status_code.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
-import 'package:claimizer/injection_container.dart' as di;
+import 'package:LandlordStatistics/injection_container.dart' as di;
 
 import '../error/exceptions.dart';
 

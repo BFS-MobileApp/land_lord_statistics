@@ -1,8 +1,8 @@
-import 'package:claimizer/config/arguments/routes_arguments.dart';
-import 'package:claimizer/config/routes/app_routes.dart';
-import 'package:claimizer/core/utils/app_colors.dart';
-import 'package:claimizer/feature/setting/data/models/user_model.dart';
-import 'package:claimizer/widgets/message_widget.dart';
+import 'package:LandlordStatistics/config/arguments/routes_arguments.dart';
+import 'package:LandlordStatistics/config/routes/app_routes.dart';
+import 'package:LandlordStatistics/core/utils/app_colors.dart';
+import 'package:LandlordStatistics/feature/setting/data/models/user_model.dart';
+import 'package:LandlordStatistics/widgets/message_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';

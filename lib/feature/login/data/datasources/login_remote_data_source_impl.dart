@@ -1,7 +1,7 @@
-import 'package:claimizer/core/api/api_consumer.dart';
-import 'package:claimizer/core/api/end_points.dart';
-import 'package:claimizer/feature/login/data/datasources/login_remote_data_source.dart';
-import 'package:claimizer/feature/login/data/models/login_model.dart';
+import 'package:LandlordStatistics/core/api/api_consumer.dart';
+import 'package:LandlordStatistics/core/api/end_points.dart';
+import 'package:LandlordStatistics/feature/login/data/datasources/login_remote_data_source.dart';
+import 'package:LandlordStatistics/feature/login/data/models/login_model.dart';
 
 class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
   ApiConsumer consumer;

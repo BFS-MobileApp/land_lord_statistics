@@ -1,4 +1,4 @@
-import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/data/models/statistic_details_model.dart';
 
 abstract class StatisticDetailsRemoteDataSource {
 

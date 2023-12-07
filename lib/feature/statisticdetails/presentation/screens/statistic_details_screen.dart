@@ -1,13 +1,13 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:claimizer/core/utils/app_colors.dart';
-import 'package:claimizer/core/utils/helper.dart';
-import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
-import 'package:claimizer/feature/statisticdetails/presentation/cubit/statistic_details_cubit.dart';
-import 'package:claimizer/feature/statisticdetails/presentation/widget/chart_widget.dart';
-import 'package:claimizer/feature/statisticdetails/presentation/widget/statistic_detailes_item.dart';
-import 'package:claimizer/feature/statisticdetails/presentation/widget/text_item.dart';
-import 'package:claimizer/widgets/error_widget.dart';
+import 'package:LandlordStatistics/core/utils/app_colors.dart';
+import 'package:LandlordStatistics/core/utils/helper.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/data/models/statistic_details_model.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/presentation/cubit/statistic_details_cubit.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/chart_widget.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/statistic_detailes_item.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/text_item.dart';
+import 'package:LandlordStatistics/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

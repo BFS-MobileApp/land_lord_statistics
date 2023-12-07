@@ -1,4 +1,4 @@
-import 'package:claimizer/feature/statistics/data/models/statistic_model.dart';
+import 'package:LandlordStatistics/feature/statistics/data/models/statistic_model.dart';
 import 'package:equatable/equatable.dart';
 
 // ignore: must_be_immutable

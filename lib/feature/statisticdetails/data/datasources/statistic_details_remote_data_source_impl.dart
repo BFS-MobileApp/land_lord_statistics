@@ -1,7 +1,7 @@
-import 'package:claimizer/core/api/api_consumer.dart';
-import 'package:claimizer/core/api/end_points.dart';
-import 'package:claimizer/feature/statisticdetails/data/datasources/statistic_details_remote_data_source.dart';
-import 'package:claimizer/feature/statisticdetails/data/models/statistic_details_model.dart';
+import 'package:LandlordStatistics/core/api/api_consumer.dart';
+import 'package:LandlordStatistics/core/api/end_points.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/data/datasources/statistic_details_remote_data_source.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/data/models/statistic_details_model.dart';
 
 import '../../../../core/utils/app_strings.dart';
 

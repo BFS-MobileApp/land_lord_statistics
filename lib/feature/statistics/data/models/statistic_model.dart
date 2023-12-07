@@ -4,10 +4,10 @@
 
 import 'dart:convert';
 
-import 'package:claimizer/core/utils/app_colors.dart';
-import 'package:claimizer/core/utils/helper.dart';
-import 'package:claimizer/core/utils/hex_color.dart';
-import 'package:claimizer/feature/statistics/domain/entites/statistic.dart';
+import 'package:LandlordStatistics/core/utils/app_colors.dart';
+import 'package:LandlordStatistics/core/utils/helper.dart';
+import 'package:LandlordStatistics/core/utils/hex_color.dart';
+import 'package:LandlordStatistics/feature/statistics/domain/entites/statistic.dart';
 
 StatisticModel statisticModelFromJson(String str) => StatisticModel.fromJson(json.decode(str));
 

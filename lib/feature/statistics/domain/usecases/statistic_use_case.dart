@@ -1,7 +1,7 @@
-import 'package:claimizer/core/error/failures.dart';
-import 'package:claimizer/core/usecase/use_case.dart';
-import 'package:claimizer/feature/statistics/domain/entites/statistic.dart';
-import 'package:claimizer/feature/statistics/domain/repositories/statistics_repository.dart';
+import 'package:LandlordStatistics/core/error/failures.dart';
+import 'package:LandlordStatistics/core/usecase/use_case.dart';
+import 'package:LandlordStatistics/feature/statistics/domain/entites/statistic.dart';
+import 'package:LandlordStatistics/feature/statistics/domain/repositories/statistics_repository.dart';
 import 'package:dartz/dartz.dart';
 
 class StatisticUseCase implements UseCase<Statistic , NoParams>{

@@ -1,10 +1,10 @@
+import 'package:LandlordStatistics/feature/setting/domain/entities/user.dart';
 import 'package:bloc/bloc.dart';
-import 'package:claimizer/config/PrefHelper/dbhelper.dart';
-import 'package:claimizer/core/error/failures.dart';
-import 'package:claimizer/core/usecase/use_case.dart';
-import 'package:claimizer/core/utils/app_strings.dart';
-import 'package:claimizer/feature/setting/domain/entities/user.dart';
-import 'package:claimizer/feature/setting/domain/usecases/setting_use_case.dart';
+import 'package:LandlordStatistics/config/PrefHelper/dbhelper.dart';
+import 'package:LandlordStatistics/core/error/failures.dart';
+import 'package:LandlordStatistics/core/usecase/use_case.dart';
+import 'package:LandlordStatistics/core/utils/app_strings.dart';
+import 'package:LandlordStatistics/feature/setting/domain/usecases/setting_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';

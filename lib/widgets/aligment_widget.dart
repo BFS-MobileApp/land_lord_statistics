@@ -1,5 +1,5 @@
-import 'package:claimizer/core/utils/app_strings.dart';
-import 'package:claimizer/core/utils/helper.dart';
+import 'package:LandlordStatistics/core/utils/app_strings.dart';
+import 'package:LandlordStatistics/core/utils/helper.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract class AlignmentType{

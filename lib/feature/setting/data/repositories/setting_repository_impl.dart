@@ -1,7 +1,7 @@
-import 'package:claimizer/core/error/exceptions.dart';
-import 'package:claimizer/core/error/failures.dart';
-import 'package:claimizer/feature/setting/data/datasources/setting_local_data_source.dart';
-import 'package:claimizer/feature/setting/domain/repositories/setting_repository.dart';
+import 'package:LandlordStatistics/core/error/exceptions.dart';
+import 'package:LandlordStatistics/core/error/failures.dart';
+import 'package:LandlordStatistics/feature/setting/data/datasources/setting_local_data_source.dart';
+import 'package:LandlordStatistics/feature/setting/domain/repositories/setting_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
 import '../../domain/entities/user.dart';

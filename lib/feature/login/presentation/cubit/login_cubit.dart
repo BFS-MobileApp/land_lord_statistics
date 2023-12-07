@@ -1,8 +1,8 @@
-import 'package:claimizer/core/error/failures.dart';
-import 'package:claimizer/core/usecase/use_case.dart';
-import 'package:claimizer/core/utils/app_strings.dart';
-import 'package:claimizer/feature/login/domain/entities/login.dart';
-import 'package:claimizer/feature/login/domain/usecases/login_usecase.dart';
+import 'package:LandlordStatistics/core/error/failures.dart';
+import 'package:LandlordStatistics/feature/login/domain/entities/login.dart';
+import 'package:LandlordStatistics/core/usecase/use_case.dart';
+import 'package:LandlordStatistics/core/utils/app_strings.dart';
+import 'package:LandlordStatistics/feature/login/domain/usecases/login_usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

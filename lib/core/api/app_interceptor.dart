@@ -1,4 +1,4 @@
-import 'package:claimizer/config/PrefHelper/dbhelper.dart';
+import 'package:LandlordStatistics/config/PrefHelper/dbhelper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 

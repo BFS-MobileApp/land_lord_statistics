@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'package:claimizer/config/PrefHelper/dbhelper.dart';
-import 'package:claimizer/config/arguments/routes_arguments.dart';
-import 'package:claimizer/config/routes/app_routes.dart';
-import 'package:claimizer/core/utils/app_strings.dart';
-import 'package:claimizer/core/utils/assets_manager.dart';
-import 'package:claimizer/core/utils/helper.dart';
+import 'package:LandlordStatistics/config/PrefHelper/dbhelper.dart';
+import 'package:LandlordStatistics/config/arguments/routes_arguments.dart';
+import 'package:LandlordStatistics/config/routes/app_routes.dart';
+import 'package:LandlordStatistics/core/utils/assets_manager.dart';
+import 'package:LandlordStatistics/core/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
