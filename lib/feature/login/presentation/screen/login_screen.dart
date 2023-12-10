@@ -6,8 +6,8 @@ import 'package:LandlordStatistics/config/routes/app_routes.dart';
 import 'package:LandlordStatistics/core/api/end_points.dart';
 import 'package:LandlordStatistics/core/utils/app_colors.dart';
 import 'package:LandlordStatistics/core/utils/assets_manager.dart';
-import 'package:LandlordStatistics/core/utils/helper.dart';
 import 'package:LandlordStatistics/feature/login/presentation/cubit/login_cubit.dart';
+import 'package:LandlordStatistics/widgets/aligment_widget.dart';
 import 'package:LandlordStatistics/widgets/button_widget.dart';
 import 'package:LandlordStatistics/widgets/logo_widget.dart';
 import 'package:LandlordStatistics/widgets/message_widget.dart';
@@ -34,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isErrorMessageAppeared = false;
+  AlignmentWidget alignmentWidget = AlignmentWidget();
 
   Widget _loginWidget(){
     return Column(
@@ -48,39 +49,17 @@ class _LoginScreenState extends State<LoginScreen> {
           },
         ),
         Container(
-            margin: EdgeInsets.symmetric(horizontal: 15.sp),
-            child: TextWidget(text: 'login'.tr,fontSize: 32,)
+            margin: EdgeInsets.symmetric(horizontal: 15.sp , vertical: ScreenUtil().setHeight(10)),
+            child: TextWidget(text: 'landLordStatistics'.tr,fontSize: 24,fontWeight: FontWeight.bold ,fontColor: AppColors.loginPhaseFontColor,)
         ),
         Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.sp),
-            child: TextWidget(text: 'welcomePhase'.tr,fontSize: 17,fontWeight: FontWeight.w500,fontColor: AppColors.grey,)
-        ),
-        Container(
-            alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight: Alignment.topLeft,
-            margin: EdgeInsets.only(top: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10)),
-            child: TextWidget(text: 'email'.tr,fontSize: 17,)
+          margin: EdgeInsets.symmetric(horizontal: 10.sp , vertical: ScreenUtil().setHeight(10)),
+          child: TextFieldWidget(hintText: 'email'.tr , height: 8, width: MediaQuery.of(context).size.width, controller: emailController, isPasswordTextField: false, keyboardType: TextInputType.emailAddress),
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 10.sp),
-          child: TextFieldWidget(height: 8, width: MediaQuery.of(context).size.width, controller: emailController, isPasswordTextField: false, keyboardType: TextInputType.emailAddress),
+          child: TextFieldWidget(hintText: 'password'.tr , height: 8, width: MediaQuery.of(context).size.width, controller: passwordController, isPasswordTextField: true, keyboardType: TextInputType.emailAddress),
         ),
-        Container(
-            alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topRight: Alignment.topLeft,
-            margin: EdgeInsets.only(top: ScreenUtil().setHeight(20) , left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10)),
-            child:  TextWidget(text: 'password'.tr,fontSize: 17,)
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 10.sp),
-          child: TextFieldWidget(height: 8, width: MediaQuery.of(context).size.width, controller: passwordController, isPasswordTextField: true, keyboardType: TextInputType.emailAddress),
-        ),
-        /*Container(
-          alignment: Helper.getCurrentLocal() == 'AR' ? Alignment.topLeft: Alignment.topRight,
-          margin: EdgeInsets.symmetric(horizontal: 10.sp , vertical: 10.sp),
-          child:  InkWell(
-            onTap: (){},
-            child: TextWidget(text: 'forgotPassword'.tr, fontSize: 12.sp,fontWeight: FontWeight.w500 , fontColor: AppColors.lightBlue,),
-          ),
-        ),*/
         Container(
           margin: EdgeInsets.symmetric(horizontal: 8.sp , vertical: 20.sp),
           child: ButtonWidget(
@@ -89,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
               onTap: (){
                 login();
               },
-              name: 'login'.tr
+              name: 'signIn'.tr
           ),
         )
       ],
@@ -219,17 +198,19 @@ class _LoginScreenState extends State<LoginScreen> {
       return Scaffold(
           bottomNavigationBar: const LogoWidget(),
           appBar: AppBar(
-            title: Text('login'.tr),
-            leading: IconButton(
-              onPressed: (){
+            elevation: 0,
+            backgroundColor: Colors.white,
+            title: Text('login'.tr , style: TextStyle(color: Colors.black , fontSize: 16.sp , fontWeight: FontWeight.normal),),
+            leading: InkWell(
+              child: Image.asset(AssetsManager.back , width: ScreenUtil().setWidth(14),height: ScreenUtil().setHeight(8),),
+              onTap: (){
                 if(widget.addOtherMail){
                   Navigator.of(context).pop();
                 } else {
                   exit(0);
                 }
               },
-              icon: const Icon(Icons.arrow_back_sharp),
-              color: AppColors.whiteColor,
+
             ),
           ),
           body: checkState(state)

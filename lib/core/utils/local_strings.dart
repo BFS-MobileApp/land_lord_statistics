@@ -43,7 +43,8 @@ class LocalStrings extends Translations {
       "emptyEmail":"من فضلك ادخل البريد الالكتروني",
       "emptyPassword":"من فضلك ادخل كلمه المرور",
       "updatePhase":"هناك نسخة جديدة متاحة من التطبيق، يرجى تحديث التطبيق للاستمتاع بالميزات الجديدة",
-      "update":"تحديث"
+      "update":"تحديث",
+      "signIn":"تسجيل الدخول"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -84,7 +85,10 @@ class LocalStrings extends Translations {
       "emptyEmail":"Please enter your email",
       "emptyPassword":"Please enter your password",
       "updatePhase":"There is a new version of application available , please update the application to enjoy new features",
-      "update":"Update"
+      "update":"Update",
+      "landLordStatistics":"Landlord Statistics",
+      "signIn":"Sign In"
+
     },
   };
 }

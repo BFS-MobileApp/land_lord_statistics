@@ -21,6 +21,7 @@ class AppColors{
   static const darkGrey = Color(0xFF6c757d);
   static const redAlertColor = Color(0xFFdc3545);
   static const blogContainerColor = Color(0xFFDDE1EC);
+  static const loginPhaseFontColor = Color(0xFF3745C2);
   static const lightBlue = Colors.blue;
   static const darkBlueColor = Color(0xFF213242);
   static List<Color>  colors = [

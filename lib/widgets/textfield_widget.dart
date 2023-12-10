@@ -51,13 +51,12 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         ),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: widget.height , horizontal: 10.sp),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(width: 1, color: AppColors.grey), //<-- SEE HERE
-            borderRadius: BorderRadius.circular(10.0),
+          enabledBorder: const OutlineInputBorder(
+            borderSide:  BorderSide(width: 1, color: AppColors.grey), //<-- SEE HERE
+            //borderRadius: BorderRadius.circular(10.0),
           ),
-          focusedBorder: OutlineInputBorder( //<-- SEE HERE
-            borderSide: const BorderSide(width: 1, color: AppColors.grey), //<-- SEE HERE
-            borderRadius: BorderRadius.circular(10.0),
+          focusedBorder: const OutlineInputBorder( //<-- SEE HERE
+            borderSide:  BorderSide(width: 1, color: AppColors.grey), //<-- SEE HERE
           ),
           suffixIcon: widget.isPasswordTextField
             ? IconButton(
@@ -75,6 +74,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           )
               : null,
           hintText: widget.hintText,
+          hintStyle: TextStyle(color: AppColors.black , fontSize: 14.sp , fontWeight: FontWeight.normal),
           border: InputBorder.none,
           prefixIcon: widget.prefixIcon,
         ),
