@@ -22,10 +22,7 @@ class LogoWidget extends StatelessWidget {
       elevation: 0,
       child: Container(
         margin: Helper.getCurrentLocal() == 'AR' ? EdgeInsets.only(right: MediaQuery.of(context).size.width/3.3 , bottom: ScreenUtil().setHeight(10)) : EdgeInsets.only(left: MediaQuery.of(context).size.width/3.3 , bottom: ScreenUtil().setHeight(10)),
-        child: InkWell(
-            onTap: _launchUrl,
-            child: Text('www.befalcon.com' , style: TextStyle(fontWeight: FontWeight.bold , color: AppColors.primaryColor , fontSize: 17.sp),)
-        ),
+        child: Text('Be Falcon Solutions' , style: TextStyle(fontWeight: FontWeight.bold , color: AppColors.black , fontSize: 17.sp),),
       ),
     );
   }
