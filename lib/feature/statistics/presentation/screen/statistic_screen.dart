@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:LandlordStatistics/config/arguments/routes_arguments.dart';
 import 'package:LandlordStatistics/config/routes/app_routes.dart';
 import 'package:LandlordStatistics/core/utils/app_colors.dart';
+import 'package:LandlordStatistics/core/utils/assets_manager.dart';
 import 'package:LandlordStatistics/core/utils/helper.dart';
 import 'package:LandlordStatistics/feature/statistics/data/models/statistic_model.dart';
 import 'package:LandlordStatistics/feature/statistics/presentation/cubit/statistic_cubit.dart';
@@ -264,10 +265,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                   },
                   child: Padding(
                     padding: EdgeInsets.all(8.0.sp),
-                    child: const Icon(
-                      Icons.search,
-                      color: Colors.white,
-                    ),
+                    child: Image.asset(AssetsManager.search , width: ScreenUtil().setWidth(24), height: ScreenUtil().setHeight(24),),
                   ),
                 ),
                 GestureDetector(
@@ -276,17 +274,13 @@ class _StatisticScreenState extends State<StatisticScreen> {
                   },
                   child: Padding(
                     padding: EdgeInsets.all(8.0.sp),
-                    child: const Icon(
-                      Icons.settings,
-                      color: Colors.white,
-                    ),
+                    child: Image.asset(AssetsManager.setting , width: ScreenUtil().setWidth(24), height: ScreenUtil().setHeight(24),),
                   ),
                 )
               ],
-              leading: IconButton(
-                onPressed: ()=>exit(0),
-                icon: const Icon(Icons.arrow_back_sharp),
-                color: AppColors.whiteColor,
+              leading: InkWell(
+                onTap: ()=>exit(0),
+                child: Image.asset(AssetsManager.back , width: ScreenUtil().setWidth(24), height: ScreenUtil().setHeight(24),),
               ),
           ),
           body: _statisticWidget(),

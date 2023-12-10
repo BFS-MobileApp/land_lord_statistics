@@ -103,7 +103,6 @@ class DatabaseHelper {
 
   Future<void> activateUser(String email) async {
     final db = await database;
-    // First, set all users to inactive
     await db.update(
       'users',
       {'active': 0},
@@ -150,6 +149,17 @@ class DatabaseHelper {
       columns: ['name'],
     );
     return result.first['name'].toString();
+  }
+
+  Future<String> getActiveMail() async {
+    final db = await database;
+    final result = await db.query(
+      'users',
+      where: 'active = ?',
+      whereArgs: [1], // 1 represents an active user
+      columns: ['email'],
+    );
+    return result.first['email'].toString();
   }
 
   Future<void> deleteAllActiveUsers() async {

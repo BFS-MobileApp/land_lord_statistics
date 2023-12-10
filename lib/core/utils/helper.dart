@@ -29,6 +29,20 @@ class Helper{
       }
     }
     String resultString = result.join();
+    print(resultString);
+    return resultString;
+  }
+
+  static String returnFirstTwoChars(String item){
+    List<String> words = item.split(' ');
+    List<String> result = [];
+    for (int i = 0; i < words.length && i < 2; i++) {
+      if (words[i].isNotEmpty) {
+        result.add(words[i][0]);
+        result.add(words[i][1]);
+      }
+    }
+    String resultString = result.join();
     return resultString;
   }
 

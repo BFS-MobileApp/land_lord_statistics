@@ -5,8 +5,10 @@ import 'package:LandlordStatistics/config/routes/app_routes.dart';
 import 'package:LandlordStatistics/core/api/end_points.dart';
 import 'package:LandlordStatistics/core/utils/app_colors.dart';
 import 'package:LandlordStatistics/core/utils/app_strings.dart';
+import 'package:LandlordStatistics/core/utils/assets_manager.dart';
 import 'package:LandlordStatistics/core/utils/helper.dart';
 import 'package:LandlordStatistics/feature/setting/presentation/cubit/setting_cubit.dart';
+import 'package:LandlordStatistics/feature/setting/presentation/widget/container_item.dart';
 import 'package:LandlordStatistics/feature/setting/presentation/widget/user_accounts_item.dart';
 import 'package:LandlordStatistics/widgets/alert_dilog_widget.dart';
 import 'package:LandlordStatistics/widgets/logo_widget.dart';
@@ -26,7 +28,7 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
 
-  String dropDownValue = '' , name = '';
+  String dropDownValue = '' , name = '' , mail = '';
   final databaseHelper = DatabaseHelper.instance;
   bool isUsingMultiServerFeature = false;
   String urlType = '';
@@ -41,6 +43,7 @@ class _SettingScreenState extends State<SettingScreen> {
     getAccounts();
     getCurrentLocal();
     getActiveUserName();
+    getActiveMail();
     checkMultiServerFeature();
   }
 
@@ -48,6 +51,15 @@ class _SettingScreenState extends State<SettingScreen> {
     await databaseHelper.getActiveUserName().then((value){
       setState(() {
         name = value;
+        print(value);
+      });
+    });
+  }
+
+  getActiveMail() async{
+    await databaseHelper.getActiveMail().then((value){
+      setState(() {
+        mail = value;
       });
     });
   }
@@ -162,7 +174,14 @@ class _SettingScreenState extends State<SettingScreen> {
     return Scaffold(
       bottomNavigationBar: const LogoWidget(),
       appBar: AppBar(
-        title: Text('userAccounts'.tr),
+        title: Text(mail),
+        leading: InkWell(
+          child: Image.asset(AssetsManager.back , width: ScreenUtil().setWidth(14),height: ScreenUtil().setHeight(8),),
+          onTap: (){
+            Navigator.of(context).pop();
+          },
+
+        ),
       ),
       body: ListView(
         children: [
@@ -172,6 +191,22 @@ class _SettingScreenState extends State<SettingScreen> {
               child: Text(urlType , style: TextStyle(fontWeight: FontWeight.w700 , color: AppColors.primaryColor , fontSize: 16.sp),),
             ),
           ) : const SizedBox(),
+          Container(
+            margin: EdgeInsets.only(top: ScreenUtil().setHeight(25)),
+            width: ScreenUtil().setWidth(66),
+            height: ScreenUtil().setHeight(66),
+            decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.loginPhaseFontColor),
+            child: Center(
+              child: Text(Helper.returnFirstTwoChars(name) , style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 20.sp , color: AppColors.whiteColor),),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+            alignment: Alignment.center,
+            child: Text('${'hi'.tr}, $name' , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w700 , color: AppColors.black),),
+          ),
           Card(
             elevation: 3,
             child: Container(
@@ -196,49 +231,41 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ),
           ),
-          Card(
-            elevation: 3,
-            child: Container(
-              margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(30)),
-              child: InkWell(
-                onTap: ()=>callLogoutDialog(),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ContainerItem(
+            itemWidget: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
                   children: [
-                    Text('changeLanguage'.tr , style: TextStyle(fontSize: 18.sp , color: Colors.blueAccent),),
-                    DropdownButton<String>(
-                      value: dropDownValue,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          changeLocalization();
-                        });
-                      },
-                      items: [
-                        buildDropdownItem('English', CountryFlag.fromLanguageCode('en')),
-                        buildDropdownItem('العربية', CountryFlag.fromCountryCode('ae')),
-                      ],
-                    ),
+                    Icon(Icons.language , size: 24.sp,color: AppColors.black,),
+                    SizedBox(width: ScreenUtil().setWidth(5),),
+                    Text('language'.tr , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w600),)
                   ],
                 ),
-              ),
-            ),
-          ),
-          Card(
-            elevation: 3,
-            child: Container(
-              margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(30)),
-              child: InkWell(
-                onTap: ()=>callLogoutDialog(),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('logout'.tr , style: TextStyle(fontSize: 18.sp , color: Colors.red),),
-                    const Icon(Icons.logout)
+                DropdownButton<String>(
+                  value: dropDownValue,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      changeLocalization();
+                    });
+                  },
+                  items: [
+                    buildDropdownItem('English', CountryFlag.fromLanguageCode('en')),
+                    buildDropdownItem('العربية', CountryFlag.fromCountryCode('ae')),
                   ],
-                ),
-              ),
+                )
+              ],
             ),
-          ),
+            height: 50,),
+          ContainerItem(
+            itemWidget: Row(
+              children: [
+                Icon(Icons.logout , size: 24.sp,color: AppColors.red,),
+                SizedBox(width: ScreenUtil().setWidth(5),),
+                Text('logout'.tr , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w600),)
+              ],
+            ),
+            height: 50,),
         ],
       ),
     );

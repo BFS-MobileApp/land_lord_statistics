@@ -198,9 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return Scaffold(
           bottomNavigationBar: const LogoWidget(),
           appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            title: Text('login'.tr , style: TextStyle(color: Colors.black , fontSize: 16.sp , fontWeight: FontWeight.normal),),
+            title: Text('login'.tr ),
             leading: InkWell(
               child: Image.asset(AssetsManager.back , width: ScreenUtil().setWidth(14),height: ScreenUtil().setHeight(8),),
               onTap: (){
