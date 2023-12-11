@@ -76,3 +76,6 @@ flutter:
           weight: 300
         - asset: assets/fonts/Tajawal-ExtraLight.ttf
           weight: 200
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-VariableFont_wght.ttf

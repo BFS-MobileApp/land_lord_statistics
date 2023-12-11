@@ -1,4 +1,4 @@
-import 'package:LandlordStatistics/core/utils/helper.dart';
+import 'package:LandlordStatistics/core/utils/assets_manager.dart';
 import 'package:LandlordStatistics/core/utils/app_colors.dart';
 import 'package:LandlordStatistics/feature/statistics/data/models/statistic_model.dart';
 import 'package:LandlordStatistics/feature/statistics/presentation/cubit/statistic_cubit.dart';
@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'statistic_item.dart';
 
 // ignore: must_be_immutable
@@ -180,7 +179,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
             margin:const EdgeInsets.symmetric(vertical: 10 , horizontal: 5),
             decoration: BoxDecoration(
               color: widget.color,
-              borderRadius:const  BorderRadius.all(Radius.circular(15.0)),
+              borderRadius:const  BorderRadius.all(Radius.circular(5.0)),
             ),
             //height: widget.buildingName == '' ? ScreenUtil().setHeight(83) : ScreenUtil().setHeight(136),
             width: MediaQuery.of(context).size.width,
@@ -189,7 +188,14 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(child: StatisticItem(itemKey: 'company'.tr , itemValue: widget.companyName)),
+                    Container(
+                      margin: EdgeInsets.only(left: ScreenUtil().setWidth(15) , right: ScreenUtil().setWidth(15) , top: ScreenUtil().setHeight(9)),
+                      child: Expanded(child: Text(widget.companyName ,
+                        softWrap: false,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis ,
+                        style: TextStyle(color: Colors.black , fontWeight: FontWeight.w600 , fontSize: 16.sp),)),
+                    ),
                     GestureDetector(
                       onTap: (){
                         if(widget.isMenuOpenMap[widget.uniqueId]!){
@@ -206,27 +212,8 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                     )
                   ],
                 ),
-                widget.buildingName == '' ? const SizedBox() : StatisticItem(itemKey: 'buildingName'.tr , itemValue: widget.buildingName),
-                Container(
-                  margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10)),
-                  alignment: alignmentWidget.returnAlignment(),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('${'statisticDate'.tr}: ${widget.date}' , style: TextStyle(color: Colors.black , fontWeight: FontWeight.w600 , fontSize: 13.sp),),
-                      Container(
-                        margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(5)),
-                        padding: EdgeInsets.all(3.sp),
-                        width: ScreenUtil().setWidth(35),
-                        height: ScreenUtil().setHeight(35),
-                        decoration:  BoxDecoration(
-                          color: widget.color,
-                          shape: BoxShape.circle,
-                        ),
-                        child:  widget.buildingName == '' ? Center(child: Text(Helper.returnFirstChars(widget.companyName) , style: fontStyle,),) : Center(child: Text(Helper.returnFirstChars(widget.buildingName) , style: fontStyle)),)
-                    ],
-                  ),
-                )
+                widget.buildingName == '' ? const SizedBox() : StatisticItem(image:  AssetsManager.home, itemValue: widget.buildingName),
+                StatisticItem(image:  AssetsManager.date, itemValue: widget.date),
               ],
             ),
           ),
