@@ -23,7 +23,7 @@ class _UserAccountItemState extends State<UserAccountItem> {
 
   callDeleteAccountDialog(BuildContext context){
     Future.delayed(const Duration(milliseconds: 500), () {
-      AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'deleteAccountPhase'.tr, yesOnTap: (){
+      AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'deleteAccount'.tr, phase: 'deleteAccountPhase'.tr , yesOnTap: (){
         BlocProvider.of<SettingCubit>(context).removeAccount(widget.email , widget.isActive , widget.ctx);
       }, context: context);
       dialogWidget.logOutDialog();

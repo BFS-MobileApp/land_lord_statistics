@@ -95,7 +95,9 @@ class LocalStrings extends Translations {
       "hi":"Hi",
       "language":"Language",
       "manageAccounts":"Manage Accounts",
-      "addAnotherMail":"Add Another Email"
+      "addAnotherMail":"Add Another Email",
+      "closeAppPhase":"Close the App",
+      "deleteAccount":"Delete Account"
 
     },
   };

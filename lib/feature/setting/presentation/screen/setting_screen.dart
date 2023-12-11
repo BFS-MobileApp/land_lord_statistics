@@ -67,7 +67,7 @@ class _SettingScreenState extends State<SettingScreen> {
   callLogoutDialog() async{
     bool result = await checkIfThereIsExistingUsers();
     Future.delayed(const Duration(milliseconds: 500), () {
-      AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'logOutPhase'.tr, yesOnTap: (){
+      AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'closeAppPhase'.tr, phase: 'logOutPhase'.tr , yesOnTap: (){
         deleteUserData();
         if(result == false){
           databaseHelper.deleteAllSavedUrls();
