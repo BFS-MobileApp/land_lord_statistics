@@ -46,7 +46,9 @@ class LocalStrings extends Translations {
       "update":"تحديث",
       "signIn":"تسجيل الدخول",
       "hi":"اهلا",
-      "language":"اللغة"
+      "language":"اللغة",
+      "manageAccounts":"ادارة الحسابات",
+      "addAnotherMail":"اضافة حساب اخر"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -91,7 +93,9 @@ class LocalStrings extends Translations {
       "landLordStatistics":"Landlord Statistics",
       "signIn":"Sign In",
       "hi":"Hi",
-      "language":"Language"
+      "language":"Language",
+      "manageAccounts":"Manage Accounts",
+      "addAnotherMail":"Add Another Email"
 
     },
   };

@@ -8,6 +8,7 @@ import 'package:LandlordStatistics/core/utils/app_strings.dart';
 import 'package:LandlordStatistics/core/utils/assets_manager.dart';
 import 'package:LandlordStatistics/core/utils/helper.dart';
 import 'package:LandlordStatistics/feature/setting/presentation/cubit/setting_cubit.dart';
+import 'package:LandlordStatistics/feature/setting/presentation/widget/add_account_widget.dart';
 import 'package:LandlordStatistics/feature/setting/presentation/widget/container_item.dart';
 import 'package:LandlordStatistics/feature/setting/presentation/widget/user_accounts_item.dart';
 import 'package:LandlordStatistics/widgets/alert_dilog_widget.dart';
@@ -32,7 +33,7 @@ class _SettingScreenState extends State<SettingScreen> {
   final databaseHelper = DatabaseHelper.instance;
   bool isUsingMultiServerFeature = false;
   String urlType = '';
-
+  bool _isExpanded = false;
 
   getAccounts() =>BlocProvider.of<SettingCubit>(context).getData();
 
@@ -51,7 +52,6 @@ class _SettingScreenState extends State<SettingScreen> {
     await databaseHelper.getActiveUserName().then((value){
       setState(() {
         name = value;
-        print(value);
       });
     });
   }
@@ -109,8 +109,8 @@ class _SettingScreenState extends State<SettingScreen> {
           } else if (state is UserAccountsError) {
             return ErrorWidget((){});
           } else if (state is UserAccountsLoaded) {
-            return ListView.builder(shrinkWrap: true, physics: const ClampingScrollPhysics(),itemCount: state.userAccounts.length , itemBuilder: (ctx , pos){
-              return UserAccountItem(ctx: context,email: state.userAccounts[pos].email, isActive: state.userAccounts[pos].active);
+            return ListView.builder(shrinkWrap: true, physics: const ClampingScrollPhysics(),itemCount: state.userAccounts.length+1 , itemBuilder: (ctx , pos){
+              return pos <state.userAccounts.length ? UserAccountItem(ctx: context,email: state.userAccounts[pos].email, isActive: state.userAccounts[pos].active) : AddAccountWidget();
             });
           } else if(state is UserAccountChanged){
             goToNextScreen();
@@ -192,7 +192,7 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
           ) : const SizedBox(),
           Container(
-            margin: EdgeInsets.only(top: ScreenUtil().setHeight(25)),
+            margin: EdgeInsets.only(top: ScreenUtil().setHeight(15)),
             width: ScreenUtil().setWidth(66),
             height: ScreenUtil().setHeight(66),
             decoration: const BoxDecoration(
@@ -203,33 +203,40 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+            margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10) , top: ScreenUtil().setHeight(10)),
             alignment: Alignment.center,
             child: Text('${'hi'.tr}, $name' , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w700 , color: AppColors.black),),
           ),
-          Card(
-            elevation: 3,
-            child: Container(
-              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.height/2),
-              margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(30)),
-              child: Column(
+          ContainerItem(
+              itemWidget: ExpansionTile(
+                tilePadding: Helper.getCurrentLocal() =='AR' ? EdgeInsets.only(left: ScreenUtil().setWidth(60)) : EdgeInsets.only(right: ScreenUtil().setWidth(60)),
+                onExpansionChanged: (expanded){
+                  setState(() {
+                    _isExpanded = expanded;
+                  });
+                },
+                title: Row(
+                  children: [
+                    Icon(Icons.person , size: 24.sp , color: AppColors.black,),
+                    SizedBox(width: ScreenUtil().setWidth(5),),
+                    Text('manageAccounts'.tr , style: TextStyle(fontSize: 16.sp , fontWeight: FontWeight.w700 , color: AppColors.black),)
+                  ],
+                ),
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('userAccounts'.tr , style: const TextStyle(color: Colors.blue , ),),
-                      IconButton(
-                        onPressed: ()=>Navigator.pushNamed(context, Routes.loginRoutes , arguments: LoginRoutesArguments(addOtherMail: true , isThereExistingUsers: true)),
-                        icon: const Icon(Icons.add),
-                        iconSize: 25.sp,
-                        color: Colors.blue,
-                      )
-                    ],
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    height: _isExpanded ? null : 0,
+                    child: LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        return constraints.isTight
+                            ? const SizedBox.shrink()
+                            : userAccountsWidgets();
+                      },
+                    ),
                   ),
-                  userAccountsWidgets()
                 ],
               ),
-            ),
           ),
           ContainerItem(
             itemWidget: Row(
@@ -244,6 +251,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
                 DropdownButton<String>(
                   value: dropDownValue,
+                  elevation: 0,
                   onChanged: (String? newValue) {
                     setState(() {
                       changeLocalization();
@@ -257,15 +265,18 @@ class _SettingScreenState extends State<SettingScreen> {
               ],
             ),
             height: 50,),
-          ContainerItem(
-            itemWidget: Row(
-              children: [
-                Icon(Icons.logout , size: 24.sp,color: AppColors.red,),
-                SizedBox(width: ScreenUtil().setWidth(5),),
-                Text('logout'.tr , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w600),)
-              ],
-            ),
-            height: 50,),
+          InkWell(
+            onTap: callLogoutDialog,
+            child: ContainerItem(
+              itemWidget: Row(
+                children: [
+                  Icon(Icons.logout , size: 24.sp,color: AppColors.red,),
+                  SizedBox(width: ScreenUtil().setWidth(5),),
+                  Text('logout'.tr , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w600),)
+                ],
+              ),
+              height: 50,),
+          ),
         ],
       ),
     );

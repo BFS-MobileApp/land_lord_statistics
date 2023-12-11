@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 // ignore: must_be_immutable
 class ContainerItem extends StatelessWidget {
   Widget itemWidget;
-  double height;
-  ContainerItem({Key? key , required this.itemWidget , required this.height}) : super(key: key);
+  double? height;
+  ContainerItem({Key? key , required this.itemWidget , this.height}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class ContainerItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
       margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(8) , vertical: ScreenUtil().setHeight(8)),
       width: MediaQuery.of(context).size.width,
-      height: ScreenUtil().setHeight(height),
+      height: height != null ? ScreenUtil().setHeight(height!) : null,
       color: AppColors.containerColor,
       child: itemWidget,
     );

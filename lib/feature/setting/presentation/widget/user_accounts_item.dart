@@ -20,8 +20,6 @@ class UserAccountItem extends StatefulWidget {
 }
 
 class _UserAccountItemState extends State<UserAccountItem> {
-  bool showDeleteIcon = false;
-  bool showCircle = true;
 
   callDeleteAccountDialog(BuildContext context){
     Future.delayed(const Duration(milliseconds: 500), () {
@@ -33,19 +31,8 @@ class _UserAccountItemState extends State<UserAccountItem> {
   }
 
   @override
-  void dispose() {
-    showDeleteIcon = false;
-    super.dispose();
-  }
-  @override
   Widget build(BuildContext context) {
     return InkWell(
-      onLongPress: (){
-        setState(() {
-          showDeleteIcon = !showDeleteIcon;
-          showCircle = !showCircle;
-        });
-      },
       onTap: (){
         if(!widget.isActive){
           BlocProvider.of<SettingCubit>(context).changeAccount(widget.email);
@@ -56,25 +43,21 @@ class _UserAccountItemState extends State<UserAccountItem> {
       child: Container(
         margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
         padding: Helper.getCurrentLocal() == 'AR' ? EdgeInsets.only(right: ScreenUtil().setWidth(5)) : EdgeInsets.only(left: ScreenUtil().setWidth(5)),
-        decoration: BoxDecoration(
-          color: widget.isActive ? AppColors.primaryColor : null,
-          borderRadius: BorderRadius.circular(8)
-        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(widget.email , style: TextStyle(color: widget.isActive ? AppColors.whiteColor : AppColors.black , fontWeight: FontWeight.w600 , fontSize: 16.sp),),
+            Text(widget.email , style: TextStyle(color: widget.isActive ? AppColors.loginPhaseFontColor : AppColors.black , fontWeight: FontWeight.w600 , fontSize: 16.sp),),
             SizedBox(height: ScreenUtil().setHeight(8),),
             Container(
+              decoration:const BoxDecoration(
+                color: AppColors.loginPhaseFontColor,
+                borderRadius: BorderRadius.all(Radius.circular(4))
+              ),
+              padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(4), vertical: ScreenUtil().setHeight(4)),
               margin: Helper.getCurrentLocal() == 'AR' ? EdgeInsets.only(bottom: ScreenUtil().setHeight(5) , left: ScreenUtil().setWidth(5)) : EdgeInsets.only(bottom: ScreenUtil().setHeight(5) , right: ScreenUtil().setWidth(5)),
-              child: Row(
-                children: [
-                  widget.isActive ? Icon(Icons.check , size: 25.sp , color: widget.isActive ? AppColors.whiteColor : AppColors.black,) : showCircle ? Icon(Icons.circle_outlined , size: 20.sp , color: AppColors.black,) : const SizedBox(),
-                  GestureDetector(
-                    child: showDeleteIcon ? Icon(Icons.delete  , color: widget.isActive ? AppColors.whiteColor : AppColors.red, size: 25.sp,) : const SizedBox(),
-                    onTap: (){ callDeleteAccountDialog(context); },
-                  ),
-                ],
+              child: InkWell(
+                onTap: ()=>callDeleteAccountDialog(context),
+                child: Icon(Icons.delete_outlined , size: 18.sp,color: AppColors.whiteColor,),
               ),
             )
           ],
