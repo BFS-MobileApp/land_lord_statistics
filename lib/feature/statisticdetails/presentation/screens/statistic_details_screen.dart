@@ -1,12 +1,14 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:LandlordStatistics/core/utils/app_colors.dart';
+import 'package:LandlordStatistics/core/utils/assets_manager.dart';
 import 'package:LandlordStatistics/core/utils/helper.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/cubit/statistic_details_cubit.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/chart_widget.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/statistic_detailes_item.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/text_item.dart';
+import 'package:LandlordStatistics/widgets/aligment_widget.dart';
 import 'package:LandlordStatistics/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,6 +39,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
   int selectedOption = 0;
   Map<String, bool> isMenuOpenMap = {};
+  AlignmentWidget alignmentWidget = AlignmentWidget();
 
   getData() =>BlocProvider.of<StatisticDetailsCubit>(context).getData(widget.uniqueId);
 
@@ -153,6 +156,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
       isInitialized = false;
     });
   }
+
   Widget _statisticWidget(){
     return BlocBuilder<StatisticDetailsCubit, StatisticDetailsState>(
         builder: ((context, state) {
@@ -179,9 +183,13 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
               margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(20) , bottom: ScreenUtil().setHeight(50)),
               child: Column(
                 children: [
-                  TextItem(itemName: '${'company'.tr}: ', itemValue: widget.companyName),
-                  widget.buildingName == '' ? const SizedBox() : TextItem(itemName: '${'buildingName'.tr}: ', itemValue: widget.buildingName),
-                  TextItem(itemName: '${'statisticDate'.tr}: ', itemValue: widget.date),
+                  Container(
+                    alignment: alignmentWidget.returnAlignment(),
+                    margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(5)),
+                    child: Text(widget.companyName , style: TextStyle(fontWeight: FontWeight.w700 , color: AppColors.black , fontSize: 17.sp),),
+                  ),
+                  widget.buildingName == '' ? const SizedBox() : TextItem(image: AssetsManager.building , itemName: '${'buildingName'.tr}: ', itemValue: widget.buildingName),
+                  TextItem(itemName: '${'statisticDate'.tr}: ', itemValue: widget.date , image: AssetsManager.date2),
                   SizedBox(height: ScreenUtil().setHeight(8),),
                   Expanded(child: ListView(
                     children: [
@@ -212,9 +220,13 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
               margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) ,left: ScreenUtil().setWidth(10), top: ScreenUtil().setHeight(20) , bottom: ScreenUtil().setHeight(50)),
               child: Column(
                 children: [
-                  TextItem(itemName: '${'company'.tr}: ', itemValue: widget.companyName),
-                  widget.buildingName == '' ? const SizedBox() : TextItem(itemName: '${'buildingName'.tr}: ', itemValue: widget.buildingName),
-                  TextItem(itemName: '${'statisticDate'.tr}: ', itemValue: widget.date),
+                  Container(
+                    alignment: alignmentWidget.returnAlignment(),
+                    margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(5)),
+                    child: Text(widget.companyName , style: TextStyle(fontWeight: FontWeight.w700 , color: AppColors.black , fontSize: 17.sp),),
+                  ),
+                  widget.buildingName == '' ? const SizedBox() : TextItem(image: AssetsManager.building , itemName: '${'buildingName'.tr}: ', itemValue: widget.buildingName),
+                  TextItem(itemName: '${'statisticDate'.tr}: ', itemValue: widget.date , image: AssetsManager.date2),
                   SizedBox(height: ScreenUtil().setHeight(8),),
                   Expanded(child: ListView(
                     children: [
@@ -284,7 +296,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
 
           )  :
           AppBar(
-              title: widget.buildingName == '' ? Text(widget.companyName) : Text(widget.buildingName),
+            title: widget.buildingName == '' ? Text(widget.companyName) : Text(widget.buildingName),
             actions: [
               GestureDetector(
                 onTap: () {
@@ -295,10 +307,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                 },
                 child: Padding(
                   padding: EdgeInsets.all(8.0.sp),
-                  child: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
+                  child: Image.asset(AssetsManager.search , width: ScreenUtil().setWidth(24), height: ScreenUtil().setHeight(24),),
                 ),
               ),
               GestureDetector(
@@ -307,13 +316,21 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                 },
                 child: Padding(
                   padding: EdgeInsets.all(8.0.sp),
-                  child: const Icon(
+                  child: Icon(
                     Icons.sort,
-                    color: Colors.white,
+                    color: AppColors.black,
+                    size: 24.sp,
                   ),
                 ),
               ),
             ],
+            leading: InkWell(
+              child: Image.asset(AssetsManager.back , width: ScreenUtil().setWidth(14),height: ScreenUtil().setHeight(8),),
+              onTap: (){
+                Navigator.of(context).pop();
+              },
+
+            ),
           ),
           body: _statisticWidget(),
         ),

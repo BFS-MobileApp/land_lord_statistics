@@ -63,7 +63,7 @@ class LocalStrings extends Translations {
       "company":"Company",
       "statisticDate":"Statistic Date",
       "companies":"Companies",
-      "buildingName":"Building Name",
+      "buildingName":"Building",
       "error":"Error",
       "search":"Search",
       "logOutPhase":"Are you sure you want to logout ?",

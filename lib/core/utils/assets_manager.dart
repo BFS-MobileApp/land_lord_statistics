@@ -10,4 +10,6 @@ class AssetsManager{
   static const String setting = '$imagePath/settings.png';
   static const String home = '$imagePath/home.png';
   static const String date = '$imagePath/date.png';
+  static const String building = '$imagePath/building.png';
+  static const String date2 = '$imagePath/date2.png';
 }
