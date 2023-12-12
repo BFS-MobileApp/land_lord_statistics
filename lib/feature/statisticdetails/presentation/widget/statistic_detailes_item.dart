@@ -224,70 +224,22 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
             },
             child: Center(
               child: Container(
-                margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
+                //margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(5)),
                 decoration: BoxDecoration(
                   color: HexColor(widget.userColor),
                   borderRadius: const BorderRadius.all(Radius.circular(
-                          15.0) //                 <--- border radius here
+                          5.0) //                 <--- border radius here
                       ),
                 ),
-                //height: ScreenUtil().setHeight(76),
                 width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                          vertical: ScreenUtil().setHeight(8),
-                          horizontal: ScreenUtil().setWidth(10)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                              child: Text(
-                            widget.itemName,
-                            softWrap: false,
-                            maxLines: 1,
-                            overflow: TextOverflow.fade,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: _countWords(widget.itemName) <= 6
-                                    ? 18.sp
-                                    : 15.sp),
-                          )),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: ScreenUtil().setWidth(12),
-                              right: ScreenUtil().setWidth(12),
-                              ),
-                          alignment: alignmentWidget.returnAlignment(),
-                          child: Text(
-                            widget.itemValue,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13.sp),
-                          ),
-                        ),
-                        Container(
-                          height: ScreenUtil().setHeight(20),
-                          width: ScreenUtil().setWidth(20),
-                          margin: EdgeInsets.only(
-                              left: ScreenUtil().setWidth(12),
-                              right: ScreenUtil().setWidth(12),
-                              bottom: ScreenUtil().setHeight(5)),
-                          alignment: alignmentWidget.returnAlignment(),
-                          child: SvgPicture.string(widget.icon),
-                        )
-                      ],
-                    )
-                  ],
+                child: ListTile(
+                  title: Text(widget.itemValue , style: TextStyle(fontSize: 20.sp , fontWeight: FontWeight.w700 , color: AppColors.black),),
+                  subtitle: Text(widget.itemName , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w500 , color: AppColors.black),),
+                  trailing: SizedBox(
+                    height: ScreenUtil().setHeight(30),
+                    width: ScreenUtil().setWidth(30),
+                    child: SvgPicture.string(widget.icon),
+                  ),
                 ),
               ),
             ),

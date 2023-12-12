@@ -189,7 +189,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: ScreenUtil().setWidth(15) , right: ScreenUtil().setWidth(15) , top: ScreenUtil().setHeight(9)),
+                      margin: EdgeInsets.only(left: ScreenUtil().setWidth(15) , right: ScreenUtil().setWidth(15) , top: ScreenUtil().setHeight(9) , bottom: ScreenUtil().setHeight(5)),
                       child: Expanded(child: Text(widget.companyName ,
                         softWrap: false,
                         maxLines: 2,
