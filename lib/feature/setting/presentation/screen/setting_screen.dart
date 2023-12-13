@@ -34,7 +34,7 @@ class _SettingScreenState extends State<SettingScreen> {
   final databaseHelper = DatabaseHelper.instance;
   bool isUsingMultiServerFeature = false;
   String urlType = '';
-  bool _isExpanded = false;
+  bool _isExpanded = true;
 
   getAccounts() =>BlocProvider.of<SettingCubit>(context).getData();
 
@@ -210,18 +210,26 @@ class _SettingScreenState extends State<SettingScreen> {
           ),
           ContainerItem(
               itemWidget: ExpansionTile(
+                shape: const Border(),
+                initiallyExpanded: _isExpanded,
                 tilePadding: Helper.getCurrentLocal() =='AR' ? EdgeInsets.only(left: ScreenUtil().setWidth(60)) : EdgeInsets.only(right: ScreenUtil().setWidth(60)),
                 onExpansionChanged: (expanded){
                   setState(() {
                     _isExpanded = expanded;
                   });
                 },
-                title: Row(
-                  children: [
-                    Icon(Icons.person , size: 24.sp , color: AppColors.black,),
-                    SizedBox(width: ScreenUtil().setWidth(5),),
-                    Text('manageAccounts'.tr , style: TextStyle(fontSize: 16.sp , fontWeight: FontWeight.w700 , color: AppColors.black),)
-                  ],
+                title: Container(
+                  margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(2)),
+                  child: Row(
+                    children: [
+                      Icon(Icons.person , size: 24.sp , color: AppColors.black,),
+                      SizedBox(width: ScreenUtil().setWidth(5),),
+                      Container(
+                        margin: EdgeInsets.only(top: ScreenUtil().setHeight(5)),
+                        child: Text('manageAccounts'.tr , style: TextStyle(fontSize: 16.sp , fontWeight: FontWeight.w700 , color: AppColors.black),),
+                      )
+                    ],
+                  ),
                 ),
                 children: [
                   AnimatedContainer(

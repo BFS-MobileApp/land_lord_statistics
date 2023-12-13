@@ -20,6 +20,9 @@ class ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0), // Adjust the value as needed
+        ),
         minimumSize: Size(ScreenUtil().setWidth(width), ScreenUtil().setHeight(height)),
         backgroundColor: AppColors.primaryColor,
         textStyle: const TextStyle(color: AppColors.whiteColor,

@@ -27,7 +27,7 @@ class AlertDialogWidget{
             title: Text(title.tr , textAlign: TextAlign.center , style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 16.sp),),
             content: SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: deleteAccount ? ScreenUtil().setHeight(79) : ScreenUtil().setHeight(62),
+              height: deleteAccount ? ScreenUtil().setHeight(82) : ScreenUtil().setHeight(64),
               child: Column(
                 children: [
                   Text(phase.tr ,textAlign: TextAlign.center  , style: TextStyle(fontWeight: FontWeight.w500 , fontSize: 14.sp),),
