@@ -182,7 +182,6 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
               color: widget.color,
               borderRadius:const  BorderRadius.all(Radius.circular(5.0)),
             ),
-            //height: widget.buildingName == '' ? ScreenUtil().setHeight(83) : ScreenUtil().setHeight(136),
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
@@ -190,7 +189,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: ScreenUtil().setWidth(15) , right: ScreenUtil().setWidth(15) , top: ScreenUtil().setHeight(9)),
+                      margin: EdgeInsets.only(left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10) , top: ScreenUtil().setHeight(9) , bottom: ScreenUtil().setHeight(4)),
                       child: Text(widget.companyName ,
                         softWrap: false,
                         maxLines: 2,
@@ -213,7 +212,24 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                     )
                   ],
                 ),
-                widget.buildingName == '' ? const SizedBox() : StatisticItem(image:  AssetsManager.homeSVG, itemValue: widget.buildingName),
+                widget.buildingName == '' ? const SizedBox() : Container(
+                  margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10) , bottom: ScreenUtil().setHeight(5)),
+                  alignment: alignmentWidget.returnAlignment(),
+                  child: Row(
+                    children: [
+                      const SVGImageWidget(image: AssetsManager.homeSVG,height: 18,width: 18,),
+                      SizedBox(width: ScreenUtil().setWidth(7),),
+                      Container(
+                        margin: EdgeInsets.only(top: ScreenUtil().setHeight(3)),
+                        child: Text(widget.buildingName ,
+                          softWrap: false,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis ,
+                          style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 14.sp),),
+                      )
+                    ],
+                  ),
+                ),
                 StatisticItem(image:  AssetsManager.dateSVG, itemValue: widget.date),
               ],
             ),

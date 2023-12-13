@@ -23,7 +23,7 @@ class StatisticItem extends StatelessWidget {
           SVGImageWidget(image: image,height: 18,width: 18,),
           SizedBox(width: ScreenUtil().setWidth(7),),
           Container(
-            margin: EdgeInsets.only(top: ScreenUtil().setHeight(5)),
+            margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(2)),
             child: Text(itemValue ,
               softWrap: false,
               maxLines: 2,
