@@ -9,9 +9,10 @@ class AlertDialogWidget{
   final String title;
   final String phase;
   final VoidCallback yesOnTap;
+  final bool deleteAccount;
 
 
-  AlertDialogWidget({required this.title, required this.yesOnTap , required this.phase , required this.context});
+  AlertDialogWidget({required this.title, required this.deleteAccount  , required this.yesOnTap , required this.phase , required this.context});
 
   void logOutDialog(){
     showDialog(
@@ -19,16 +20,20 @@ class AlertDialogWidget{
         barrierDismissible: true,
         builder: (BuildContext context) {
           return AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(2)
+            ),
             title: Text(title.tr , textAlign: TextAlign.center , style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 16.sp),),
             content: SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: ScreenUtil().setHeight(80),
+              height: deleteAccount ? ScreenUtil().setHeight(79) : ScreenUtil().setHeight(62),
               child: Column(
                 children: [
                   Text(phase.tr ,textAlign: TextAlign.center  , style: TextStyle(fontWeight: FontWeight.w500 , fontSize: 14.sp),),
                   SizedBox(height: ScreenUtil().setHeight(10),),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InkWell(
                         onTap: ()=>Navigator.of(context).pop(),
@@ -40,7 +45,7 @@ class AlertDialogWidget{
                               borderRadius: BorderRadius.all(Radius.circular(4))
                           ),
                           child: Center(
-                            child: Text('no'.tr , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w400 , color: AppColors.black),),
+                            child: Text('no'.tr , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w400 , color: const Color(0xFF808080)),),
                           ),
                         ),
                       ),

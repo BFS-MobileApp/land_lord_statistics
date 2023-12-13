@@ -28,7 +28,7 @@ class ButtonWidget extends StatelessWidget {
       onPressed: onTap,
       child: Text(
         name,
-        style: TextStyle(fontSize: 16.sp , fontWeight: FontWeight.normal),
+        style: TextStyle(color: AppColors.whiteColor , fontSize: 16.sp , fontWeight: FontWeight.normal),
       ),
     );
   }
