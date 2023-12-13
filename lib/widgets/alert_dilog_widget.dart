@@ -21,6 +21,8 @@ class AlertDialogWidget{
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Colors.white,
+            shadowColor: Colors.white,
+            surfaceTintColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(2)
             ),
