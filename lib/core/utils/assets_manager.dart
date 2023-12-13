@@ -15,5 +15,6 @@ class AssetsManager{
   static const String homeSVG = '$imagePath/building.svg';
   static const String dateSVG = '$imagePath/date.svg';
   static const String settingSVG = '$imagePath/settings.svg';
+  static const String language = '$imagePath/language.svg';
 
 }

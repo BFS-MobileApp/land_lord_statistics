@@ -13,6 +13,7 @@ import 'package:LandlordStatistics/feature/setting/presentation/widget/container
 import 'package:LandlordStatistics/feature/setting/presentation/widget/user_accounts_item.dart';
 import 'package:LandlordStatistics/widgets/alert_dilog_widget.dart';
 import 'package:LandlordStatistics/widgets/logo_widget.dart';
+import 'package:LandlordStatistics/widgets/svg_image_widget.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -244,7 +245,7 @@ class _SettingScreenState extends State<SettingScreen> {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.language , size: 24.sp,color: AppColors.black,),
+                    const SVGImageWidget(image: AssetsManager.language, width: 24, height: 24),
                     SizedBox(width: ScreenUtil().setWidth(5),),
                     Text('language'.tr , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w600),)
                   ],

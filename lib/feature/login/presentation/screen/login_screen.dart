@@ -37,41 +37,43 @@ class _LoginScreenState extends State<LoginScreen> {
   AlignmentWidget alignmentWidget = AlignmentWidget();
 
   Widget _loginWidget(){
-    return Column(
-      children: [
-        SizedBox(height: ScreenUtil().setHeight(80),),
-        InkWell(
-          child: Image.asset(AssetsManager.logoIcon, width: ScreenUtil().setWidth(93),height: ScreenUtil().setHeight(95),),
-          onLongPress: (){
-            if(!widget.addOtherMail && !widget.isThereUsers){
-              showBaseUrlAlertDialog(context);
-            }
-          },
-        ),
-        Container(
-            margin: EdgeInsets.symmetric(horizontal: 15.sp , vertical: ScreenUtil().setHeight(10)),
-            child: TextWidget(text: 'landLordStatistics'.tr,fontSize: 24,fontWeight: FontWeight.bold ,fontColor: AppColors.loginPhaseFontColor,)
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 10.sp , vertical: ScreenUtil().setHeight(10)),
-          child: TextFieldWidget(hintText: 'email'.tr , height: 8, width: MediaQuery.of(context).size.width, controller: emailController, isPasswordTextField: false, keyboardType: TextInputType.emailAddress),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 10.sp),
-          child: TextFieldWidget(hintText: 'password'.tr , height: 8, width: MediaQuery.of(context).size.width, controller: passwordController, isPasswordTextField: true, keyboardType: TextInputType.emailAddress),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 8.sp , vertical: 20.sp),
-          child: ButtonWidget(
-              width: MediaQuery.of(context).size.width*0.83,
-              height: 45,
-              onTap: (){
-                login();
-              },
-              name: 'signIn'.tr
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: ScreenUtil().setHeight(80),),
+          InkWell(
+            child: Image.asset(AssetsManager.logoIcon, width: ScreenUtil().setWidth(93),height: ScreenUtil().setHeight(95),),
+            onLongPress: (){
+              if(!widget.addOtherMail && !widget.isThereUsers){
+                showBaseUrlAlertDialog(context);
+              }
+            },
           ),
-        )
-      ],
+          Container(
+              margin: EdgeInsets.symmetric(horizontal: 15.sp , vertical: ScreenUtil().setHeight(10)),
+              child: TextWidget(text: 'landLordStatistics'.tr,fontSize: 24,fontWeight: FontWeight.bold ,fontColor: AppColors.loginPhaseFontColor,)
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10.sp , vertical: ScreenUtil().setHeight(10)),
+            child: TextFieldWidget(hintText: 'email'.tr , height: 8, width: MediaQuery.of(context).size.width, controller: emailController, isPasswordTextField: false, keyboardType: TextInputType.emailAddress),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10.sp),
+            child: TextFieldWidget(hintText: 'password'.tr , height: 8, width: MediaQuery.of(context).size.width, controller: passwordController, isPasswordTextField: true, keyboardType: TextInputType.emailAddress),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 8.sp , vertical: 20.sp),
+            child: ButtonWidget(
+                width: MediaQuery.of(context).size.width*0.83,
+                height: 45,
+                onTap: (){
+                  login();
+                },
+                name: 'signIn'.tr
+            ),
+          )
+        ],
+      ),
     );
   }
 
