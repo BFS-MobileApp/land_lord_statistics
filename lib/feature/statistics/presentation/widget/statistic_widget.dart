@@ -3,6 +3,7 @@ import 'package:LandlordStatistics/core/utils/app_colors.dart';
 import 'package:LandlordStatistics/feature/statistics/data/models/statistic_model.dart';
 import 'package:LandlordStatistics/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:LandlordStatistics/widgets/aligment_widget.dart';
+import 'package:LandlordStatistics/widgets/svg_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -189,12 +190,12 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: ScreenUtil().setWidth(15) , right: ScreenUtil().setWidth(15) , top: ScreenUtil().setHeight(9) , bottom: ScreenUtil().setHeight(5)),
-                      child: Expanded(child: Text(widget.companyName ,
+                      margin: EdgeInsets.only(left: ScreenUtil().setWidth(15) , right: ScreenUtil().setWidth(15) , top: ScreenUtil().setHeight(9)),
+                      child: Text(widget.companyName ,
                         softWrap: false,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis ,
-                        style: TextStyle(color: Colors.black , fontWeight: FontWeight.w600 , fontSize: 16.sp),)),
+                        style: TextStyle(color: Colors.black , fontWeight: FontWeight.w600 , fontSize: 16.sp),),
                     ),
                     GestureDetector(
                       onTap: (){
@@ -206,14 +207,14 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                         }
                       },
                       child: Container(
-                        margin: EdgeInsets.only(left: ScreenUtil().setWidth(15) , right: ScreenUtil().setWidth(15)),
-                        child: Icon(Icons.settings , color: AppColors.black , size: 20.sp,),
+                        margin: EdgeInsets.only(left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10)),
+                        child: const SVGImageWidget(image: AssetsManager.settingSVG,height: 24,width: 24,),
                       ),
                     )
                   ],
                 ),
-                widget.buildingName == '' ? const SizedBox() : StatisticItem(image:  AssetsManager.home, itemValue: widget.buildingName),
-                StatisticItem(image:  AssetsManager.date, itemValue: widget.date),
+                widget.buildingName == '' ? const SizedBox() : StatisticItem(image:  AssetsManager.homeSVG, itemValue: widget.buildingName),
+                StatisticItem(image:  AssetsManager.dateSVG, itemValue: widget.date),
               ],
             ),
           ),

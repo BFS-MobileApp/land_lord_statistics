@@ -66,7 +66,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   callLogoutDialog() async{
     bool result = await checkIfThereIsExistingUsers();
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       AlertDialogWidget dialogWidget = AlertDialogWidget(title: 'closeAppPhase'.tr, phase: 'logOutPhase'.tr , yesOnTap: (){
         deleteUserData();
         if(result == false){
@@ -89,7 +89,7 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   goToNextScreen(){
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       Navigator.of(context).pushNamedAndRemoveUntil(Routes.statisticRoutes, (Route<dynamic> route) => false);
     });
   }
@@ -254,7 +254,11 @@ class _SettingScreenState extends State<SettingScreen> {
                   elevation: 0,
                   onChanged: (String? newValue) {
                     setState(() {
-                      changeLocalization();
+                      if((Helper.getCurrentLocal() == 'AR' && newValue == 'العربية') ||(Helper.getCurrentLocal() != 'AR' && newValue == 'English')){
+                        return;
+                      } else {
+                        changeLocalization();
+                      }
                     });
                   },
                   items: [

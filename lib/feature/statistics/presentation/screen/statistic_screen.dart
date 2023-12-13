@@ -9,6 +9,7 @@ import 'package:LandlordStatistics/feature/statistics/data/models/statistic_mode
 import 'package:LandlordStatistics/feature/statistics/presentation/cubit/statistic_cubit.dart';
 import 'package:LandlordStatistics/feature/statistics/presentation/widget/statistic_widget.dart';
 import 'package:LandlordStatistics/widgets/aligment_widget.dart';
+import 'package:LandlordStatistics/widgets/svg_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -274,7 +275,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                   },
                   child: Padding(
                     padding: EdgeInsets.all(8.0.sp),
-                    child: Image.asset(AssetsManager.setting , width: ScreenUtil().setWidth(24), height: ScreenUtil().setHeight(24),),
+                    child: const SVGImageWidget(image: AssetsManager.settingSVG,height: 24,width: 24,),
                   ),
                 )
               ],

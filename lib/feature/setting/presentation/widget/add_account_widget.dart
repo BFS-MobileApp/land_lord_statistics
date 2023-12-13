@@ -28,10 +28,7 @@ class AddAccountWidget extends StatelessWidget {
               ),
               padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(4), vertical: ScreenUtil().setHeight(4)),
               margin: Helper.getCurrentLocal() == 'AR' ? EdgeInsets.only(bottom: ScreenUtil().setHeight(5) , left: ScreenUtil().setWidth(5)) : EdgeInsets.only(bottom: ScreenUtil().setHeight(5) , right: ScreenUtil().setWidth(5)),
-              child: InkWell(
-                onTap: (){},
-                child: Icon(Icons.add , size: 18.sp,color: AppColors.whiteColor,),
-              ),
+              child: Icon(Icons.add , size: 18.sp,color: AppColors.whiteColor,),
             )
           ],
         ),

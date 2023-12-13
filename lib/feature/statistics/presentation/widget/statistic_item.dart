@@ -1,4 +1,5 @@
 import 'package:LandlordStatistics/widgets/aligment_widget.dart';
+import 'package:LandlordStatistics/widgets/svg_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,11 +16,11 @@ class StatisticItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only( right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10) , bottom: ScreenUtil().setHeight(1)),
+      margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10) , bottom: ScreenUtil().setHeight(1)),
       alignment: alignmentWidget.returnAlignment(),
       child: Row(
         children: [
-          Image.asset(image , width: ScreenUtil().setWidth(18),height: ScreenUtil().setHeight(18),),
+          SVGImageWidget(image: image,height: 18,width: 18,),
           SizedBox(width: ScreenUtil().setWidth(7),),
           Container(
             margin: EdgeInsets.only(top: ScreenUtil().setHeight(5)),
