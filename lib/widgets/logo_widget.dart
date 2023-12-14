@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../core/utils/helper.dart';
 
 class LogoWidget extends StatelessWidget {
-  const LogoWidget({Key? key}) : super(key: key);
+  const LogoWidget({super.key});
 
   Future<void> _launchUrl() async {
     final Uri url = Uri.parse('https://www.befalcon.com');
@@ -18,11 +17,21 @@ class LogoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
+      height: ScreenUtil().setHeight(72),
       color: Colors.transparent,
       elevation: 0,
       child: Container(
-        margin: Helper.getCurrentLocal() == 'AR' ? EdgeInsets.only(right: MediaQuery.of(context).size.width/3.3 , bottom: ScreenUtil().setHeight(10)) : EdgeInsets.only(left: MediaQuery.of(context).size.width/3.3 , bottom: ScreenUtil().setHeight(10)),
-        child: Text('Be Falcon Solutions' , style: TextStyle(fontWeight: FontWeight.bold , color: AppColors.black , fontSize: 17.sp),),
+        //margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
+        child: Column(
+          children: [
+            Text('From' , style: TextStyle(fontWeight: FontWeight.w400 , color: const Color(0xFF808080) , fontSize: 12.sp),),
+            Text('Be Falcon Solutions' , style: TextStyle(fontWeight: FontWeight.w800 , color: AppColors.black , fontSize: 14.sp),),
+            InkWell(
+              onTap: _launchUrl,
+              child: Text('www.befalcon.com' , style: TextStyle(fontWeight: FontWeight.w600 , color: AppColors.loginPhaseFontColor , fontSize: 12.sp),),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ class AssetsManager{
 
   static const String imageIcon = '$imagePath/icon.png';
   static const String logoIcon = '$imagePath/logo.png';
+  static const String appLogo = '$imagePath/app_logo.png';
   static const String noDataImage = '$imagePath/noData.png';
   static const String back = '$imagePath/back_icon.png';
   static const String search = '$imagePath/search.png';
@@ -16,5 +17,7 @@ class AssetsManager{
   static const String dateSVG = '$imagePath/date.svg';
   static const String settingSVG = '$imagePath/settings.svg';
   static const String language = '$imagePath/language.svg';
+  static const String searchSVG = '$imagePath/search.svg';
+
 
 }

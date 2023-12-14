@@ -43,23 +43,28 @@ class _UserAccountItemState extends State<UserAccountItem> {
       child: Container(
         margin: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
         padding: Helper.getCurrentLocal() == 'AR' ? EdgeInsets.only(right: ScreenUtil().setWidth(5)) : EdgeInsets.only(left: ScreenUtil().setWidth(5)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
           children: [
-            Text(widget.email , style: TextStyle(color: widget.isActive ? AppColors.loginPhaseFontColor : AppColors.black , fontWeight: FontWeight.w600 , fontSize: 16.sp),),
-            SizedBox(height: ScreenUtil().setHeight(8),),
-            Container(
-              decoration:const BoxDecoration(
-                color: AppColors.loginPhaseFontColor,
-                borderRadius: BorderRadius.all(Radius.circular(4))
-              ),
-              padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(4), vertical: ScreenUtil().setHeight(4)),
-              margin: Helper.getCurrentLocal() == 'AR' ? EdgeInsets.only(bottom: ScreenUtil().setHeight(5) , left: ScreenUtil().setWidth(5)) : EdgeInsets.only(bottom: ScreenUtil().setHeight(5) , right: ScreenUtil().setWidth(5)),
-              child: InkWell(
-                onTap: ()=>callDeleteAccountDialog(context),
-                child: Icon(Icons.delete_outlined , size: 18.sp,color: AppColors.whiteColor,),
-              ),
-            )
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(widget.email , style: TextStyle(color: widget.isActive ? AppColors.loginPhaseFontColor : AppColors.black , fontWeight: FontWeight.w600 , fontSize: 16.sp),),
+                SizedBox(height: ScreenUtil().setHeight(8),),
+                Container(
+                  decoration:const BoxDecoration(
+                      color: AppColors.loginPhaseFontColor,
+                      borderRadius: BorderRadius.all(Radius.circular(4))
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(4), vertical: ScreenUtil().setHeight(4)),
+                  margin: Helper.getCurrentLocal() == 'AR' ? EdgeInsets.only(bottom: ScreenUtil().setHeight(5) , left: ScreenUtil().setWidth(5)) : EdgeInsets.only(bottom: ScreenUtil().setHeight(5) , right: ScreenUtil().setWidth(5)),
+                  child: InkWell(
+                    onTap: ()=>callDeleteAccountDialog(context),
+                    child: Icon(Icons.delete_outlined , size: 18.sp,color: AppColors.whiteColor,),
+                  ),
+                )
+              ],
+            ),
+            const Divider(thickness: 1,color: AppColors.black,)
           ],
         ),
       ),

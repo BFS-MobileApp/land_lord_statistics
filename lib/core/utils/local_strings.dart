@@ -48,7 +48,9 @@ class LocalStrings extends Translations {
       "hi":"اهلا",
       "language":"اللغة",
       "manageAccounts":"ادارة الحسابات",
-      "addAnotherMail":"اضافة حساب اخر"
+      "addAnotherMail":"اضافة حساب اخر",
+      "closeAppPhase":"تسجيل الخروج",
+      "deleteAccount":"حذف الحساب"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -96,7 +98,7 @@ class LocalStrings extends Translations {
       "language":"Language",
       "manageAccounts":"Manage Accounts",
       "addAnotherMail":"Add Another Email",
-      "closeAppPhase":"Close the App",
+      "closeAppPhase":"Logout",
       "deleteAccount":"Delete Account"
 
     },
