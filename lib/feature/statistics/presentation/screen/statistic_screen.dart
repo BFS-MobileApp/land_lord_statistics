@@ -118,7 +118,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
             return ErrorWidget(()=>getData());
           } else if (state is StatisticsLoaded) {
             if(state.statistic.statisticData.isEmpty){
-              return EmptyDataWidget();
+              return const EmptyDataWidget();
             }
             if (!isInitialized) {
               statisticList = state.statistic.statisticData;
