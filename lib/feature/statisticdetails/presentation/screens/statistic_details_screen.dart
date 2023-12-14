@@ -9,6 +9,7 @@ import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/statistic_detailes_item.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/text_item.dart';
 import 'package:LandlordStatistics/widgets/aligment_widget.dart';
+import 'package:LandlordStatistics/widgets/empty_data_widget.dart';
 import 'package:LandlordStatistics/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -168,9 +169,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
             return ErrorWidgetItem(onTap: getData,);
           } else if (state is StatisticsDetailsLoaded) {
             if(state.data.statisticColoumns.isEmpty){
-              return Center(
-                child: Text('noData'.tr , style: TextStyle(fontSize: 20.sp , color: AppColors.grey , fontWeight: FontWeight.w600),),
-              );
+              return const EmptyDataWidget();
             }
             if (!isInitialized) {
               statisticListData = state.data.statisticColoumns;
