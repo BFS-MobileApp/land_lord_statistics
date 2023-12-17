@@ -34,7 +34,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
 
   List<StatisticColoumn> statisticListData = [];
   List<StatisticColoumn> statisticListDataDetails = [];
-  bool isInitialized = false , isSearching = false;
+  bool isInitialized = false , isSearching = false , isNameSorting = false , isValueSorting = false;
   FocusNode focusNode = FocusNode();
   TextEditingController searchController = TextEditingController();
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
@@ -87,37 +87,54 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
           return StatefulBuilder(
               builder: (context , StateSetter setState){
                 return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0.sp), // Adjust the value as needed
+                  ),
                   content: SizedBox(
-                    height: ScreenUtil().setHeight(111),
+                    width: MediaQuery.of(context).size.width,
+                    height: ScreenUtil().setHeight(95),
                     child: Column(
                       children: <Widget>[
-                        Text('sortBy'.tr, style: TextStyle(fontWeight: FontWeight.w700 , fontSize: 15.sp),),
-                        ListTile(
-                          title: Text('name'.tr),
-                          leading: Radio<int>(
-                            value: 1,
-                            groupValue: selectedOption,
-                            onChanged: (int? value) {
-                              setState(() {
-                                selectedOption = value!;
-                                Navigator.of(context).pop(true);
-                                sortList();
-                              });
-                            },
+                        Container(
+                          margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(8) , top: ScreenUtil().setHeight(8)),
+                          alignment: alignmentWidget.returnAlignment(),
+                          child: Text('sortBy'.tr, style: TextStyle(fontWeight: FontWeight.w600 , fontSize: 16.sp),),
+                        ),
+                        InkWell(
+                          onTap: (){
+                            setState(() {
+                              isNameSorting = true;
+                              isValueSorting = false;
+                              selectedOption = 1;
+                              Navigator.of(context).pop(true);
+                              sortList();
+                            });
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('name'.tr , style: TextStyle(fontWeight: FontWeight.w400 , fontSize: 14.sp , color: AppColors.black),),
+                              isNameSorting ? Icon(Icons.check , size: 15.sp, color: AppColors.black,): const SizedBox()
+                            ],
                           ),
                         ),
-                        ListTile(
-                          title: Text('value'.tr),
-                          leading: Radio<int>(
-                            value: 2,
-                            groupValue: selectedOption,
-                            onChanged: (int? value) {
-                              setState(() {
-                                selectedOption = value!;
-                                Navigator.of(context).pop(true);
-                                sortList();
-                              });
-                            },
+                        const Divider(thickness: 0.5,color: AppColors.black,),
+                        InkWell(
+                          onTap: (){
+                            setState(() {
+                              isValueSorting = true;
+                              isNameSorting = false;
+                              selectedOption = 2;
+                              Navigator.of(context).pop(true);
+                              sortList();
+                            });
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('value'.tr , style: TextStyle(fontWeight: FontWeight.w400 , fontSize: 14.sp , color: AppColors.black),),
+                              isValueSorting ? Icon(Icons.check , size: 15.sp, color: AppColors.black,): const SizedBox()
+                            ],
                           ),
                         ),
                       ],
