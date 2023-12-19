@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Container(
               margin: EdgeInsets.symmetric(horizontal: 15.sp , vertical: ScreenUtil().setHeight(10)),
-              child: TextWidget(text: 'landLordStatistics'.tr,fontSize: 24,fontWeight: FontWeight.bold ,fontColor: AppColors.loginPhaseFontColor,)
+              child: TextWidget(text: 'landlordStatistics'.tr,fontSize: 24,fontWeight: FontWeight.bold ,fontColor: AppColors.loginPhaseFontColor,)
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10.sp , vertical: ScreenUtil().setHeight(10)),

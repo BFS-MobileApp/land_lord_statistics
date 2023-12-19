@@ -14,7 +14,7 @@ class LocalStrings extends Translations {
       "pleaseTryAgain":"من فضلك اعد المحاولة",
       "reloadScreen":"اعادة التحميل",
       "company":"اسم الشركة",
-      "statisticDate":"تاريخ الاحصائيه",
+      "statisticDate":"تاريخ الإحصائية",
       "companies":"الشركات",
       "buildingName":"اسم المبني",
       "error":"خطأ",
@@ -45,12 +45,13 @@ class LocalStrings extends Translations {
       "updatePhase":"هناك نسخة جديدة متاحة من التطبيق، يرجى تحديث التطبيق للاستمتاع بالميزات الجديدة",
       "update":"تحديث",
       "signIn":"تسجيل الدخول",
-      "hi":"اهلا",
+      "hi":"أهلا",
       "language":"اللغة",
-      "manageAccounts":"ادارة الحسابات",
-      "addAnotherMail":"اضافة حساب اخر",
+      "manageAccounts":"إدارة الحسابات",
+      "addAnotherMail":"إضافة حساب أخر",
       "closeAppPhase":"تسجيل الخروج",
-      "deleteAccount":"حذف الحساب"
+      "deleteAccount":"حذف الحساب",
+      "from":"من"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -97,9 +98,10 @@ class LocalStrings extends Translations {
       "hi":"Hi",
       "language":"Language",
       "manageAccounts":"Manage Accounts",
-      "addAnotherMail":"Add Another Email",
+      "addAnotherMail":"Add Another Accounts",
       "closeAppPhase":"Logout",
-      "deleteAccount":"Delete Account"
+      "deleteAccount":"Delete Account",
+      "from":"From"
 
     },
   };

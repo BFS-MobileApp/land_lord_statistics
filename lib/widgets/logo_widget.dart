@@ -1,6 +1,7 @@
 import 'package:LandlordStatistics/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -20,16 +21,13 @@ class LogoWidget extends StatelessWidget {
       height: ScreenUtil().setHeight(72),
       color: Colors.transparent,
       elevation: 0,
-      child: Container(
-        //margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
+      child: InkWell(
+        onTap: _launchUrl,
         child: Column(
           children: [
-            Text('From' , style: TextStyle(fontWeight: FontWeight.w400 , color: const Color(0xFF808080) , fontSize: 12.sp),),
+            Text('From'.tr , style: TextStyle(fontWeight: FontWeight.w400 , color: const Color(0xFF808080) , fontSize: 12.sp),),
             Text('Be Falcon Solutions' , style: TextStyle(fontWeight: FontWeight.w800 , color: AppColors.black , fontSize: 14.sp),),
-            InkWell(
-              onTap: _launchUrl,
-              child: Text('www.befalcon.com' , style: TextStyle(fontWeight: FontWeight.w600 , color: AppColors.loginPhaseFontColor , fontSize: 12.sp),),
-            )
+            Text('www.befalcon.com' , style: TextStyle(fontWeight: FontWeight.w600 , color: AppColors.loginPhaseFontColor , fontSize: 12.sp),),
           ],
         ),
       ),

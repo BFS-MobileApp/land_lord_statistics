@@ -265,7 +265,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
                   },
                   child: Padding(
                     padding: EdgeInsets.all(8.0.sp),
-                    child: SVGImageWidget(width: ScreenUtil().setWidth(24), height: ScreenUtil().setHeight(24), image: AssetsManager.searchSVG),
+                    child: SVGImageWidget(width: ScreenUtil().setWidth(20), height: ScreenUtil().setHeight(20), image: AssetsManager.searchSVG),
                   ),
                 ),
                 GestureDetector(
