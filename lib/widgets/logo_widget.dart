@@ -25,8 +25,8 @@ class LogoWidget extends StatelessWidget {
         onTap: _launchUrl,
         child: Column(
           children: [
-            Text('From'.tr , style: TextStyle(fontWeight: FontWeight.w400 , color: const Color(0xFF808080) , fontSize: 12.sp),),
-            Text('Be Falcon Solutions' , style: TextStyle(fontWeight: FontWeight.w800 , color: AppColors.black , fontSize: 14.sp),),
+            Text('from'.tr , style: TextStyle(fontWeight: FontWeight.w400 , color: const Color(0xFF808080) , fontSize: 12.sp),),
+            Text('beFalconSolutions'.tr , style: TextStyle(fontWeight: FontWeight.w800 , color: AppColors.black , fontSize: 14.sp),),
             Text('www.befalcon.com' , style: TextStyle(fontWeight: FontWeight.w600 , color: AppColors.loginPhaseFontColor , fontSize: 12.sp),),
           ],
         ),

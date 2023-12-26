@@ -51,7 +51,8 @@ class LocalStrings extends Translations {
       "addAnotherMail":"إضافة حساب أخر",
       "closeAppPhase":"تسجيل الخروج",
       "deleteAccount":"حذف الحساب",
-      "from":"من"
+      "from":"من",
+      "beFalconSolutions":"بي فالكون سوليوشنز"
     },
     'en_US': {
       "appName":"Claimizer",
@@ -101,8 +102,8 @@ class LocalStrings extends Translations {
       "addAnotherMail":"Add Another Accounts",
       "closeAppPhase":"Logout",
       "deleteAccount":"Delete Account",
-      "from":"From"
-
+      "from":"From",
+      "beFalconSolutions":"Be Falcon Solutions"
     },
   };
 }
