@@ -204,7 +204,7 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10) , top: ScreenUtil().setHeight(10)),
+            margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10) , top: ScreenUtil().setHeight(10) , right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10)),
             alignment: Alignment.center,
             child: Text('${'hi'.tr}, $name' , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w700 , color: AppColors.black),),
           ),

@@ -188,14 +188,14 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    Expanded(child: Container(
                       margin: EdgeInsets.only(left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10) , top: ScreenUtil().setHeight(9) , bottom: ScreenUtil().setHeight(4)),
                       child: Text(widget.companyName ,
                         softWrap: false,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis ,
                         style: TextStyle(color: Colors.black , fontWeight: FontWeight.w600 , fontSize: 16.sp),),
-                    ),
+                    )),
                     GestureDetector(
                       onTap: (){
                         if(widget.isMenuOpenMap[widget.uniqueId]!){
