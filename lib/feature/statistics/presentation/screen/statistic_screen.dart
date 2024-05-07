@@ -10,6 +10,7 @@ import 'package:LandlordStatistics/feature/statistics/presentation/cubit/statist
 import 'package:LandlordStatistics/feature/statistics/presentation/widget/statistic_widget.dart';
 import 'package:LandlordStatistics/widgets/aligment_widget.dart';
 import 'package:LandlordStatistics/widgets/empty_data_widget.dart';
+import 'package:LandlordStatistics/widgets/error_widget.dart';
 import 'package:LandlordStatistics/widgets/svg_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -115,7 +116,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (state is StatisticsError) {
-            return ErrorWidget(()=>getData());
+            return ErrorWidgetItem(onTap: ()=>getData());
           } else if (state is StatisticsLoaded) {
             if(state.statistic.statisticData.isEmpty){
               return const EmptyDataWidget();

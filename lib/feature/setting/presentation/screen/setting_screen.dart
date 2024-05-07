@@ -12,6 +12,7 @@ import 'package:LandlordStatistics/feature/setting/presentation/widget/add_accou
 import 'package:LandlordStatistics/feature/setting/presentation/widget/container_item.dart';
 import 'package:LandlordStatistics/feature/setting/presentation/widget/user_accounts_item.dart';
 import 'package:LandlordStatistics/widgets/alert_dilog_widget.dart';
+import 'package:LandlordStatistics/widgets/error_widget.dart';
 import 'package:LandlordStatistics/widgets/logo_widget.dart';
 import 'package:LandlordStatistics/widgets/svg_image_widget.dart';
 import 'package:country_flags/country_flags.dart';
@@ -108,7 +109,7 @@ class _SettingScreenState extends State<SettingScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (state is UserAccountsError) {
-            return ErrorWidget((){});
+            return ErrorWidgetItem(onTap: (){});
           } else if (state is UserAccountsLoaded) {
             return ListView.builder(shrinkWrap: true, physics: const ClampingScrollPhysics(),itemCount: state.userAccounts.length+1 , itemBuilder: (ctx , pos){
               return pos <state.userAccounts.length ? UserAccountItem(ctx: context,email: state.userAccounts[pos].email, isActive: state.userAccounts[pos].active) : AddAccountWidget();

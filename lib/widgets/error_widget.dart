@@ -23,8 +23,8 @@ class ErrorWidgetItem extends StatelessWidget {
         ),
         Text('pleaseTryAgain'.tr , style:  TextStyle(color: AppColors.grey , fontSize: 18.sp , fontWeight: FontWeight.w500),),
         Container(
-          width: context.width*0.55,
-          height: ScreenUtil().setHeight(55),
+          width: context.width*0.50,
+          height: ScreenUtil().setHeight(35),
           margin:const EdgeInsets.symmetric(vertical: 15),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
