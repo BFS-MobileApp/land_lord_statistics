@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:LandlordStatistics/config/arguments/routes_arguments.dart';
 import 'package:LandlordStatistics/config/routes/app_routes.dart';
 import 'package:LandlordStatistics/core/utils/app_colors.dart';
@@ -116,7 +115,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (state is StatisticsError) {
-            return ErrorWidgetItem(onTap: ()=>getData());
+            return ErrorWidgetItem(onTap: getData,);
           } else if (state is StatisticsLoaded) {
             if(state.statistic.statisticData.isEmpty){
               return const EmptyDataWidget();
