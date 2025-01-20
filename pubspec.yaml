@@ -22,7 +22,7 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
   sqflite: ^2.3.0
   country_flags: ^2.2.0
-  url_launcher: ^6.2.2
+  url_launcher: ^6.3.1
   flutter:
     sdk: flutter
 
