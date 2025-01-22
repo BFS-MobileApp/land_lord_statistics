@@ -301,10 +301,6 @@ class _StatisticScreenState extends State<StatisticScreen> {
                     ),
                   )
                 ],
-                leading: InkWell(
-                  onTap: _onWillPop,
-                  child: Image.asset(AssetsManager.back , width: ScreenUtil().setWidth(24), height: ScreenUtil().setHeight(24),),
-                ),
             ),
             body: _statisticWidget(),
           ),
