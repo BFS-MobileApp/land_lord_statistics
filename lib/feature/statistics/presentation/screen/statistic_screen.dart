@@ -34,8 +34,29 @@ class _StatisticScreenState extends State<StatisticScreen> {
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
   AlignmentWidget alignmentWidget = AlignmentWidget();
   Map<String, bool> isMenuOpenMap = {};
+  DateTime? _lastBackPressed;
 
-
+  Future<bool> _onWillPop() async {
+    final now = DateTime.now();
+    if (_lastBackPressed == null || now.difference(_lastBackPressed!) > const Duration(seconds: 2)) {
+      _lastBackPressed = now;
+      ScaffoldMessenger.of(context).hideCurrentSnackBar(); // Hide any existing SnackBar
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'اضغط مره اخري للخروج من التطبيق',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.black87,
+          behavior: SnackBarBehavior.floating,
+          elevation: 6.0,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return false; // Prevent the app from closing
+    }
+    return true; // Close the app on the second back press within 2 seconds
+  }
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
 
@@ -206,88 +227,91 @@ class _StatisticScreenState extends State<StatisticScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-        child: Scaffold(
-          appBar: isSearching ?
-          PreferredSize(preferredSize: const Size.fromHeight(100),
-            child: Container(
-              //margin: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-              color: AppColors.primaryColor,
-              child: Padding(padding: EdgeInsets.only(top: ScreenUtil().setHeight(10) , bottom: ScreenUtil().setHeight(5) , left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10)) , child: TextField(
-                style: searchTextStyle,
-                cursorColor: AppColors.whiteColor,
-                showCursor: true,
-                focusNode: focusNode,
-                onChanged: (value){
-                  setState(() {
-                    if (value.isEmpty) {
-                      statisticList = statisticListData; // Reset to original list when search is empty
-                    } else {
-                      filterSearchResults(value); // Apply the filter for non-empty search
-                    }
-                  });
-                },
-                onTapOutside: (_)=>changeSearchingState(),
-                onSubmitted: (_)=>changeSearchingState(),
-                onEditingComplete: ()=>changeSearchingState(),
-                controller: searchController,
-                decoration: InputDecoration(
-                    //labelText: "search".tr,
-                    hintText: "search".tr,
-                    hintStyle: searchTextStyle,
-                    suffixIcon: Container(
-                      padding: EdgeInsets.only(top: ScreenUtil().setHeight(35)),
-                      child: IconButton(
-                        onPressed: (){
-                          /*setState(() {
-                            statisticList = statisticListData;
-                            searchController.clear();
-                          });*/
-                          changeSearchingState();
-                        },
-                        icon: const Icon(Icons.clear , color: Colors.white,),
-                      ),
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(top: ScreenUtil().setHeight(45))
-                ),
-              ))),
-            ) :
-          AppBar(
-              title: Text('landlordStatistics'.tr),
-              actions: <Widget>[
-                GestureDetector(
-                  onTap: () {
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: RefreshIndicator(
+          child: Scaffold(
+            appBar: isSearching ?
+            PreferredSize(preferredSize: const Size.fromHeight(100),
+              child: Container(
+                //margin: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                color: AppColors.primaryColor,
+                child: Padding(padding: EdgeInsets.only(top: ScreenUtil().setHeight(10) , bottom: ScreenUtil().setHeight(5) , left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10)) , child: TextField(
+                  style: searchTextStyle,
+                  cursorColor: AppColors.whiteColor,
+                  showCursor: true,
+                  focusNode: focusNode,
+                  onChanged: (value){
                     setState(() {
-                      focusNode.requestFocus();
-                      isSearching = true;
+                      if (value.isEmpty) {
+                        statisticList = statisticListData; // Reset to original list when search is empty
+                      } else {
+                        filterSearchResults(value); // Apply the filter for non-empty search
+                      }
                     });
                   },
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0.sp),
-                    child: SVGImageWidget(width: ScreenUtil().setWidth(17), height: ScreenUtil().setHeight(17), image: AssetsManager.searchSVG),
+                  onTapOutside: (_)=>changeSearchingState(),
+                  onSubmitted: (_)=>changeSearchingState(),
+                  onEditingComplete: ()=>changeSearchingState(),
+                  controller: searchController,
+                  decoration: InputDecoration(
+                      //labelText: "search".tr,
+                      hintText: "search".tr,
+                      hintStyle: searchTextStyle,
+                      suffixIcon: Container(
+                        padding: EdgeInsets.only(top: ScreenUtil().setHeight(35)),
+                        child: IconButton(
+                          onPressed: (){
+                            /*setState(() {
+                              statisticList = statisticListData;
+                              searchController.clear();
+                            });*/
+                            changeSearchingState();
+                          },
+                          icon: const Icon(Icons.clear , color: Colors.white,),
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.only(top: ScreenUtil().setHeight(45))
                   ),
+                ))),
+              ) :
+            AppBar(
+                title: Text('landlordStatistics'.tr),
+                actions: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        focusNode.requestFocus();
+                        isSearching = true;
+                      });
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0.sp),
+                      child: SVGImageWidget(width: ScreenUtil().setWidth(17), height: ScreenUtil().setHeight(17), image: AssetsManager.searchSVG),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.userAccountsRoutes);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0.sp),
+                      child: const SVGImageWidget(image: AssetsManager.settingSVG,height: 24,width: 24,),
+                    ),
+                  )
+                ],
+                leading: InkWell(
+                  onTap: _onWillPop,
+                  child: Image.asset(AssetsManager.back , width: ScreenUtil().setWidth(24), height: ScreenUtil().setHeight(24),),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.userAccountsRoutes);
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0.sp),
-                    child: const SVGImageWidget(image: AssetsManager.settingSVG,height: 24,width: 24,),
-                  ),
-                )
-              ],
-              leading: InkWell(
-                onTap: ()=>exit(0),
-                child: Image.asset(AssetsManager.back , width: ScreenUtil().setWidth(24), height: ScreenUtil().setHeight(24),),
-              ),
+            ),
+            body: _statisticWidget(),
           ),
-          body: _statisticWidget(),
-        ),
-        onRefresh: () async{
-          await clearData();
-          await getData();
-        });
+          onRefresh: () async{
+            await clearData();
+            await getData();
+          }),
+    );
   }
 }
