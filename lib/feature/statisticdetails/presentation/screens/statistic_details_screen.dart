@@ -16,6 +16,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../login/presentation/screen/login_screen.dart';
+
 
 class StatisticDetailsScreen extends StatefulWidget {
 
@@ -183,7 +185,16 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (state is StatisticsDetailsError) {
-            return ErrorWidgetItem(onTap: getData,);
+            bool isUnauthenticated = state.msg.contains('Unauthenticated.');
+            return ErrorWidgetItem(onTap:(){
+              if(isUnauthenticated){
+                Get.offAll(LoginScreen(addOtherMail: false, isThereUsers: false, ));
+              }else{
+                getData();
+              }
+            },
+              isUnauthenticated: isUnauthenticated,
+            );
           } else if (state is StatisticsDetailsLoaded) {
             if(state.data.statisticColoumns.isEmpty){
               return const EmptyDataWidget();

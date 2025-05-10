@@ -9,29 +9,38 @@ import 'package:LandlordStatistics/core/utils/helper.dart';
 import 'package:LandlordStatistics/core/utils/hex_color.dart';
 import 'package:LandlordStatistics/feature/statistics/domain/entites/statistic.dart';
 
+import '../../../../core/error/exceptions.dart';
+
 StatisticModel statisticModelFromJson(String str) => StatisticModel.fromJson(json.decode(str));
 
 String statisticModelToJson(StatisticModel data) => json.encode(data.toJson());
 
-class StatisticModel extends Statistic{
-  int status;
-  Data data;
+class StatisticModel extends Statistic {
+  final int status;
+  final Data data;
 
   StatisticModel({
     required this.status,
     required this.data,
   }) : super(statisticData: data.statisticSummary);
 
-  factory StatisticModel.fromJson(Map<String, dynamic> json) => StatisticModel(
-    status: json["status"],
-    data: Data.fromJson(json["data"]),
-  );
+  factory StatisticModel.fromJson(Map<String, dynamic> json) {
+    // Handle server error response like: { "error": "Unauthenticated." }
+    if (json.containsKey('error')) {
+      throw ServerException(jsonEncode(json)); // or pass json['error']
+    }
+    return StatisticModel(
+      status: json["status"] ?? 500, // fallback status if missing
+      data: Data.fromJson(json["data"]),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "data": data.toJson(),
   };
 }
+
 
 class Data {
   List<StatisticSummary> statisticSummary;

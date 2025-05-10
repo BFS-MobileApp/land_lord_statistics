@@ -4,9 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ErrorWidgetItem extends StatelessWidget {
-
   final VoidCallback onTap;
-  const ErrorWidgetItem({super.key, required this.onTap});
+  final bool isUnauthenticated;
+
+  const ErrorWidgetItem({
+    super.key,
+    required this.onTap,
+    required this.isUnauthenticated,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,30 +20,61 @@ class ErrorWidgetItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Center(
-          child: Icon(Icons.warning_amber_rounded , size: 150.sp, color: AppColors.primaryColor,),
+          child: Icon(
+            Icons.warning_amber_rounded,
+            size: 150,
+            color: AppColors.primaryColor,
+          ),
         ),
         Container(
-          margin:const EdgeInsets.symmetric(vertical: 12),
-          child: Text('somethingWentWrong'.tr , style: TextStyle(color: Colors.black , fontWeight: FontWeight.w700 , fontSize: 20.sp),),
+          margin: EdgeInsets.symmetric(vertical: 12.w),
+          child: Text(
+            isUnauthenticated
+                ? 'sessionExpired'.tr
+                : 'somethingWentWrong'.tr,
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: 20,
+            ),
+          ),
         ),
-        Text('pleaseTryAgain'.tr , style:  TextStyle(color: AppColors.grey , fontSize: 18.sp , fontWeight: FontWeight.w500),),
+        Text(
+          isUnauthenticated
+              ? 'pleaseSignInAgain'.tr
+              : 'pleaseTryAgain'.tr,
+          style: TextStyle(
+            color: AppColors.grey,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
         Container(
-          width: context.width*0.50,
-          height: ScreenUtil().setHeight(35),
-          margin:const EdgeInsets.symmetric(vertical: 15),
+          width: context.width * 0.55,
+          height: 55.h,
+          margin: EdgeInsets.symmetric(vertical: 15.w),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
-                foregroundColor: Theme.of(context).primaryColor,
-                elevation: 500,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50)
-                )
+              backgroundColor: AppColors.primaryColor,
+              foregroundColor: Theme.of(context).primaryColor,
+              elevation: 500,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
             ),
             onPressed: onTap,
-            child: Text('reloadScreen'.tr , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.white , fontSize: 20.sp),),
+            child: Text(
+              isUnauthenticated
+                  ? 'login'.tr
+                  : 'reloadScreen'.tr,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
           ),
-        )
+        ),
       ],
     );
   }

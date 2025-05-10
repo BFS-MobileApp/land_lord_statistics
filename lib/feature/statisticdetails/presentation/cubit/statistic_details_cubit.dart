@@ -22,7 +22,8 @@ class StatisticDetailsCubit extends Cubit<StatisticDetailsState> {
   Future<void> getData(String uniquId) async{
     emit(StatisticsDetailsIsLoading());
     Either<Failures , StatisticDetails> response = await statisticDetailsUseCase(StatisticDetailsParams(uniqueId: uniquId));
-    emit(response.fold((failures) => StatisticsDetailsError(msg: mapFailureToMsg(failures)), (res) => StatisticsDetailsLoaded(data: res.data)));
+    emit(response.fold((failures) => StatisticsDetailsError(msg: failures.msg),
+            (res) => StatisticsDetailsLoaded(data: res.data)));
   }
 
   Future<void> setSettings(String color , double sort , String uniqueId) async{

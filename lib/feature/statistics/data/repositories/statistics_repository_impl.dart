@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:LandlordStatistics/core/error/exceptions.dart';
 import 'package:LandlordStatistics/core/error/failures.dart';
 import 'package:LandlordStatistics/core/network/network_info.dart';
@@ -6,6 +8,7 @@ import 'package:LandlordStatistics/feature/statistics/data/datasources/statistic
 import 'package:LandlordStatistics/feature/statistics/domain/entites/statistic.dart';
 import 'package:LandlordStatistics/feature/statistics/domain/repositories/statistics_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class StatisticsRepositoryImpl extends StatisticsRepository {
@@ -15,25 +18,40 @@ class StatisticsRepositoryImpl extends StatisticsRepository {
 	StatisticsRepositoryImpl({required this.networkInfo , required this.statisticsRemoteDataSource});
 
   @override
-  Future<Either<Failures, Statistic>> getStatistic() async{
-		if(await networkInfo.isConnected){
-			try{
+	Future<Either<Failures, Statistic>> getStatistic() async {
+		if (await networkInfo.isConnected) {
+			try {
 				final response = await statisticsRemoteDataSource.getStatisticData();
-				if(response.status != 200){
-					return Left(ServerFailure(msg: 'error'.tr));
-				} else {
-					return Right(response);
+
+				return Right(response);
+
+			} on DioError catch (e) {
+				String errorMessage = 'error'.tr;
+				try {
+					if (e.response?.data != null) {
+						if (e.response!.data is Map<String, dynamic>) {
+							errorMessage = e.response!.data['error'] ?? 'error'.tr;
+						}
+						else if (e.response!.data is String) {
+							final body = jsonDecode(e.response!.data);
+							errorMessage = body['error'] ?? 'error'.tr;
+						}
+					}
+				} catch (_) {
+					errorMessage = 'error'.tr;
 				}
 
-			} on ServerException{
-				return Left(ServerFailure(msg: 'error'.tr));
+				return Left(ServerFailure(msg: errorMessage));
+			} catch (e) {
+				return Left(ServerFailure(msg: e.toString()));
 			}
 		} else {
-			return Left(CashFailure(msg: 'error'.tr));
+			return Left(CashFailure(msg: 'no_connection'.tr));
 		}
-  }
+	}
 
-  @override
+
+	@override
   Future<Either<Failures, NoParams>> setUserCompanySettings(String color , double sort , String uniqueId) async{
 		if(await networkInfo.isConnected){
 			try{

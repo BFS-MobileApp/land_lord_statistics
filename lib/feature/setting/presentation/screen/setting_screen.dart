@@ -21,6 +21,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../login/presentation/screen/login_screen.dart';
+import '../../../statistics/presentation/cubit/statistic_cubit.dart';
+
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -30,7 +33,7 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-
+  getData() =>BlocProvider.of<StatisticCubit>(context).getData();
   String dropDownValue = '' , name = '' , mail = '';
   final databaseHelper = DatabaseHelper.instance;
   bool isUsingMultiServerFeature = false;
@@ -109,7 +112,16 @@ class _SettingScreenState extends State<SettingScreen> {
               child: CircularProgressIndicator(),
             );
           } else if (state is UserAccountsError) {
-            return ErrorWidgetItem(onTap: (){});
+            bool isUnauthenticated = state.msg.contains('Unauthenticated.');
+            return ErrorWidgetItem(onTap:(){
+              if(isUnauthenticated){
+                Get.offAll(LoginScreen(addOtherMail: false, isThereUsers: false, ));
+              }else{
+                getData();
+              }
+            },
+              isUnauthenticated: isUnauthenticated,
+            );
           } else if (state is UserAccountsLoaded) {
             return ListView.builder(shrinkWrap: true, physics: const ClampingScrollPhysics(),itemCount: state.userAccounts.length+1 , itemBuilder: (ctx , pos){
               return pos <state.userAccounts.length ? UserAccountItem(ctx: context,email: state.userAccounts[pos].email, isActive: state.userAccounts[pos].active) : AddAccountWidget();

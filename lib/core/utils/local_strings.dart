@@ -5,6 +5,7 @@ class LocalStrings extends Translations {
   Map<String, Map<String, String>> get keys => {
     'ar_AR': {
       "appName":"Claimizer",
+      'sessionExpired': "انتهت صلاحية الدخول",
       "login":"تسجيل الدخول",
       "welcomePhase":"أهلا بك في إحصائيات الملاك",
       "email":"البريد الالكتروني",
@@ -52,9 +53,12 @@ class LocalStrings extends Translations {
       "closeAppPhase":"تسجيل الخروج",
       "deleteAccount":"حذف الحساب",
       "from":"من",
+      'pleaseSignInAgain': "من فضلك سجل الدخول مجددا",
       "beFalconSolutions":"بي فالكون سوليوشنز"
     },
     'en_US': {
+      'sessionExpired': "Session Expired",
+      'pleaseSignInAgain': "Please SignIn Again",
       "appName":"Claimizer",
       "login":"Login",
       "welcomePhase":"Welcome To Landlord Statistics",
