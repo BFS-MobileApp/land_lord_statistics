@@ -42,7 +42,6 @@ class _PdfViewScreenState extends State<PdfViewScreen> {
                     await file.writeAsBytes(_documentBytes!, flush: true);
                     print('PDF saved at: $filePath');
                     OpenFile.open(filePath);
-
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('PDF saved to: $filePath')),
                     );

@@ -7,4 +7,5 @@ abstract class StatisticDetailsRemoteDataSource {
   Future<void> setUserSettings(String color , String uniqueId , double sort);
 
   Future<void> setUserColumnSettings(List<String> columnSortList);
+  Future<Map<String, dynamic>> getUserSettings();
 }

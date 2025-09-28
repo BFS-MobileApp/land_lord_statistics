@@ -36,7 +36,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
   TextStyle searchTextStyle = TextStyle(color: AppColors.whiteColor , fontSize: 16.sp);
   AlignmentWidget alignmentWidget = AlignmentWidget();
   Map<String, bool> isMenuOpenMap = {};
-
+  bool isFirstTime = true;
 
 
   getData() =>BlocProvider.of<StatisticCubit>(context).getData();
@@ -138,25 +138,31 @@ class _StatisticScreenState extends State<StatisticScreen> {
               statisticList.sort((a, b) => a.sortValue.compareTo(b.sortValue));
               statisticListData.sort((a, b) => a.sortValue.compareTo(b.sortValue));
             }
+            if (statisticList.length == 1 && isFirstTime) {
+              Future.microtask(() {
+                Navigator.pushNamed(
+                  context,
+                  Routes.statisticDetailsRoutes,
+                  arguments: StatisticDetailsRoutesArguments(
+                    uniqueId: statisticList[0].uniqueValue,
+                    companyName: Helper.getCurrentLocal() == 'AR'
+                        ? statisticList[0].companyNameAr
+                        : statisticList[0].companyName,
+                    buildingName: Helper.getCurrentLocal() == 'AR'
+                        ? statisticList[0].buildingNameA
+                        : statisticList[0].buildingName,
+                    date: Helper.convertStringToDateOnly(
+                      statisticList[0].statisticsDate.toString(),
+                    ),
+                  ),
+                );
+              });
+            }
             return ListView(
               children: [
                 ListView.builder(physics:const ClampingScrollPhysics() , shrinkWrap: true ,  itemCount:statisticList.length , itemBuilder: (ctx , pos){
                   isMenuOpenMap.putIfAbsent(state.statistic.statisticData[pos].uniqueValue, () => false);
-                  return InkWell(
-                    onTap: (){
-                      if(updatedStatisticListData.isEmpty){
-                        Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr :statisticList[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName , date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString())));
-                        updatedStatisticListData.clear();
-                        print('cleared');
-
-                      } else {
-                        Navigator.pushNamed(context, Routes.statisticDetailsRoutes , arguments: StatisticDetailsRoutesArguments(uniqueId: updatedStatisticListData[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? updatedStatisticListData[pos].companyNameAr :updatedStatisticListData[pos].companyName , buildingName: Helper.getCurrentLocal() == 'AR' ? updatedStatisticListData[pos].buildingNameA : updatedStatisticListData[pos].buildingName , date: Helper.convertStringToDateOnly(updatedStatisticListData[pos].statisticsDate.toString())));
-                        updatedStatisticListData.clear();
-                        print('cleared');
-                      }
-                    },
-                    child: StatisticWidgetItem(isMenuOpenMap: isMenuOpenMap,maxSort: findMaxSortValue() , minSort: findMinSortValue() , pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),),
-                  );
+                  return StatisticWidgetItem(isMenuOpenMap: isMenuOpenMap,maxSort: findMaxSortValue() , minSort: findMinSortValue() , pos: pos , statisticList: statisticList , color:  statisticList[pos].colorValue , uniqueId: statisticList[pos].uniqueValue , companyName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].companyNameAr : statisticList[pos].companyName ,buildingName: Helper.getCurrentLocal() == 'AR' ? statisticList[pos].buildingNameA : statisticList[pos].buildingName,date: Helper.convertStringToDateOnly(statisticList[pos].statisticsDate.toString()),);
                 }),
                 Container(
                   alignment: alignmentWidget.returnAlignment(),

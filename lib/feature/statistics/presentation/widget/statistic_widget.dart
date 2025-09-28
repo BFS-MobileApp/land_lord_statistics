@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../config/arguments/routes_arguments.dart';
+import '../../../../config/routes/app_routes.dart';
 import 'statistic_item.dart';
 
 // ignore: must_be_immutable
@@ -56,6 +58,7 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
     setInitialColor();
   }
 
+
   List<String> getCompaniesSortId(){
     List<String> companiesSort = [];
     for(var company in widget.statisticList){
@@ -84,8 +87,11 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
           title: const Text('Pick a color!'),
           content: SingleChildScrollView(
             child: ColorPicker(
+              enableAlpha: false,
+              showLabel: false,
               pickerColor: pickerColor,
               onColorChanged: changeColor,
+              paletteType: PaletteType.hueWheel,
             ),
           ),
           actions: <Widget>[
@@ -173,90 +179,109 @@ class _StatisticWidgetItemState extends State<StatisticWidgetItem> {
   
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Center(
-          child: Container(
-            margin:const EdgeInsets.symmetric(vertical: 10 , horizontal: 5),
-            decoration: BoxDecoration(
-              color: widget.color,
-              borderRadius:const  BorderRadius.all(Radius.circular(5.0)),
-            ),
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(child: Container(
-                      margin: EdgeInsets.only(left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10) , top: ScreenUtil().setHeight(9) , bottom: ScreenUtil().setHeight(4)),
-                      child: Text(widget.companyName ,
-                        softWrap: false,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis ,
-                        style: TextStyle(color: Colors.black , fontWeight: FontWeight.w600 , fontSize: 16.sp),),
-                    )),
-                    GestureDetector(
-                      onTap: (){
-                        if(widget.isMenuOpenMap[widget.uniqueId]!){
-                          widget.isMenuOpenMap.updateAll((key, value) => value = false);
-                          BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
-                        } else {
-                          toggleSettingsMenu();
-                        }
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10)),
-                        child: const SVGImageWidget(image: AssetsManager.settingSVG,height: 24,width: 24,),
-                      ),
-                    )
-                  ],
-                ),
-                widget.buildingName == '' ? const SizedBox() : Container(
-                  margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10) , bottom: ScreenUtil().setHeight(5)),
-                  alignment: alignmentWidget.returnAlignment(),
-                  child: Row(
+    return InkWell(
+      onTap: () async {
+        // 1) Close menus before navigating
+        widget.isMenuOpenMap.updateAll((key, value) => false);
+        BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
+
+        // 2) Navigate
+        await Navigator.pushNamed(
+          context,
+          Routes.statisticDetailsRoutes,
+          arguments: StatisticDetailsRoutesArguments(
+            uniqueId: widget.uniqueId,
+            companyName: widget.companyName,
+            buildingName: widget.buildingName,
+            date: widget.date,
+          ),
+        );
+      },
+      child: Stack(
+        children: [
+          Center(
+            child: Container(
+              margin:const EdgeInsets.symmetric(vertical: 10 , horizontal: 5),
+              decoration: BoxDecoration(
+                color: widget.color,
+                borderRadius:const  BorderRadius.all(Radius.circular(5.0)),
+              ),
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SVGImageWidget(image: AssetsManager.homeSVG,height: 18,width: 18,),
-                      SizedBox(width: ScreenUtil().setWidth(7),),
-                      Container(
-                        margin: EdgeInsets.only(top: ScreenUtil().setHeight(3)),
-                        child: Text(widget.buildingName ,
+                      Expanded(child: Container(
+                        margin: EdgeInsets.only(left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10) , top: ScreenUtil().setHeight(9) , bottom: ScreenUtil().setHeight(4)),
+                        child: Text(widget.companyName ,
                           softWrap: false,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis ,
-                          style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 14.sp),),
+                          style: TextStyle(color: Colors.black , fontWeight: FontWeight.w600 , fontSize: 16.sp),),
+                      )),
+                      GestureDetector(
+                        onTap: (){
+                          if(widget.isMenuOpenMap[widget.uniqueId]!){
+                            widget.isMenuOpenMap.updateAll((key, value) => value = false);
+                            BlocProvider.of<StatisticCubit>(context).refreshList(widget.statisticList);
+                          } else {
+                            toggleSettingsMenu();
+                          }
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: ScreenUtil().setWidth(10) , right: ScreenUtil().setWidth(10)),
+                          child: const SVGImageWidget(image: AssetsManager.settingSVG,height: 24,width: 24,),
+                        ),
                       )
                     ],
                   ),
-                ),
-                StatisticItem(image:  AssetsManager.dateSVG, itemValue: widget.date),
-              ],
+                  widget.buildingName == '' ? const SizedBox() : Container(
+                    margin: EdgeInsets.only(right: ScreenUtil().setWidth(10) , left: ScreenUtil().setWidth(10) , bottom: ScreenUtil().setHeight(5)),
+                    alignment: alignmentWidget.returnAlignment(),
+                    child: Row(
+                      children: [
+                        const SVGImageWidget(image: AssetsManager.homeSVG,height: 18,width: 18,),
+                        SizedBox(width: ScreenUtil().setWidth(7),),
+                        Container(
+                          margin: EdgeInsets.only(top: ScreenUtil().setHeight(3)),
+                          child: Text(widget.buildingName ,
+                            softWrap: false,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis ,
+                            style: TextStyle(color: Colors.black , fontWeight: FontWeight.w500 , fontSize: 14.sp),),
+                        )
+                      ],
+                    ),
+                  ),
+                  StatisticItem(image:  AssetsManager.dateSVG, itemValue: widget.date),
+                ],
+              ),
             ),
           ),
-        ),
-        if(widget.isMenuOpenMap[widget.uniqueId]!)
-          Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.only(right: ScreenUtil().setWidth(80) , top: widget.buildingName == '' ? ScreenUtil().setHeight(28) : ScreenUtil().setHeight(58) , left: ScreenUtil().setWidth(50)),
-            height: ScreenUtil().setHeight(40),
-            decoration: BoxDecoration(
-              color: AppColors.offWhiteColor,
-              borderRadius: BorderRadius.circular(10)
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                IconButton(icon: const Icon(Icons.color_lens) , color: AppColors.primaryColor ,  iconSize: 22.sp, onPressed: showColorPickerDialog,),
-                IconButton(icon: const Icon(Icons.arrow_upward) , color: AppColors.primaryColor , iconSize: 22.sp, onPressed: moveUp,),
-                IconButton(icon: const Icon(Icons.vertical_align_top) , color: AppColors.primaryColor , iconSize: 22.sp, onPressed: moveToBeginning,),
-                IconButton(icon: const Icon(Icons.arrow_downward) , color: AppColors.primaryColor , iconSize: 22.sp, onPressed: (){moveDown();},),
-                IconButton(icon: const Icon(Icons.vertical_align_bottom) , color: AppColors.primaryColor , iconSize: 22.sp, onPressed: moveToEnd,),
-              ],
-            ),
-          )
-      ],
+          if(widget.isMenuOpenMap[widget.uniqueId]!)
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(right: ScreenUtil().setWidth(80) , top: widget.buildingName == '' ? ScreenUtil().setHeight(28) : ScreenUtil().setHeight(58) , left: ScreenUtil().setWidth(50)),
+              height: ScreenUtil().setHeight(40),
+              decoration: BoxDecoration(
+                color: AppColors.offWhiteColor,
+                borderRadius: BorderRadius.circular(10)
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(icon: const Icon(Icons.color_lens) , color: AppColors.primaryColor ,  iconSize: 22.sp, onPressed: showColorPickerDialog,),
+                  IconButton(icon: const Icon(Icons.arrow_upward) , color: AppColors.primaryColor , iconSize: 22.sp, onPressed: moveUp,),
+                  IconButton(icon: const Icon(Icons.vertical_align_top) , color: AppColors.primaryColor , iconSize: 22.sp, onPressed: moveToBeginning,),
+                  IconButton(icon: const Icon(Icons.arrow_downward) , color: AppColors.primaryColor , iconSize: 22.sp, onPressed: (){moveDown();},),
+                  IconButton(icon: const Icon(Icons.vertical_align_bottom) , color: AppColors.primaryColor , iconSize: 22.sp, onPressed: moveToEnd,),
+                ],
+              ),
+            )
+        ],
+      ),
     );
   }
 }

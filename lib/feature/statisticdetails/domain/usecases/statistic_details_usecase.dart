@@ -15,3 +15,13 @@ class StatisticDetailsUseCase implements UseCase<StatisticDetails , StatisticDet
   Future<Either<Failures, StatisticDetails>> call(StatisticDetailsParams params) => statisticDetailsRepository.getStatisticDetails(params.uniqueId);
 
 }
+class UserSettingsDetailsUseCase implements UseCase<Map<String, dynamic>, NoParams> {
+  final StatisticDetailsRepository repository;
+
+  UserSettingsDetailsUseCase({required this.repository});
+
+  @override
+  Future<Either<Failures, Map<String, dynamic>>> call(NoParams params) {
+    return repository.getUserSettings();
+  }
+}

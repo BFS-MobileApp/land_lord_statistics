@@ -237,7 +237,7 @@ class StatisticColoumn {
     color: json["color"]??'',
     sort: json["sort"]?.toDouble(),
     iconSvg: json["icon_svg"]??'',
-    value: json["value"]??'',
+    value: json["value"] ?? " ",
     savedColor: HexColor(json["color"]??''),
     userColor: json['user_color']??'',
     userSort: json['user_sort'] == false ? 0 : json['user_sort']

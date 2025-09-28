@@ -51,7 +51,7 @@ class ChartWidget extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
           child: SfCircularChart(
               palette: returnChartColors(),
-              title: ChartTitle(text: Helper.getCurrentLocal() == 'AR' ? araibicName : englishName),
+              title: ChartTitle(text: Helper.getCurrentLocal() == 'AR' ? araibicName : englishName,textStyle: const TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
               series: <PieSeries<Data, String>>[
                 PieSeries<Data, String>(
                     explode: true,
@@ -68,7 +68,7 @@ class ChartWidget extends StatelessWidget {
           ),
         ),
         SizedBox(height: ScreenUtil().setHeight(80) , child: ListView.builder(shrinkWrap: true,scrollDirection: Axis.vertical,itemCount:  chartData.length, itemBuilder: (ctx , pos){
-          return ChartNameItem(itemColor: returnChartColors()[pos], itemName: Helper.getCurrentLocal() == 'AR' ? chartData[pos].ar : chartData[pos].en);
+          return ChartNameItem(itemColor: returnChartColors()[pos], itemName: Helper.getCurrentLocal() == 'AR' ? chartData[pos].ar : chartData[pos].en,);
         })),
       ],
     );

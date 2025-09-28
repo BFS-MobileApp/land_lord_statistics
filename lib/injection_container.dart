@@ -43,8 +43,8 @@ Future<void> init() async{
 
   //Blocs
   sl.registerFactory(() => LoginCubit(loginUseCase: sl()));
-  sl.registerFactory(() => StatisticCubit(statisticCompanySettings: sl() , userCompaniesSortSetting: sl() , statisticUseCase: sl()));
-  sl.registerFactory(() => StatisticDetailsCubit(userColumnSortSettingsUseCase: sl(), userColumnSettingsUseCase: sl(), statisticDetailsUseCase: sl()));
+  sl.registerFactory(() => StatisticCubit(statisticCompanySettings: sl() , userCompaniesSortSetting: sl() , statisticUseCase: sl(), userSettingsUseCase: sl()));
+  sl.registerFactory(() => StatisticDetailsCubit(userColumnSortSettingsUseCase: sl(), userColumnSettingsUseCase: sl(), statisticDetailsUseCase: sl(),userSettingsUseCase: sl()));
   sl.registerFactory(() => SettingCubit(dbHelper: sl(),userAccountsUseCase: sl()));
 
   //UseCase
@@ -52,6 +52,7 @@ Future<void> init() async{
   sl.registerLazySingleton(() => StatisticUseCase(statisticsRepository: sl()));
   sl.registerLazySingleton(() => StatisticDetailsUseCase(statisticDetailsRepository: sl()));
   sl.registerLazySingleton(() => UserSettingsUseCase(statisticsRepository: sl()));
+  sl.registerLazySingleton(() => UserSettingsDetailsUseCase( repository: sl()));
   sl.registerLazySingleton(() => UserColumnSettingsUseCase(statisticDetailsRepository: sl()));
   sl.registerLazySingleton(() => UserCompaniesSortSetting(statisticsRepository: sl()));
   sl.registerLazySingleton(() => UserColumnSortSettingsUseCase(statisticDetailsRepository: sl()));

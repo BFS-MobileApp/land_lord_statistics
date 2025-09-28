@@ -54,9 +54,17 @@ class LocalStrings extends Translations {
       "deleteAccount":"حذف الحساب",
       "from":"من",
       'pleaseSignInAgain': "من فضلك سجل الدخول مجددا",
-      "beFalconSolutions":"بي فالكون سوليوشنز"
+      "beFalconSolutions":"بي فالكون سوليوشنز",
+      "noReportPerm" : "لا يمكنك عرض هذا المحتوى. يرجى ترقية خطة حسابك",
+      "statistics" : "الإحصائيات",
+      "charts" : "رسوم بيانيه",
+      "reports" : "التقارير",
     },
     'en_US': {
+      "statistics" : "Statistics",
+      "charts" : "Charts",
+      "reports" : "Reports",
+  "noReportPerm" : "You cannot view this content. Please upgrade your account plan.",
       'sessionExpired': "Session Expired",
       'pleaseSignInAgain': "Please SignIn Again",
       "appName":"Claimizer",

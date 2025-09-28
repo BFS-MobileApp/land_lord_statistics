@@ -11,7 +11,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../core/utils/helper.dart';
 
 class StatisticDetailsItem extends StatefulWidget {
   final String itemName;
@@ -42,7 +45,8 @@ class StatisticDetailsItem extends StatefulWidget {
         required this.itemName,
         required this.itemValue,
         required this.id,
-        required this.uniqueId});
+        required this.uniqueId,
+      });
 
   @override
   State<StatisticDetailsItem> createState() => _StatisticDetailsItemState();
@@ -54,6 +58,33 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
   var hex;
   bool showSettingsMenu = false, isColorChanged = false;
   int pos = -2;
+  static bool _isSnackBarActive = false;
+
+  void _showSnackBar(BuildContext context) {
+    if (_isSnackBarActive) return;
+
+    _isSnackBarActive = true;
+
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+      SnackBar(
+        content: Text("noReportPerm".tr),
+        duration: const Duration(milliseconds: 1500),
+      ),
+    )
+        .closed
+        .then((_) {
+
+      _isSnackBarActive = false;
+    });
+  }
+  bool get isReport {
+    return widget.data.statisticColoumns[widget.pos].columnType == "pdf" ||
+        widget.data.statisticColoumns[widget.pos].columnType == "link" ||
+        widget.itemValue.toLowerCase().contains('.pdf') ||
+        widget.itemValue.toLowerCase().contains('.com') ||
+        widget.data.statisticColoumns[widget.pos].value == " ";
+  }
 
   @override
   void initState() {
@@ -89,7 +120,6 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
 
   moveUp() {
     toggleSettingsMenu();
-    closeMenu();
     if (widget.pos > 0) {
       setState(() {
         final item = widget.statisticListData.removeAt(widget.pos);
@@ -105,14 +135,12 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
   }
 
   moveToBeginning() {
-    toggleSettingsMenu();
-    closeMenu();
     setState(() {
       final item = widget.statisticListData.removeAt(widget.pos);
       widget.statisticListData.insert(0, item);
       pos = 0;
     });
-    widget.isMenuOpenMap.updateAll((key, value) => value = false);
+    widget.isMenuOpenMap.updateAll((key, value) => false);
     BlocProvider.of<StatisticDetailsCubit>(context)
         .refreshList(widget.statisticListData, widget.data);
     BlocProvider.of<StatisticDetailsCubit>(context)
@@ -120,8 +148,6 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
   }
 
   moveDown() {
-    toggleSettingsMenu();
-    closeMenu();
     if (widget.pos < widget.statisticListData.length - 1) {
       setState(() {
         final item = widget.statisticListData.removeAt(widget.pos);
@@ -129,7 +155,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
         pos = widget.pos;
       });
     }
-    widget.isMenuOpenMap.updateAll((key, value) => value = false);
+    widget.isMenuOpenMap.updateAll((key, value) => false);
     BlocProvider.of<StatisticDetailsCubit>(context)
         .refreshList(widget.statisticListData, widget.data);
     BlocProvider.of<StatisticDetailsCubit>(context)
@@ -137,14 +163,12 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
   }
 
   moveToEnd() {
-    toggleSettingsMenu();
-    closeMenu();
     setState(() {
       final item = widget.statisticListData.removeAt(widget.pos);
       widget.statisticListData.add(item);
       pos = widget.statisticListData.length - 2;
     });
-    widget.isMenuOpenMap.updateAll((key, value) => value = false);
+    widget.isMenuOpenMap.updateAll((key, value) => false);
     BlocProvider.of<StatisticDetailsCubit>(context)
         .refreshList(widget.statisticListData, widget.data);
     BlocProvider.of<StatisticDetailsCubit>(context)
@@ -179,8 +203,11 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
           title: const Text('Pick a color!'),
           content: SingleChildScrollView(
             child: ColorPicker(
+              enableAlpha: false,
+              showLabel: false,
               pickerColor: pickerColor,
               onColorChanged: changeColor,
+              paletteType: PaletteType.hueWheel,
             ),
           ),
           actions: <Widget>[
@@ -212,66 +239,64 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
   }
 
   Widget itemWidget(context) {
-    if (widget.itemValue == '') {
-      return const SizedBox();
-    } else {
+
       return Stack(
         children: [
-          GestureDetector(
-            onTap: (){
-              if (widget.isMenuOpenMap[widget.columnName]!) {
-                widget.isMenuOpenMap.updateAll((key, value) => value = false);
-                BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData, widget.data);
-              } else {
-                toggleSettingsMenu();
-              }
-            },
-            child: Center(
-              child: Container(
-                //margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(5)),
-                decoration: BoxDecoration(
-                  color: HexColor(widget.userColor),
-                  borderRadius: const BorderRadius.all(Radius.circular(
-                      5.0) //                 <--- border radius here
-                  ),
+          Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: HexColor(widget.userColor),
+                borderRadius: const BorderRadius.all(Radius.circular(
+                    5.0) //
                 ),
-                width: MediaQuery.of(context).size.width,
-                child: ListTile(
-                  title: Text(widget.itemValue.contains("pdf") ||  widget.itemValue.contains(".com") ? widget.name!:
-                  widget.itemValue ,
-                    style: TextStyle(fontSize: 20.sp , fontWeight: FontWeight.w700 , color: AppColors.black),),
-                  subtitle: widget.itemValue.contains("pdf") ||  widget.itemValue.contains(".com") ?  null : Text(widget.itemName , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w500 , color: AppColors.black),),
-                  trailing: GestureDetector(
-                    onTap: () async {
-                      widget.isMenuOpenMap.updateAll((key, value) => value = false);
-                      BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData, widget.data);
-                      final value = widget.itemValue;
-                      if (value.contains("pdf")) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => PdfViewScreen(pdfUrl: value,name: widget.name!,),
-                          ),
-                        );
+              ),
+              width: MediaQuery.of(context).size.width,
+              child: ListTile(
+                onLongPress: (){
+                  if (widget.isMenuOpenMap[widget.columnName]!) {
+                    widget.isMenuOpenMap.updateAll((key, value) => value = false);
+                    BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData, widget.data);
+                  }
+                  else {
+                    toggleSettingsMenu();
+                  }
+                },
+                onTap: () async {
+                    widget.isMenuOpenMap.updateAll((key, value) => value = false);
+                  BlocProvider.of<StatisticDetailsCubit>(context).refreshList(widget.statisticListData, widget.data);
+                  final value = widget.itemValue;
+                  if (value.contains("pdf")) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => PdfViewScreen(pdfUrl: value,name: widget.name!,),
+                      ),
+                    );
 
-                      } else if (value.contains(".com")) {
-                        final url = Uri.parse(value.startsWith('http') ? value : value);
-                        if (await canLaunchUrl(url)) {
-                          await launchUrl(url, mode: LaunchMode.externalApplication);
-                        } else {
-                          // handle error
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Could not launch $url')),
-                          );
-                        }
-                      }
-                    },
-                    child: SizedBox(
-                      height: ScreenUtil().setHeight(30),
-                      width: ScreenUtil().setWidth(30),
-                      child: SvgPicture.string(widget.icon),
-                    ),
-                  ),
+                  } else if (value.contains(".com")) {
+                    final url = Uri.parse(value.startsWith('http') ? value : value);
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url, mode: LaunchMode.externalApplication);
+                    } else {
+                      // handle error
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Could not launch $url')),
+                      );
+                    }
+                  }else if (value == " "){
+                   _showSnackBar(context);
+                  }
+                },
+                title: Text(widget.itemValue.contains("pdf") ||  widget.itemValue.contains(".com")
+                    ||  widget.itemValue == (" ") ? widget.itemName:
+                widget.itemValue,
+                  style: TextStyle(fontSize: 20.sp , fontWeight: FontWeight.w700 , color: AppColors.black),),
+                subtitle: widget.itemValue.contains("pdf") ||  widget.itemValue.contains(".com")
+                    ||  widget.itemValue == (" ") ?  null : Text(widget.itemName , style: TextStyle(fontSize: 14.sp , fontWeight: FontWeight.w500 , color: AppColors.black),),
+                trailing: SizedBox(
+                  height: ScreenUtil().setHeight(30),
+                  width: ScreenUtil().setWidth(30),
+                  child: SvgPicture.string(widget.icon),
                 ),
               ),
             ),
@@ -329,7 +354,7 @@ class _StatisticDetailsItemState extends State<StatisticDetailsItem> {
             )
         ],
       );
-    }
+
   }
 
   @override

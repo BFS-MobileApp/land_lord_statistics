@@ -15,6 +15,7 @@ class StatisticDetailsInitialLoading extends StatisticDetailsState {
 }
 
 
+
 class StatisticDetailsInitialState extends StatisticDetailsState {
 
 }
@@ -49,4 +50,29 @@ class StatisticsDetailsRefresh extends StatisticDetailsState{
 
   @override
   List<Object> get props =>[statisticList];
+}
+class StatisticsDetailsRefreshStatistics extends StatisticDetailsState {
+  final List<StatisticColoumn> statisticList;
+  final Data data;
+
+  const StatisticsDetailsRefreshStatistics({
+    required this.statisticList,
+    required this.data,
+  });
+
+  @override
+  List<Object> get props => [statisticList, data];
+}
+
+class StatisticsDetailsRefreshReports extends StatisticDetailsState {
+  final List<StatisticColoumn> reportsList;
+  final Data data;
+
+  const StatisticsDetailsRefreshReports({
+    required this.reportsList,
+    required this.data,
+  });
+
+  @override
+  List<Object> get props => [reportsList, data];
 }

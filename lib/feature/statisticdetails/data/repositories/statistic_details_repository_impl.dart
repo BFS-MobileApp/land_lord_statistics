@@ -28,6 +28,15 @@ class StatisticDetailsRepositoryImpl extends StatisticDetailsRepository {
 			return Left(CashFailure(msg: 'connectionError'.tr));
 		}
   }
+	@override
+	Future<Either<Failures, Map<String, dynamic>>> getUserSettings() async {
+		try {
+			final result = await statisticDetailsRemoteDataSource.getUserSettings();
+			return Right(result);
+		} on ServerException catch (e) {
+			return Left(ServerFailure(msg: 'error'.tr));
+		}
+	}
 
   @override
   Future<Either<Failures, NoParams>> setUserCompanySettings(String color, String uniqueId, double sort) async{
