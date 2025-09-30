@@ -10,7 +10,10 @@ import 'package:LandlordStatistics/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_utils/get_utils.dart';
+import 'package:new_version_plus/new_version_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../widgets/force_update_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,7 +23,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  late Timer _timer;
+  Timer? _timer;
   late SharedPreferences prefs;
   bool _showWidget = false;
 
@@ -48,16 +51,42 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    startTimer();
+    //startTimer();
     Helper.getDefaultLanguage();
     Helper.getCurrentLocal();
     delayAppearingWidget();
+    Future.delayed(const Duration(milliseconds: 200), () {
+      checkVersion(context);
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
+    _timer?.cancel();
+  }
+  Future<void> checkVersion(BuildContext context) async {
+    final newVersion = NewVersionPlus(
+      androidId: 'com.befalcon.landlordstatistics',
+      iOSId: '6473172017',
+    );
+
+    final status = await newVersion.getVersionStatus();
+
+    debugPrint("Local version: ${status?.localVersion}");
+    debugPrint("Store version: ${status?.storeVersion}");
+    debugPrint("Can update? ${status?.canUpdate}");
+
+    if (status != null && status.canUpdate) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ForceUpdatePage(updateUrl: status.appStoreLink),
+        ),
+      );
+    } else {
+      startTimer();
+    }
   }
 
   @override
