@@ -7,7 +7,23 @@ abstract class StatisticDetailsState extends Equatable {
 
   const StatisticDetailsState();
 }
+class UnitsDetailsIsLoading extends StatisticDetailsState {}
 
+class UnitsDetailsLoaded extends StatisticDetailsState {
+  final UnitsModel units;
+  const UnitsDetailsLoaded({required this.units});
+
+  @override
+  List<Object> get props => [units];
+}
+
+class UnitsDetailsError extends StatisticDetailsState {
+  final String msg;
+  const UnitsDetailsError({required this.msg});
+
+  @override
+  List<Object> get props => [msg];
+}
 class StatisticDetailsInitial extends StatisticDetailsState {
 }
 

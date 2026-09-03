@@ -12,7 +12,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/usecase/use_case.dart';
+import '../../data/models/units_model.dart';
 import '../../domain/entities/statistic_details.dart';
+import '../../domain/usecases/get_units_use_case.dart';
 
 part 'statistic_details_state.dart';
 
@@ -21,19 +23,21 @@ class StatisticDetailsCubit extends Cubit<StatisticDetailsState> {
   final UserColumnSettingsUseCase userColumnSettingsUseCase;
   final UserSettingsDetailsUseCase userSettingsUseCase;
   final UserColumnSortSettingsUseCase userColumnSortSettingsUseCase;
+  final GetUnitsUseCase getUnitsUseCase;
 
   StatisticDetailsCubit({
     required this.userColumnSortSettingsUseCase,
     required this.statisticDetailsUseCase,
     required this.userColumnSettingsUseCase,
-    required this.userSettingsUseCase
+    required this.userSettingsUseCase,
+    required this.getUnitsUseCase
   }) : super(StatisticDetailsInitial());
 
   /// 🔹 Get statistics + apply user settings in one call
-  Future<void> getData(String uniqueId) async {
+  Future<void> getData(String uniqueId,String claimStatus, int perPage) async {
     emit(StatisticsDetailsIsLoading());
 
-    final stats = await statisticDetailsUseCase(StatisticDetailsParams(uniqueId: uniqueId));
+    final stats = await statisticDetailsUseCase(StatisticDetailsParams(uniqueId: uniqueId, claimStatus: claimStatus, page: perPage));
 
     await stats.fold(
           (failures) async {
@@ -53,6 +57,16 @@ class StatisticDetailsCubit extends Cubit<StatisticDetailsState> {
       },
     );
   }
+
+  Future<void> getUnitsData(String uniqueId) async {
+    emit(UnitsDetailsIsLoading());
+    final result = await getUnitsUseCase.call(uniqueId);
+    result.fold(
+          (failure) => emit(UnitsDetailsError(msg: failure.toString())),
+          (units) => emit(UnitsDetailsLoaded(units: units)),
+    );
+  }
+
 
   Future<void> setSettings(String color, double sort, String uniqueId) async {
     await userColumnSettingsUseCase(

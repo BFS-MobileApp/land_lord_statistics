@@ -4,6 +4,7 @@ import 'package:LandlordStatistics/feature/statisticdetails/data/datasources/sta
 import 'package:LandlordStatistics/feature/statisticdetails/data/models/statistic_details_model.dart';
 
 import '../../../../core/utils/app_strings.dart';
+import '../models/units_model.dart';
 
 class StatisticDetailsRemoteDataSourceImpl extends StatisticDetailsRemoteDataSource {
 
@@ -11,8 +12,8 @@ class StatisticDetailsRemoteDataSourceImpl extends StatisticDetailsRemoteDataSou
   StatisticDetailsRemoteDataSourceImpl({required this.consumer});
 
   @override
-  Future<StatisticDetailsModel> getStatisticDetails(String uniqueId) async{
-    final res = await consumer.get(EndPoints.statisticDetails+uniqueId);
+  Future<StatisticDetailsModel> getStatisticDetails(String uniqueId,String claimStatus,int page) async{
+    final res = await consumer.get('${EndPoints.statisticDetails}$uniqueId?claim_status=$claimStatus&per_page=$page');
     return StatisticDetailsModel.fromJson(res);
   }
   @override
@@ -79,5 +80,10 @@ class StatisticDetailsRemoteDataSourceImpl extends StatisticDetailsRemoteDataSou
     }
   }
 
+  @override
+  Future<UnitsModel> getUnits(String uniqueId) async{
+    final res = await consumer.get('${EndPoints.statisticDetails}$uniqueId/properties?per_page=999');
+    return UnitsModel.fromJson(res);
+  }
+  }
 
-}

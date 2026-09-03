@@ -8,6 +8,8 @@ import 'package:LandlordStatistics/feature/statisticdetails/domain/repositories/
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
 
+import '../models/units_model.dart';
+
 class StatisticDetailsRepositoryImpl extends StatisticDetailsRepository {
 
 	final NetworkInfo networkInfo;
@@ -16,10 +18,10 @@ class StatisticDetailsRepositoryImpl extends StatisticDetailsRepository {
 	StatisticDetailsRepositoryImpl({required this.networkInfo , required this.statisticDetailsRemoteDataSource});
 
   @override
-  Future<Either<Failures, StatisticDetails>> getStatisticDetails(String uniqueId) async{
+  Future<Either<Failures, StatisticDetails>> getStatisticDetails(String uniqueId, String claimStatus,int page) async{
 		if(await networkInfo.isConnected){
 			try{
-				final response = await statisticDetailsRemoteDataSource.getStatisticDetails(uniqueId);
+				final response = await statisticDetailsRemoteDataSource.getStatisticDetails(uniqueId,claimStatus,page);
 				return Right(response);
 			} on ServerException{
 				return Left(ServerFailure(msg: 'error'.tr));
@@ -66,4 +68,17 @@ class StatisticDetailsRepositoryImpl extends StatisticDetailsRepository {
 		}
   }
 
-}
+  @override
+  Future<Either<Failures, UnitsModel>> getUnits(String uniqueId) async{
+		if(await networkInfo.isConnected){
+			try{
+				final response = await statisticDetailsRemoteDataSource.getUnits(uniqueId);
+				return Right(response);
+			} on ServerException{
+				return Left(ServerFailure(msg: 'error'.tr));
+			}
+		} else {
+			return Left(CashFailure(msg: 'connectionError'.tr));
+		}
+	}
+  }

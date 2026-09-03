@@ -35,6 +35,7 @@ import 'core/api/baseurl_service.dart';
 import 'feature/setting/data/datasources/setting_local_data_source_impl.dart';
 import 'feature/statisticdetails/data/repositories/statistic_details_repository_impl.dart';
 import 'feature/statisticdetails/domain/repositories/statistic_details_repository.dart';
+import 'feature/statisticdetails/domain/usecases/get_units_use_case.dart';
 import 'feature/statistics/domain/usecases/user_comanies_sort_setting.dart';
 
 final sl = GetIt.instance;
@@ -44,7 +45,7 @@ Future<void> init() async{
   //Blocs
   sl.registerFactory(() => LoginCubit(loginUseCase: sl()));
   sl.registerFactory(() => StatisticCubit(statisticCompanySettings: sl() , userCompaniesSortSetting: sl() , statisticUseCase: sl(), userSettingsUseCase: sl()));
-  sl.registerFactory(() => StatisticDetailsCubit(userColumnSortSettingsUseCase: sl(), userColumnSettingsUseCase: sl(), statisticDetailsUseCase: sl(),userSettingsUseCase: sl()));
+  sl.registerFactory(() => StatisticDetailsCubit(userColumnSortSettingsUseCase: sl(), userColumnSettingsUseCase: sl(), statisticDetailsUseCase: sl(),userSettingsUseCase: sl(),getUnitsUseCase: sl()));
   sl.registerFactory(() => SettingCubit(dbHelper: sl(),userAccountsUseCase: sl()));
 
   //UseCase
@@ -57,6 +58,7 @@ Future<void> init() async{
   sl.registerLazySingleton(() => UserCompaniesSortSetting(statisticsRepository: sl()));
   sl.registerLazySingleton(() => UserColumnSortSettingsUseCase(statisticDetailsRepository: sl()));
   sl.registerLazySingleton(() => SettingUseCase(userAccountsRepository: sl()));
+  sl.registerLazySingleton(() => GetUnitsUseCase(repository: sl()));
 
   //Repository
   sl.registerLazySingleton<LoginRepository>(() => LoginRepositoryImpl(loginRemoteDataSource: sl() , networkInfo: sl()));

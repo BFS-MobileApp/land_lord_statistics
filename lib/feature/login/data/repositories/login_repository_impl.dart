@@ -26,6 +26,7 @@ class LoginRepositoryImpl extends LoginRepository {
         final response = await loginRemoteDataSource.login(email, password);
         if(response.data.token != ''){
           saveUserInfo(email , response.name , response.token);
+          print("+++++++++++++++${response.token}");
           return Right(response);
         } else {
           return Left(ServerFailure(msg: Helper.getCurrentLocal() == 'AR' ? 'invalidCredentials'.tr : response.message));

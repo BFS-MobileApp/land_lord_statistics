@@ -12,7 +12,7 @@ class StatisticDetailsUseCase implements UseCase<StatisticDetails , StatisticDet
 
 
   @override
-  Future<Either<Failures, StatisticDetails>> call(StatisticDetailsParams params) => statisticDetailsRepository.getStatisticDetails(params.uniqueId);
+  Future<Either<Failures, StatisticDetails>> call(StatisticDetailsParams params) => statisticDetailsRepository.getStatisticDetails(params.uniqueId,params.claimStatus,params.page);
 
 }
 class UserSettingsDetailsUseCase implements UseCase<Map<String, dynamic>, NoParams> {

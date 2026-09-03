@@ -26,7 +26,6 @@ class _SplashScreenState extends State<SplashScreen> {
   Timer? _timer;
   late SharedPreferences prefs;
   bool _showWidget = false;
-
   startTimer(){
     _timer = Timer(const Duration(seconds: 2), ()=> checkLoggingState());
   }
@@ -72,27 +71,27 @@ class _SplashScreenState extends State<SplashScreen> {
     );
 
     final status = await newVersion.getVersionStatus();
+      debugPrint("Local version: ${status?.localVersion}");
+      debugPrint("Store version: ${status?.storeVersion}");
+      debugPrint("Can update? ${status?.canUpdate}");
 
-    debugPrint("Local version: ${status?.localVersion}");
-    debugPrint("Store version: ${status?.storeVersion}");
-    debugPrint("Can update? ${status?.canUpdate}");
+      if (status != null && status.canUpdate) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ForceUpdatePage(updateUrl: status.appStoreLink),
+          ),
+        );
+      } else {
+        startTimer();
+      }
 
-    if (status != null && status.canUpdate) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => ForceUpdatePage(updateUrl: status.appStoreLink),
-        ),
-      );
-    } else {
-      startTimer();
-    }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const LogoWidget(),
+      bottomNavigationBar: LogoWidget(
+      ),
       body: _showWidget ? Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +99,8 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Image.asset(AssetsManager.logoIcon , height: ScreenUtil().setHeight(65),width: ScreenUtil().setWidth(65),),
             SizedBox(height: ScreenUtil().setHeight(10),),
-            TextWidget(text: 'landlordStatistics'.tr,fontSize: 24,fontWeight: FontWeight.bold ,fontColor: AppColors.loginPhaseFontColor,)
+            TextWidget(text: 'landlordStatistics'.tr,fontSize: 24,fontWeight: FontWeight.bold ,fontColor: AppColors.loginPhaseFontColor,),
+            SizedBox(height: ScreenUtil().setHeight(10),),
           ],
         ),
       ): const SizedBox(),

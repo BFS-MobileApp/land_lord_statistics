@@ -37,26 +37,226 @@ class Data {
   Statistics statistics;
   List<StatisticColoumn> statisticColoumns;
   List<Chart> charts;
+  ClaimsData claims;
 
   Data({
     required this.statistics,
     required this.statisticColoumns,
     required this.charts,
+    required this.claims,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     statistics: Statistics.fromJson(json["statistics"]),
-    statisticColoumns: List<StatisticColoumn>.from(json["statisticColoumns"].map((x) => StatisticColoumn.fromJson(x))),
-    charts: List<Chart>.from(json["charts"].map((x) => Chart.fromJson(x))),
+    statisticColoumns: List<StatisticColoumn>.from(
+      json["statisticColoumns"].map(
+            (x) => StatisticColoumn.fromJson(x),
+      ),
+    ),
+    charts: List<Chart>.from(
+      json["charts"].map(
+            (x) => Chart.fromJson(x),
+      ),
+    ),
+    claims: ClaimsData.fromJson(json["claims"]),
   );
 
   Map<String, dynamic> toJson() => {
     "statistics": statistics.toJson(),
-    "statisticColoumns": List<dynamic>.from(statisticColoumns.map((x) => x.toJson())),
-    "charts": List<dynamic>.from(charts.map((x) => x.toJson())),
+    "statisticColoumns":
+    List<dynamic>.from(statisticColoumns.map((x) => x.toJson())),
+    "charts":
+    List<dynamic>.from(charts.map((x) => x.toJson())),
+    "claims": claims.toJson(),
   };
 }
+class ClaimsData {
+  List<Claims> data;
+  ClaimsMeta meta;
+  ClaimsStatistics statistics;
 
+  ClaimsData({
+    required this.data,
+    required this.meta,
+    required this.statistics,
+  });
+
+  factory ClaimsData.fromJson(Map<String, dynamic> json) => ClaimsData(
+    data: json["data"] == null
+        ? []
+        : List<Claims>.from(
+      json["data"].map(
+            (x) => Claims.fromJson(x),
+      ),
+    ),
+    meta: ClaimsMeta.fromJson(json["meta"] ?? {}),
+    statistics: ClaimsStatistics.fromJson(
+      json["statistics"] ?? {},
+    ),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "data": List<dynamic>.from(
+      data.map((x) => x.toJson()),
+    ),
+    "meta": meta.toJson(),
+    "statistics": statistics.toJson(),
+  };
+}
+class ClaimsMeta {
+  ClaimsPagination pagination;
+
+  ClaimsMeta({
+    required this.pagination,
+  });
+
+  factory ClaimsMeta.fromJson(Map<String, dynamic> json) => ClaimsMeta(
+    pagination: ClaimsPagination.fromJson(
+      json["pagination"] ?? {},
+    ),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "pagination": pagination.toJson(),
+  };
+}
+class ClaimsPagination {
+  int total;
+  int count;
+  dynamic perPage;
+  dynamic currentPage;
+  int totalPages;
+  dynamic links;
+
+  ClaimsPagination({
+    required this.total,
+    required this.count,
+    required this.perPage,
+    required this.currentPage,
+    required this.totalPages,
+    required this.links,
+  });
+
+  factory ClaimsPagination.fromJson(Map<String, dynamic> json) =>
+      ClaimsPagination(
+        total: json["total"] ?? 0,
+        count: json["count"] ?? 0,
+        perPage: json["per_page"],
+        currentPage: json["current_page"],
+        totalPages: json["total_pages"] ?? 0,
+        links: json["links"] ?? [],
+      );
+
+  Map<String, dynamic> toJson() => {
+    "total": total,
+    "count": count,
+    "per_page": perPage,
+    "current_page": currentPage,
+    "total_pages": totalPages,
+    "links": links,
+  };
+}
+class ClaimsStatistics {
+  int all;
+  int newCount;
+  int assigned;
+  int inProgress;
+  int completed;
+  int closed;
+  int cancelled;
+
+  ClaimsStatistics({
+    required this.all,
+    required this.newCount,
+    required this.assigned,
+    required this.inProgress,
+    required this.completed,
+    required this.closed,
+    required this.cancelled,
+  });
+
+  factory ClaimsStatistics.fromJson(Map<String, dynamic> json) =>
+      ClaimsStatistics(
+        all: json["all"] ?? 0,
+        newCount: json["new"] ?? 0,
+        assigned: json["assigned"] ?? 0,
+        inProgress: json["in_progress"] ?? 0,
+        completed: json["completed"] ?? 0,
+        closed: json["closed"] ?? 0,
+        cancelled: json["cancelled"] ?? 0,
+      );
+
+  Map<String, dynamic> toJson() => {
+    "all": all,
+    "new": newCount,
+    "assigned": assigned,
+    "in_progress": inProgress,
+    "completed": completed,
+    "closed": closed,
+    "cancelled": cancelled,
+  };
+}
+class Claims {
+  int claimId;
+  String referenceId;
+  String status;
+  String description;
+  String availableDate;
+  String availableTime;
+  dynamic employeeId;
+  String startDate;
+  String endDate;
+  String createdBy;
+  String priority;
+  String createdAt;
+
+  Claims({
+    required this.claimId,
+    required this.referenceId,
+    required this.status,
+    required this.description,
+    required this.availableDate,
+    required this.availableTime,
+    required this.employeeId,
+    required this.startDate,
+    required this.endDate,
+    required this.createdBy,
+    required this.priority,
+    required this.createdAt,
+
+  });
+
+  factory Claims.fromJson(Map<String, dynamic> json) => Claims(
+    claimId: json["id"]??0,
+    referenceId: json["reference_id"]?? "",
+    status: json["status"]??'',
+    description: json["description"]??'',
+    availableDate: json["available_date"]??'',
+    availableTime: json["available_time"]??'',
+    employeeId: json["employee_id"],
+    startDate: json["start_date"]??'',
+    endDate: json["end_date"]??'',
+    createdBy: json["created_by"]??'',
+    priority: json["priority"]??'',
+    createdAt: json["created_at"]??'',
+
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": claimId,
+    "reference_id": referenceId,
+    "status": status,
+    "description": description,
+    "available_date": availableDate,
+    "available_time": availableTime,
+    "employee_id": employeeId,
+    "start_date": startDate,
+    "end_date": endDate,
+    "created_by": createdBy,
+    "priority": priority,
+    "created_at": createdAt,
+  };
+}
 class Chart {
   int chartId;
   int chartSettingsId;

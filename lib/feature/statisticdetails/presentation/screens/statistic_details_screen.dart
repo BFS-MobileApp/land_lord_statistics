@@ -5,6 +5,7 @@ import 'package:LandlordStatistics/core/utils/assets_manager.dart';
 import 'package:LandlordStatistics/core/utils/helper.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/data/models/statistic_details_model.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/cubit/statistic_details_cubit.dart';
+import 'package:LandlordStatistics/feature/statisticdetails/presentation/screens/unit_list.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/chart_widget.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/reports_detailes_item.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/statistic_detailes_item.dart';
@@ -15,9 +16,12 @@ import 'package:LandlordStatistics/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../../../../injection_container.dart';
 import '../../../login/presentation/screen/login_screen.dart';
+import '../widget/claims_Widget.dart';
 class StatisticDetailsScreen extends StatefulWidget {
   final String uniqueId;
   final String companyName;
@@ -37,6 +41,8 @@ class StatisticDetailsScreen extends StatefulWidget {
 }
 
 class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
+
+
   // ---------------- existing state ----------------
   List<StatisticColoumn> statisticListData = [];
   List<StatisticColoumn> statisticListDataDetails = [];
@@ -59,7 +65,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
 
   // ---------------- existing methods (unchanged) ----------------
   getData() =>
-      BlocProvider.of<StatisticDetailsCubit>(context).getData(widget.uniqueId);
+      BlocProvider.of<StatisticDetailsCubit>(context).getData(widget.uniqueId,'',0);
 
   void filterSearchResults(String name) {
     if (name.isEmpty) {
@@ -228,6 +234,7 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
   // ------------------------- build -------------------------
   @override
   Widget build(BuildContext context) {
+
     return BlocBuilder<StatisticDetailsCubit, StatisticDetailsState>(
       builder: (context, state) {
         bool localHasReports = false;
@@ -246,32 +253,29 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
             localHasReports = false;
           }
         }
+        final pages = <Widget>[
+          _statisticsBody(),
+          _chartsBody(),
+        ];
 
+        if (localHasReports) {
+          pages.add(_reportsBody());
+        }
+
+        pages.add(_claimsBody());
+        pages.add(_unitsBody());
+
+        if (currentIndex >= pages.length) {
+          currentIndex = 0;
+        }
         return Scaffold(
           appBar: _buildAppBar(),
           body: IndexedStack(
             index: currentIndex,
-            children: [
-              BlocBuilder<StatisticDetailsCubit, StatisticDetailsState>(
-                builder: (context, state) {
-                  return RefreshIndicator(
-                      onRefresh: () async {
-                        await clearData();
-                        await getData();
-                      },
-                      child: _statisticsBody());
-                },
-              ),
-              RefreshIndicator(
-                  onRefresh: () async {
-                    await clearData();
-                    await getData();
-                  },
-                  child: _chartsBody()),
-              _reportsBody(),
-            ],
+            children: pages,
           ),
           bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
             currentIndex: currentIndex,
             selectedItemColor: AppColors.primaryColor,
             onTap: (idx) => setState(() => currentIndex = idx),
@@ -284,11 +288,20 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
                 icon: Icon(Icons.pie_chart_outline),
                 label: 'charts'.tr,
               ),
+
               if (localHasReports)
                  BottomNavigationBarItem(
                   icon: Icon(Icons.insert_chart_outlined),
                   label: 'reports'.tr,
                 ),
+              BottomNavigationBarItem(
+                icon: ImageIcon(Image.asset(AssetsManager.claimsLogo).image),
+                label: 'Claims'.tr,
+              ),
+              BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.building),
+                label: 'Units'.tr,
+              ),
             ],
           ),
         );
@@ -484,6 +497,95 @@ class _StatisticDetailsScreenState extends State<StatisticDetailsScreen> {
     );
   }
 
+  Widget _claimsBody() {
+    return BlocBuilder<StatisticDetailsCubit, StatisticDetailsState>(
+      builder: (context, state) {
+        if (state is StatisticsDetailsLoaded) {
+          final data = state.data;
+
+          if (data.claims.data.isEmpty) {
+            return const EmptyDataWidget();
+          }
+
+          return RefreshIndicator(
+            onRefresh: () async {
+              await clearData();
+              await getData();
+            },
+            child: ClaimsWidget(
+              uniqueId: widget.uniqueId,
+              claimsData: data.claims,
+              buildingName: widget.buildingName,
+              companyName: widget.companyName,
+            ),
+          );
+        }
+
+        if (state is StatisticsDetailsRefresh) {
+          final data = state.data;
+
+          if (data.claims.data.isEmpty) {
+            return const EmptyDataWidget();
+          }
+
+          return RefreshIndicator(
+            onRefresh: () async {
+              await clearData();
+              await getData();
+            },
+            child: ClaimsWidget(
+              uniqueId: widget.uniqueId,
+              claimsData: data.claims,
+              buildingName: widget.buildingName,
+              companyName: widget.companyName,
+            ),
+          );
+        }
+
+        if (state is StatisticsDetailsIsLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (state is StatisticsDetailsError) {
+          final isUnauthenticated =
+          state.msg.contains('Unauthenticated.');
+
+          return ErrorWidgetItem(
+            onTap: () {
+              if (isUnauthenticated) {
+                Get.offAll(
+                  LoginScreen(
+                    addOtherMail: false,
+                    isThereUsers: false,
+                  ),
+                );
+              } else {
+                getData();
+              }
+            },
+            isUnauthenticated: isUnauthenticated,
+          );
+        }
+
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  Widget _unitsBody() {
+    return
+           BlocProvider(
+              create: (_) => sl<StatisticDetailsCubit>(),
+              child: UnitsListScreen(
+                uniqueId: widget.uniqueId,
+                title: 'units'.tr,
+              ),
+            );
+  }
   // ---------------- reports body ----------------
   bool _isReport(StatisticColoumn e) =>
       e.columnType == "pdf" ||

@@ -3,9 +3,12 @@ import 'package:LandlordStatistics/core/usecase/use_case.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/domain/entities/statistic_details.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../data/models/units_model.dart';
+
 abstract class StatisticDetailsRepository {
 
-  Future<Either<Failures , StatisticDetails>> getStatisticDetails(String uniqueId);
+  Future<Either<Failures , StatisticDetails>> getStatisticDetails(String uniqueId,String claimStatus,int page);
+  Future<Either<Failures , UnitsModel>> getUnits(String uniqueId);
   Future<Either<Failures , NoParams>> setUserCompanySettings(String color , String uniqueId, double sort);
   Future<Either<Failures , NoParams>> setUserColumnsSettings(List<String> columnsSort);
   Future<Either<Failures, Map<String, dynamic>>> getUserSettings();

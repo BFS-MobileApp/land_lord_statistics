@@ -27,7 +27,9 @@ class LoginParams extends Equatable{
 class StatisticDetailsParams extends Equatable{
 
   final String uniqueId;
-  const StatisticDetailsParams({required this.uniqueId});
+  final String claimStatus;
+  final int page;
+  const StatisticDetailsParams({required this.uniqueId,required this.claimStatus,required this.page});
 
   @override
   // TODO: implement props

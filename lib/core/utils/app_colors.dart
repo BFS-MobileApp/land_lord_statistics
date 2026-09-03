@@ -4,6 +4,7 @@ class AppColors{
 
   //static const Color primaryColor =  Color(0xFFE94033);
   static const Color primaryColor = Color(0xFF3645C1);
+  static const Color claimsColor = Color(0xFF5686E1);
   static const Color whiteColor = Color(0xFFffffff);
   static const Color offWhiteColor = Color(0xFFF7F7F7);
   static const Color black = Color(0xFF000000);
@@ -13,6 +14,7 @@ class AppColors{
   static const containerColor = Color(0xFFEEEEEE);
   static const ofGrey = Color(0xFFE5E5E5);
   static const ofWhite = Color(0xFFFAFAFA);
+  static const claimListFontColor = Color(0xFF6F767E);
   static const grey500 = Color(0xFFF1F2F6);
   static const darkGreen = Color(0xFF34474E);
   static const purple = Color(0xFF29377a);

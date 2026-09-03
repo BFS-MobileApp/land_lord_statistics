@@ -11,6 +11,7 @@ class AppStrings{
   static const String companyScreen = 'Company Screen';
   static const String companyDataScreen = 'Company Data Screen';
   static const String enCountryCode = 'US';
+  static String appLocal = 'en';
   static const String arCountryCode = 'AR';
   static const String local = 'local';
   static const String companyStatisticDetails = 'company_statistic_details';
