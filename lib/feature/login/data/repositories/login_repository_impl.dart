@@ -29,7 +29,7 @@ class LoginRepositoryImpl extends LoginRepository {
           print("+++++++++++++++${response.token}");
           return Right(response);
         } else {
-          return Left(ServerFailure(msg: Helper.getCurrentLocal() == 'AR' ? 'invalidCredentials'.tr : response.message));
+          return Left(ServerFailure(msg:response.message));
         }
       } on ServerException{
         return Left(ServerFailure(msg: 'error'.tr));

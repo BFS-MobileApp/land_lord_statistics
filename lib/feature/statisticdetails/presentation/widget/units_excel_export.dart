@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/units_columns.dart';
 import 'package:excel/excel.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
-
+import 'package:file_picker/file_picker.dart';
+import 'dart:typed_data';
 import '../../data/models/units_model.dart';
 
-Future<void> exportUnitsToExcel(List<PropertyUnit> units) async {
+/// Returns true if the file was saved, false if the user cancelled.
+Future<bool> exportUnitsToExcel(List<PropertyUnit> units) async {
   final excel = Excel.createExcel();
   final sheet = excel['Units'];
   excel.setDefaultSheet('Units');
@@ -28,11 +28,19 @@ Future<void> exportUnitsToExcel(List<PropertyUnit> units) async {
   }
 
   final bytes = excel.encode();
-  if (bytes == null) return;
+  if (bytes == null) return false;
 
-  final dir = await getTemporaryDirectory();
-  final path = '${dir.path}/units_${DateTime.now().millisecondsSinceEpoch}.xlsx';
-  final file = File(path)..writeAsBytesSync(bytes);
+  final fileName = 'units_${DateTime.now().millisecondsSinceEpoch}.xlsx';
 
-  await Share.shareXFiles([XFile(path)], text: 'Units export');
+  // Opens the native "Save As" picker — user chooses the folder and can
+  // rename the file. On Android this uses Storage Access Framework.
+  final savedPath = await FilePicker.platform.saveFile(
+    dialogTitle: 'Save Excel File',
+    fileName: fileName,
+    bytes: Uint8List.fromList(bytes), // required on Android/iOS/web
+    type: FileType.custom,
+    allowedExtensions: ['xlsx'],
+  );
+
+  return savedPath != null;
 }

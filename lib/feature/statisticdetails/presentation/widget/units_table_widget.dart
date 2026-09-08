@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 
 import '../../data/models/units_model.dart';
 
-
 class UnitsTableWidget extends StatelessWidget {
   final List<PropertyUnit> units;
 
@@ -12,30 +11,41 @@ class UnitsTableWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      thumbVisibility: true,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: SingleChildScrollView(
-          child: DataTable(
-            headingRowColor: WidgetStateProperty.all(const Color(0xFFF7E24D)),
-            headingTextStyle: const TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 13,
-              color: Colors.black,
-            ),
-            dataTextStyle: const TextStyle(fontSize: 12, color: Colors.black87),
-            columnSpacing: 24,
-            dividerThickness: 0.5,
-            columns: unitsColumns.map((c) => DataColumn(label: Text(c.header.tr))).toList(),
-            rows: units
-                .map(
-                  (u) => DataRow(
-                cells: unitsColumns.map((c) => DataCell(Text(c.getValue(u)))).toList(),
-              ),
-            )
-                .toList(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: InteractiveViewer(
+        constrained: false,
+        minScale: 0.5,
+        maxScale: 3.0,
+        boundaryMargin: const EdgeInsets.all(80),
+        child: DataTable(
+          headingRowColor: WidgetStateProperty.all(Colors.white),
+          headingTextStyle: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            color: Colors.black87,
           ),
+          dataTextStyle: const TextStyle(fontSize: 13, color: Colors.black87),
+          columnSpacing: 28,
+          horizontalMargin: 0,
+          dividerThickness: 0.6,
+          border: const TableBorder(
+            horizontalInside: BorderSide(color: Color(0xFFEDEDED), width: 1),
+            bottom: BorderSide(color: Color(0xFFDADADA), width: 1),
+          ),
+          columns: [
+            const DataColumn(label: Text('#')),
+            ...unitsColumns.map((c) => DataColumn(label: Text(c.header.tr))),
+          ],
+          rows: List<DataRow>.generate(units.length, (index) {
+            final u = units[index];
+            return DataRow(
+              cells: [
+                DataCell(Text('${index + 1}')),
+                ...unitsColumns.map((c) => DataCell(Text(c.getValue(u)))),
+              ],
+            );
+          }),
         ),
       ),
     );

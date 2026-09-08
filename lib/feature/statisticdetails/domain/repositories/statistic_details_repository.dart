@@ -7,7 +7,7 @@ import '../../data/models/units_model.dart';
 
 abstract class StatisticDetailsRepository {
 
-  Future<Either<Failures , StatisticDetails>> getStatisticDetails(String uniqueId,String claimStatus,int page);
+  Future<Either<Failures , StatisticDetails>> getStatisticDetails(String uniqueId,String claimStatus,int page, {Map<String , dynamic>? data});
   Future<Either<Failures , UnitsModel>> getUnits(String uniqueId);
   Future<Either<Failures , NoParams>> setUserCompanySettings(String color , String uniqueId, double sort);
   Future<Either<Failures , NoParams>> setUserColumnsSettings(List<String> columnsSort);

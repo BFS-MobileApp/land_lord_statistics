@@ -6,12 +6,22 @@ class AppInterceptor extends Interceptor{
 
 
   @override
-   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async{
+  Future<void> onRequest(
+      RequestOptions options,
+      RequestInterceptorHandler handler,
+      ) async {
     debugPrint('REQUEST[${options.method}] => PATH: ${options.path}');
-    Map<String , dynamic> headers = {};
-    headers = await getHeaders();
-    options.headers = headers;
-    super.onRequest(options, handler);
+
+    final defaultHeaders = await getHeaders();
+
+    options.headers = {
+      ...defaultHeaders,
+      ...options.headers,
+    };
+
+    debugPrint('FINAL HEADERS: ${options.headers}');
+
+    handler.next(options);
   }
 
   @override

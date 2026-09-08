@@ -18,10 +18,10 @@ class StatisticDetailsRepositoryImpl extends StatisticDetailsRepository {
 	StatisticDetailsRepositoryImpl({required this.networkInfo , required this.statisticDetailsRemoteDataSource});
 
   @override
-  Future<Either<Failures, StatisticDetails>> getStatisticDetails(String uniqueId, String claimStatus,int page) async{
+  Future<Either<Failures, StatisticDetails>> getStatisticDetails(String uniqueId, String claimStatus,int page , {Map<String , dynamic>? data}) async{
 		if(await networkInfo.isConnected){
 			try{
-				final response = await statisticDetailsRemoteDataSource.getStatisticDetails(uniqueId,claimStatus,page);
+				final response = await statisticDetailsRemoteDataSource.getStatisticDetails(uniqueId,claimStatus,page, data: data);
 				return Right(response);
 			} on ServerException{
 				return Left(ServerFailure(msg: 'error'.tr));

@@ -34,10 +34,11 @@ class StatisticDetailsCubit extends Cubit<StatisticDetailsState> {
   }) : super(StatisticDetailsInitial());
 
   /// 🔹 Get statistics + apply user settings in one call
-  Future<void> getData(String uniqueId,String claimStatus, int perPage) async {
+  Future<void> getData(String uniqueId,String claimStatus, int perPage,
+      {Map<String, dynamic>? data}) async {
     emit(StatisticsDetailsIsLoading());
 
-    final stats = await statisticDetailsUseCase(StatisticDetailsParams(uniqueId: uniqueId, claimStatus: claimStatus, page: perPage));
+    final stats = await statisticDetailsUseCase(StatisticDetailsParams(uniqueId: uniqueId, claimStatus: claimStatus, page: perPage, data: data ?? {}));
 
     await stats.fold(
           (failures) async {

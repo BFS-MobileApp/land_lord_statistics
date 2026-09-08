@@ -87,18 +87,13 @@ class _UnitsListScreenState extends State<UnitsListScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  children: [
-
-                    if (!_isLoading && !_hasError && _units.isNotEmpty)
-                      UnitsExportButton(units: _units),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 8),
               Expanded(child: _buildBody()),
+              if (!_isLoading && !_hasError && _units.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                  child: UnitsDownloadButtons(units: _units),
+                ),
             ],
           ),
         ),

@@ -12,8 +12,21 @@ class StatisticDetailsRemoteDataSourceImpl extends StatisticDetailsRemoteDataSou
   StatisticDetailsRemoteDataSourceImpl({required this.consumer});
 
   @override
-  Future<StatisticDetailsModel> getStatisticDetails(String uniqueId,String claimStatus,int page) async{
-    final res = await consumer.get('${EndPoints.statisticDetails}$uniqueId?claim_status=$claimStatus&per_page=$page');
+  Future<StatisticDetailsModel> getStatisticDetails(String uniqueId,String claimStatus,int page , {Map<String , dynamic>? data}) async{
+    String queryString = '';
+
+    if (data != null && data.isNotEmpty) {
+      queryString = data.entries
+          .map((entry) => '${entry.key}=${entry.value}')
+          .join('&');
+
+    }
+
+    final url = data != null && data.isNotEmpty
+        ? '${EndPoints.statisticDetails}$uniqueId?$queryString&per_page=$page'
+        : '${EndPoints.statisticDetails}$uniqueId?claim_status=$claimStatus&per_page=$page';
+
+    final res = await consumer.get(url);
     return StatisticDetailsModel.fromJson(res);
   }
   @override

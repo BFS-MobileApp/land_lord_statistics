@@ -209,6 +209,7 @@ class Claims {
   String createdBy;
   String priority;
   String createdAt;
+  String unitName;
 
   Claims({
     required this.claimId,
@@ -223,6 +224,7 @@ class Claims {
     required this.createdBy,
     required this.priority,
     required this.createdAt,
+    required this.unitName,
 
   });
 
@@ -239,6 +241,7 @@ class Claims {
     createdBy: json["created_by"]??'',
     priority: json["priority"]??'',
     createdAt: json["created_at"]??'',
+    unitName: json["unit_name"]??'',
 
   );
 
@@ -255,6 +258,7 @@ class Claims {
     "created_by": createdBy,
     "priority": priority,
     "created_at": createdAt,
+    "unit_name": unitName,
   };
 }
 class Chart {

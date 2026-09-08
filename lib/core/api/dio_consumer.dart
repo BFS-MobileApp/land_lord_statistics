@@ -44,9 +44,9 @@ class DioConsumer implements ApiConsumer{
   }
 
   @override
-  Future post(String path, {Map<String, dynamic>? queryParams, body , bool isFormData = false}) async{
+  Future post(String path,{Map<String, dynamic>? headers,Map<String, dynamic>? queryParams, body , bool isFormData = false}) async{
     try {
-      final response = await client.post(path, queryParameters: queryParams , data: isFormData ? FormData.fromMap(body!) : body);
+      final response = await client.post(path, queryParameters: queryParams ,options: Options(headers: headers), data: isFormData ? FormData.fromMap(body!) : body);
       return handleResponseAsJson(response);
     } on DioException catch (error) {
       handleDioError(error);

@@ -29,7 +29,8 @@ class StatisticDetailsParams extends Equatable{
   final String uniqueId;
   final String claimStatus;
   final int page;
-  const StatisticDetailsParams({required this.uniqueId,required this.claimStatus,required this.page});
+  final Map<String , dynamic>? data;
+  const StatisticDetailsParams({required this.uniqueId,required this.claimStatus,required this.page, this.data});
 
   @override
   // TODO: implement props

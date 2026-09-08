@@ -5,41 +5,77 @@ import '../../data/models/units_model.dart';
 import 'units_pdf_export.dart';
 import 'units_excel_export.dart';
 
-class UnitsExportButton extends StatelessWidget {
+class UnitsDownloadButtons extends StatelessWidget {
   final List<PropertyUnit> units;
 
-  const UnitsExportButton({super.key, required this.units});
+  const UnitsDownloadButtons({super.key, required this.units});
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<String>(
-      onSelected: (value) async {
-        if (value == 'pdf') {
-          await exportUnitsToPdf(units, companyName: units.first.companyName);
-        } else if (value == 'excel') {
-          await exportUnitsToExcel(units);
-        }
-      },
-      itemBuilder: (context) => [
-        PopupMenuItem(value: 'pdf', child: Text('exportPdf'.tr)),
-        PopupMenuItem(value: 'excel', child: Text('exportExcel'.tr)),
+    return Column(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF2E9E63),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 0,
+            ),
+            onPressed: () async {
+              final saved = await exportUnitsToExcel(units);
+              if (context.mounted && saved) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('fileDownloaded'.tr)),
+                );
+              }
+            },
+            icon: const Icon(Icons.download, color: Colors.white),
+            label: Text(
+              'exportExcel'.tr,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFC94F4F),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 0,
+            ),
+            onPressed: () async {
+              await exportUnitsToPdf(units, companyName: units.first.companyName);
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('fileDownloaded'.tr)),
+                );
+              }
+            },
+            icon: const Icon(Icons.download, color: Colors.white),
+            label: Text(
+              'exportPdf'.tr,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+              ),
+            ),
+          ),
+        ),
       ],
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.file_download_outlined, size: 18),
-            const SizedBox(width: 6),
-            Text('export'.tr, style: const TextStyle(fontWeight: FontWeight.w600)),
-            const Icon(Icons.arrow_drop_down, size: 18),
-          ],
-        ),
-      ),
     );
   }
 }

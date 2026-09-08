@@ -248,8 +248,25 @@ class Helper{
 
 
   static Color returnScreenStatusColor(String status){
-
-      switch (status) {
+    if(Helper.getCurrentLocal() == 'AR'){
+      switch (status){
+        case 'تم اختيار فني':
+          return hexToColor(AppConst.assignedClaimsColor);
+        case 'جديد':
+          return hexToColor(AppConst.newClaimsColor);
+        case 'ملغي':
+          return hexToColor(AppConst.cancelledClaimsColor);
+        case 'مكتمل':
+          return hexToColor(AppConst.completedClaimsColor);
+        case 'بدأت':
+          return hexToColor(AppConst.startedClaimsColor);
+        case 'مغلق':
+          return hexToColor(AppConst.closedClaimsColor);
+        default:
+          return hexToColor('#ff44A4F2');
+      }
+    } else {
+      switch (status){
         case 'Assigned':
           return hexToColor(AppConst.assignedClaimsColor);
         case 'New':
@@ -265,6 +282,7 @@ class Helper{
         default:
           return hexToColor('#ff44A4F2');
       }
+    }
   }
 
   static String getStatus(String status){

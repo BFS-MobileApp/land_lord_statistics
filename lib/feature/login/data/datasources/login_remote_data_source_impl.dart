@@ -3,6 +3,8 @@ import 'package:LandlordStatistics/core/api/end_points.dart';
 import 'package:LandlordStatistics/feature/login/data/datasources/login_remote_data_source.dart';
 import 'package:LandlordStatistics/feature/login/data/models/login_model.dart';
 
+import '../../../../config/PrefHelper/helper.dart';
+
 class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
   ApiConsumer consumer;
 
@@ -14,7 +16,11 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
       "email":email,
       "password":password
     };
-    final res = await consumer.post(EndPoints.login  , body: body);
+    final header = {
+      "lang": Helper.getCurrentLocal() == 'AR' ? "ar" : "en"
+    };
+    print(header);
+    final res = await consumer.post(EndPoints.login  ,headers: header, body: body);
     return LoginModel.fromJson(res);
   }
 }
