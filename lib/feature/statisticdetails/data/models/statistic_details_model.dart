@@ -210,6 +210,9 @@ class Claims {
   String priority;
   String createdAt;
   String unitName;
+  ClaimCategory category;
+  ClaimSubCategory subCategory;
+  ClaimType type;
 
   Claims({
     required this.claimId,
@@ -225,6 +228,9 @@ class Claims {
     required this.priority,
     required this.createdAt,
     required this.unitName,
+    required this.category,
+    required this.subCategory,
+    required this.type,
 
   });
 
@@ -242,6 +248,9 @@ class Claims {
     priority: json["priority"]??'',
     createdAt: json["created_at"]??'',
     unitName: json["unit_name"]??'',
+    category: ClaimCategory.fromJson(json["category"] ?? {}),
+    subCategory: ClaimSubCategory.fromJson(json["subCategory"] ?? {}),
+    type: ClaimType.fromJson(json["type"] ?? {}),
 
   );
 
@@ -259,6 +268,86 @@ class Claims {
     "priority": priority,
     "created_at": createdAt,
     "unit_name": unitName,
+    "category": category.toJson(),
+    "sub_category": subCategory.toJson(),
+    "type": type.toJson(),
+  };
+}
+
+class ClaimCategory {
+  int id;
+  String code;
+  String name;
+
+  ClaimCategory({
+    required this.id,
+    required this.code,
+    required this.name,
+  });
+
+  factory ClaimCategory.fromJson(Map<String, dynamic> json) => ClaimCategory(
+    id: json["id"] ?? 0,
+    code: json["code"] ?? '',
+    name: json["name"] ?? '',
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "code": code,
+    "name": name,
+  };
+}
+
+class ClaimSubCategory {
+  int id;
+  String code;
+  String name;
+  String estimationTime;
+
+  ClaimSubCategory({
+    required this.id,
+    required this.code,
+    required this.name,
+    required this.estimationTime,
+  });
+
+  factory ClaimSubCategory.fromJson(Map<String, dynamic> json) =>
+      ClaimSubCategory(
+        id: json["id"] ?? 0,
+        code: json["code"] ?? '',
+        name: json["name"] ?? '',
+        estimationTime: json["estimation_time"] ?? '',
+      );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "code": code,
+    "name": name,
+    "estimation_time": estimationTime,
+  };
+}
+
+class ClaimType {
+  int id;
+  String code;
+  String name;
+
+  ClaimType({
+    required this.id,
+    required this.code,
+    required this.name,
+  });
+
+  factory ClaimType.fromJson(Map<String, dynamic> json) => ClaimType(
+    id: json["id"] ?? 0,
+    code: json["code"] ?? '',
+    name: json["name"] ?? '',
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "code": code,
+    "name": name,
   };
 }
 class Chart {

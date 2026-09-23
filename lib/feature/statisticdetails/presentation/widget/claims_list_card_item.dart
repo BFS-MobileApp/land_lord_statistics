@@ -14,11 +14,16 @@ class ClaimsListCardItem extends StatefulWidget {
   final String availableTime;
   final String createdAt;
   final String buildingName;
+  final String companyName;
   final String unitName;
+  final String category;
+  final String subCategory;
+  final String type;
   final VoidCallback? onAssignTap;
 
   const ClaimsListCardItem({
     super.key,
+    required this.companyName,
     required this.referenceId,
     required this.status,
     required this.priority,
@@ -28,6 +33,9 @@ class ClaimsListCardItem extends StatefulWidget {
     this.onAssignTap,
     required this.buildingName,
     required this.unitName,
+    required this.category,
+    required this.subCategory,
+    required this.type,
   });
 
   @override
@@ -74,7 +82,7 @@ class _ClaimsListCardItemState extends State<ClaimsListCardItem> {
                         SizedBox(
                           width: 170.w,
                           child: TextWidget(
-                            text: widget.unitName,
+                            text: "${widget.buildingName != '' ? widget.buildingName : widget.companyName} - ${widget.unitName}",
                             fontSize: 12.fSize,
                             fontWeight: FontWeight.w500,
                             fontColor: AppColors.claimListFontColor,
@@ -114,7 +122,7 @@ class _ClaimsListCardItemState extends State<ClaimsListCardItem> {
                 _buildRow(context, 'priority'.tr, widget.priority,
                     valueColor: Helper.getPriorityColor(widget.priority)),
                 SizedBox(height: 12.h),
-                _buildRow(context, 'type'.tr, widget.description),
+                _buildRow(context, 'type'.tr, "${widget.category} - ${widget.subCategory} - ${widget.type}"),
                 SizedBox(height: 12.h),
                 _buildRow(context, 'createdDate'.tr, Helper.formatDateTime(widget.createdAt)),
                 SizedBox(height: 12.h),

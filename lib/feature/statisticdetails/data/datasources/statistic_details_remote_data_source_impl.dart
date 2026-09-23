@@ -3,6 +3,7 @@ import 'package:LandlordStatistics/core/api/end_points.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/data/datasources/statistic_details_remote_data_source.dart';
 import 'package:LandlordStatistics/feature/statisticdetails/data/models/statistic_details_model.dart';
 
+import '../../../../config/PrefHelper/helper.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../models/units_model.dart';
 
@@ -25,8 +26,12 @@ class StatisticDetailsRemoteDataSourceImpl extends StatisticDetailsRemoteDataSou
     final url = data != null && data.isNotEmpty
         ? '${EndPoints.statisticDetails}$uniqueId?$queryString&per_page=$page'
         : '${EndPoints.statisticDetails}$uniqueId?claim_status=$claimStatus&per_page=$page';
+    final headers = <String, dynamic>{};
 
-    final res = await consumer.get(url);
+    if (Helper.getCurrentLocal() == 'AR') {
+      headers['lang'] = 'ar';
+    }
+    final res = await consumer.get(url,headers: headers);
     return StatisticDetailsModel.fromJson(res);
   }
   @override

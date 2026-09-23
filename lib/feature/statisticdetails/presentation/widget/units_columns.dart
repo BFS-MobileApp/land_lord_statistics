@@ -1,5 +1,5 @@
 import '../../data/models/units_model.dart';
-import '../../../../core/utils/helper.dart'; // adjust path to match your Helper import
+import '../../../../core/utils/helper.dart';
 
 class UnitColumn {
   final String header;
@@ -42,13 +42,13 @@ final List<UnitColumn> unitsColumns = [
   UnitColumn('contractNo', (u) => u.contractNoLast?.toString() ?? '-'),
   UnitColumn('contractStatus', (u) => _loc(u.contractStatusName, u.contractStatusNameA)),
   UnitColumn('contractCase', (u) => _loc(u.contractCaseName, u.contractCaseNameA)),
-  UnitColumn('startDate', (u) => _s(u.startDate)),
-  UnitColumn('endDate', (u) => _s(u.endDate)),
+  UnitColumn('startDate', (u) => _s(Helper.extractDate(u.startDate!))),
+  UnitColumn('endDate', (u) => _s(Helper.extractDate(u.endDate!))),
   UnitColumn('netRent', (u) => _n(u.netRent)),
   UnitColumn('securityAmount', (u) => _n(u.securityAmount)),
   UnitColumn('totalRent', (u) => _n(u.totalRent)),
   UnitColumn('clientName', (u) => _loc(u.clientName, u.clientNameA)),
-  UnitColumn('clientNationality', (u) => _s(u.clientNationality)), // no _a variant in response
+  UnitColumn('clientNationality', (u) => _s(u.clientNationality)),
   UnitColumn('clientEmail', (u) => _s(u.clientEmail)),
   UnitColumn('clientMobile', (u) => _s(u.clientMobile)),
 ];

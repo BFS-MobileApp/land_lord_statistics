@@ -13,6 +13,17 @@ class Helper{
     String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.parse(date));
     return formattedDate;
   }
+  static String convertDateTimeToDate(DateTime date){
+    String formattedDate = DateFormat('dd-MM-yyyy').format(date);
+    return formattedDate;
+  }
+
+  static String extractDate(String dateTime) {
+    if(dateTime == ''){
+      return '-';
+    }
+    return dateTime.split(' ')[0];
+  }
 
   static int index(int number){
     Random random = Random();

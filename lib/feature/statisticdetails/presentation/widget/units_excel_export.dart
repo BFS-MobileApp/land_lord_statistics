@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/units_columns.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'dart:typed_data';
 import '../../data/models/units_model.dart';
 
@@ -13,7 +14,7 @@ Future<bool> exportUnitsToExcel(List<PropertyUnit> units) async {
 
   for (var i = 0; i < unitsColumns.length; i++) {
     final cell = sheet.cell(CellIndex.indexByColumnRow(columnIndex: i, rowIndex: 0));
-    cell.value = TextCellValue(unitsColumns[i].header);
+    cell.value = TextCellValue(unitsColumns[i].header.tr);
     cell.cellStyle = CellStyle(
       bold: true,
       backgroundColorHex: ExcelColor.fromHexString('#F7E24D'),

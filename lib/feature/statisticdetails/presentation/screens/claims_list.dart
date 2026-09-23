@@ -116,6 +116,7 @@ class _ClaimsListScreenState extends State<ClaimsListScreen> {
       itemBuilder: (ctx, pos) {
         final claim = claims[pos];
         return ClaimsListCardItem(
+          companyName: widget.companyName,
           referenceId: claim.referenceId,
           status: claim.status.tr,
           priority: claim.priority,
@@ -124,6 +125,9 @@ class _ClaimsListScreenState extends State<ClaimsListScreen> {
           createdAt: claim.createdAt,
           buildingName: widget.buildingName,
           unitName: claim.unitName,
+          category: claim.category.name,
+          subCategory: claim.subCategory.name,
+          type: claim.type.name,
           onAssignTap: () {
             // TODO: wire up assign action for claim.referenceId
           },
@@ -151,7 +155,7 @@ class _ClaimsListScreenState extends State<ClaimsListScreen> {
               return _buildClaimCardPdf(arabicFont, _currentModel!.data[pos].referenceId.toString(),
                   _currentModel!.data[pos].status,
                   _currentModel!.data[pos].priority,
-                  _currentModel!.data[pos].description,
+                  "${_currentModel!.data[pos].category.name} - ${_currentModel!.data[pos].subCategory.name} - ${_currentModel!.data[pos].type.name}",
                   Helper.formatDateTime(_currentModel!.data[pos].createdAt), Helper.getAvailableTime(_currentModel!.data[pos].availableTime));
             }),
           ),

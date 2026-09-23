@@ -1,6 +1,6 @@
 abstract class ApiConsumer{
 
-  Future<dynamic> get(String path , {Map<String , dynamic>? queryParams});
+  Future<dynamic> get(String path , {Map<String, dynamic>? headers,Map<String , dynamic>? queryParams});
 
   Future<dynamic> post(String path , {Map<String, dynamic>? headers,Map<String , dynamic>? queryParams , dynamic body});
 

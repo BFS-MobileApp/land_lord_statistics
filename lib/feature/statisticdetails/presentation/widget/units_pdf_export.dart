@@ -1,5 +1,6 @@
 import 'package:LandlordStatistics/feature/statisticdetails/presentation/widget/units_columns.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -23,18 +24,59 @@ Future<void> exportUnitsToPdf(
 
   final todayStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
+  const double headerFont = 7;
+  const double bodyFont = 6.5;
+  const double cellHPad = 4;
+  const double charWidthFactor = 0.5; // approx avg glyph width relative to font size
+  const double numColWidth = 24;
+
+  // ---- Compute a fixed width per column from the longest text ----
+  double textWidth(String text, double fontSize) =>
+      text.length * fontSize * charWidthFactor;
+
+  final Map<int, pw.TableColumnWidth> columnWidths = {
+    0: const pw.FixedColumnWidth(numColWidth),
+  };
+  double totalWidth = numColWidth;
+
+  for (var i = 0; i < unitsColumns.length; i++) {
+    final col = unitsColumns[i];
+    double maxW = textWidth(col.header.tr, headerFont);
+    for (final u in units) {
+      final w = textWidth(col.getValue(u), bodyFont);
+      if (w > maxW) maxW = w;
+    }
+    final colWidth = maxW + cellHPad * 2 + 4; // padding + small safety margin
+    columnWidths[i + 1] = pw.FixedColumnWidth(colWidth);
+    totalWidth += colWidth;
+  }
+
+  const double margin = 20;
+  final baseFormat = PdfPageFormat.a3.landscape;
+  // Page as wide as the table needs (never narrower than A4 landscape)
+  final pageWidth = (totalWidth + margin * 2) > baseFormat.width
+      ? totalWidth + margin * 2
+      : baseFormat.width;
+  final pageFormat = PdfPageFormat(
+    pageWidth,
+    baseFormat.height,
+    marginAll: margin,
+  );
+
   pw.Widget buildCell(String text, {bool isHeader = false}) {
     final rtl = _isArabic(text);
     return pw.Padding(
-      padding: const pw.EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+      padding: const pw.EdgeInsets.symmetric(horizontal: cellHPad, vertical: 6),
       child: pw.Directionality(
         textDirection: rtl ? pw.TextDirection.rtl : pw.TextDirection.ltr,
         child: pw.Text(
           text,
+          softWrap: false,
+          maxLines: 1,
           textAlign: rtl ? pw.TextAlign.right : pw.TextAlign.left,
           style: pw.TextStyle(
             font: rtl ? arabicFont : null,
-            fontSize: isHeader ? 7 : 6.5,
+            fontSize: isHeader ? headerFont : bodyFont,
             fontWeight: isHeader ? pw.FontWeight.bold : pw.FontWeight.normal,
           ),
         ),
@@ -44,44 +86,45 @@ Future<void> exportUnitsToPdf(
 
   pdf.addPage(
     pw.MultiPage(
-      pageFormat: PdfPageFormat.a4.landscape,
-      margin: const pw.EdgeInsets.all(20),
+      pageFormat: pageFormat,
+      margin: const pw.EdgeInsets.all(margin),
       header: (context) {
         if (context.pageNumber != 1) return pw.SizedBox();
-        return pw.Column(
-          crossAxisAlignment: pw.CrossAxisAlignment.center,
-          children: [
-            pw.Image(logoImage, height: 50),
-            pw.SizedBox(height: 8),
-            pw.Text(
-              companyName,
-              style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
-            ),
-            pw.SizedBox(height: 4),
-            pw.Text(todayStr, style: const pw.TextStyle(fontSize: 12)),
-            pw.SizedBox(height: 2),
-            pw.Text('Claimizer', style: const pw.TextStyle(fontSize: 11, color: PdfColors.grey700)),
-            pw.SizedBox(height: 16),
-          ],
+        return pw.SizedBox(
+          width: double.infinity,
+          child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.center,
+            children: [
+              pw.Image(logoImage, height: 50),
+              pw.SizedBox(height: 8),
+              pw.Text(
+                companyName,
+                style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
+              ),
+              pw.SizedBox(height: 4),
+              pw.Text(todayStr, style: const pw.TextStyle(fontSize: 12)),
+              pw.SizedBox(height: 2),
+              pw.Text(
+                'Claimizer',
+                style: const pw.TextStyle(fontSize: 11, color: PdfColors.grey700),
+              ),
+              pw.SizedBox(height: 16),
+            ],
+          ),
         );
       },
       build: (context) => [
         pw.Table(
           border: pw.TableBorder.all(width: 0.3, color: PdfColors.grey400),
-          columnWidths: {
-            0: const pw.FixedColumnWidth(24), // # column
-            for (var i = 0; i < unitsColumns.length; i++) i + 1: const pw.FlexColumnWidth(),
-          },
+          columnWidths: columnWidths,
           children: [
-            // Header row
             pw.TableRow(
               decoration: const pw.BoxDecoration(color: PdfColor.fromInt(0xFFF7E24D)),
               children: [
                 buildCell('#', isHeader: true),
-                ...unitsColumns.map((c) => buildCell(c.header, isHeader: true)),
+                ...unitsColumns.map((c) => buildCell(c.header.tr, isHeader: true)),
               ],
             ),
-            // Data rows
             ...units.asMap().entries.map(
                   (entry) => pw.TableRow(
                 children: [
@@ -96,5 +139,8 @@ Future<void> exportUnitsToPdf(
     ),
   );
 
-  await Printing.layoutPdf(onLayout: (format) async => pdf.save());
+  await Printing.layoutPdf(
+    format: PdfPageFormat.a3.landscape,
+    onLayout: (format) async => pdf.save(),
+  );
 }
