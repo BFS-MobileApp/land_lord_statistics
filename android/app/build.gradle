@@ -32,9 +32,9 @@ android {
     defaultConfig {
         applicationId "com.befalcon.landlordstatistics"
         minSdk flutter.minSdkVersion
-        targetSdk 35
-        versionCode 60
-        versionName "1.1.9"
+        targetSdk 36
+        versionCode 61
+        versionName "1.1.10"
     }
 
     signingConfigs {
